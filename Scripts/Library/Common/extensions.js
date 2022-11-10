@@ -289,7 +289,9 @@ jQuery.fn.extend ({
 	remove_style: function (offending_style) {
 		
 		var result = null;
-		var styles = this.attr ("style").split (";");
+		var styles = this.attr ("style")?.split (";");
+
+		if (not_set (styles)) return;
 		
 		for (var style of styles) {
 			var item = style.split (":");

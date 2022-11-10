@@ -2,9 +2,13 @@
 	--banner-green: #0F3319;
 	--offwhite: #AAA;
 	--image-border-color: white;
-	--script: papyrus, courier new, garamond;
-	--plain-text: candara, arial, verdana, helvetica;
+	--script: title-script;
+	--banner-script: title-banner;
+	--plain-text: text-script;
 }
+
+
+/********/
 
 
 * {
@@ -118,8 +122,10 @@ div.banner {
 
 
 div.banner-title {
-	font-size: 14pt;
-	margin-bottom: 0.5em;
+	font-family: var(--banner-script);
+	font-size: 32pt;
+	margin-bottom: 0.25em;
+	/* transform: scaleY(1.2); */
 }/* banner-title */
 
 

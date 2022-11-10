@@ -50,6 +50,28 @@
 </script>
 
 
+<style>
+
+
+	@font-face {
+		font-family: "title-banner";
+		src: url("Fonts/AspireDemibold-YaaO.ttf");
+	}/* @font-face */
+
+	@font-face {
+		font-family: "title-script";
+		src: url("Fonts/mixtim-regular.ttf");
+	}/* @font-face */
+
+	@font-face {
+		font-family: "text-script";
+		src: url("Fonts/Jemima-Regular.ttf");
+	}/* @font-face */
+
+
+</style>
+
+
 <body>
 
 	<sweep-panel id="loading_panel" direction="right" visible="false" class="centered">
@@ -68,7 +90,7 @@
 					<div class="banner-title" onclick="location.reload ();">Roger L. "Rex" Main</div>
 					<div class="banner-subtitle">
 						720 322 5154<br />
-						roger.main@rexthestrange.com
+						rex@rogerlmain.com
 					</div>
 				</div>
 				
