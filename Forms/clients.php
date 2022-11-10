@@ -5,12 +5,9 @@ require_once ("Library/Classes/page.php");
 
 
 class history_page extends page {
-
+	
 	function process () {
 		switch (request ("option")) {
-			case "alius": require_once ("clients/alius.php"); break;
-			case "fis": require_once ("clients/fis.php"); break;
-			case "cosos": require_once ("clients/cosos.php"); break;
 			case "aspire": require_once ("clients/aspire.php"); break;
 			case "capiq": require_once ("clients/capiq.php"); break;
 			case "doi": require_once ("clients/doi.php"); break;
@@ -29,7 +26,7 @@ class history_page extends page {
 			default: require_once ("clients/home.php"); break;
 		}// switch;
 	}// process;
-
+	
 }// history_page;
 
 
