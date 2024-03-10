@@ -9,6 +9,7 @@ class history_page extends page {
 	function process () {
 		switch (request ("option")) {
 			case "alius": require_once ("clients/alius.php"); break;
+			case "bundion": require_once ("clients/bundion.php"); break;
 			case "fis": require_once ("clients/fis.php"); break;
 			case "cosos": require_once ("clients/cosos.php"); break;
 			case "aspire": require_once ("clients/aspire.php"); break;

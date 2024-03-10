@@ -21,3 +21,4 @@ class resume extends page {
 
 
 (new resume ())->process ();
+

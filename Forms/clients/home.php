@@ -40,6 +40,16 @@
 					<fade-item onclick="new dialog_window ({
 						eyecandy: 'Loading...',
 						action: 'clients',
+						option: 'bundion',
+						buttons: [dialog_buttons.close]
+					}).show (event);"><img src="Images/Graphics/bundion.white.svg" style="width: 75px; height: auto" /> Software</fade-item>
+				</li>
+
+
+				<li>
+					<fade-item onclick="new dialog_window ({
+						eyecandy: 'Loading...',
+						action: 'clients',
 						option: 'alius',
 						buttons: [dialog_buttons.close]
 					}).show (event);">Alius Health</fade-item>
