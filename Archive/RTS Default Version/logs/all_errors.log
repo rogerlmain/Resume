@@ -1,0 +1,4 @@
+[15-Nov-2019 23:19:28 UTC] PHP Parse error:  syntax error, unexpected 'global' (T_GLOBAL), expecting identifier (T_STRING) in /home/rexthest/public_html/rexthestrange/default/libraries/Classes/common.php on line 71
+[09-Mar-2020 22:39:14 UTC] PHP Warning:  file_get_contents(ip.address.data): failed to open stream: No such file or directory in /home/rexthest/public_html/rexthestrange/default/hal.ip.php on line 15
+[09-Mar-2020 22:39:14 UTC] PHP Warning:  Use of undefined constant blank - assumed 'blank' (this will throw an Error in a future version of PHP) in /home/rexthest/public_html/rexthestrange/default/hal.ip.php on line 15
+[09-Mar-2020 22:39:14 UTC] PHP Notice:  Undefined variable: current_ip in /home/rexthest/public_html/rexthestrange/default/hal.ip.php on line 28

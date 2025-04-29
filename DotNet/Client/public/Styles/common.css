@@ -1,0 +1,379 @@
+﻿:root {
+  --border-color: #000;
+  --element-border-color: #DDF;
+  --highlight-color: #FFFDDD;
+  --selected-color: #DDF;
+  --table-border: solid 1px var(--element-border-color);
+  --table-header-background-color: #EFEFFF;
+  --table-footer-background-color: white;
+  --popup-border: solid 1px #889;
+  --element-background-color: #FFFFF8;
+  --dropdown-arrow-color: #DDF;
+  --sort-arrow-color: #888;
+  --required-field-color: #FFF8F8;
+}
+
+/**** Debugging Styles ****/
+*.bordered, *.bordered *, *.semi-bordered, *.semi-bordered > *, *.outlined {
+  border: solid 1px red;
+}
+
+*.blue-outlined {
+  border: solid 1px blue;
+}
+
+*.green-outlined {
+  border: solid 1px green;
+}
+
+div.test-grid div {
+  align-items: center;
+  width: 200px;
+}
+
+/**** Global Styles ****/
+* {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  box-sizing: border-box;
+  white-space: nowrap;
+  margin: 0;
+  padding: 0;
+}
+
+/**** Tag Styles ****/
+body {
+  font-size: 9pt;
+}
+
+label {
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+/**** Text Styles ****/
+div.title {
+  font-weight: bold;
+  font-size: 11pt;
+  margin-bottom: 1rem;
+}
+
+div.warning {
+  font-weight: bold;
+  font-size: 9pt;
+  margin-bottom: 1rem;
+}
+
+div.row-divider {
+  height: 0;
+  margin: 1rem 0;
+  border: none;
+  border-top: solid 1px var(--border-color);
+}
+
+div.bold-text {
+  font-weight: bold;
+}
+
+/**** Display Styles ****/
+*.container {
+  display: contents;
+}
+
+*.hidden {
+  display: none !important;
+}
+
+/**** Layout Styles ****/
+*.full-width, div.button-bar, html, body, .full-page {
+  width: 100%;
+}
+
+*.full-height, html, body, .full-page {
+  height: 100%;
+}
+
+*.full-page {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+*.full-size {
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+*.scrollable {
+  overflow: hidden;
+}
+
+*.column-block {
+  display: flex;
+  flex-direction: column;
+}
+*.column-block.a-little-spaced-out, div.column-block.button-bar {
+  row-gap: 0.25rem;
+}
+*.column-block.somewhat-spaced-out {
+  row-gap: 0.5rem;
+}
+*.column-block.spaced-out {
+  row-gap: 1rem;
+}
+*.column-block.very-spaced-out {
+  row-gap: 2rem;
+}
+*.column-block.totally-spaced-out {
+  align-content: space-between;
+}
+*.column-block.left-aligned {
+  align-items: flex-start;
+}
+*.column-block.right-aligned, div.column-block.button-bar {
+  align-items: flex-end;
+}
+*.column-block.column-centered {
+  align-items: center;
+}
+*.column-block.row-centered {
+  justify-content: center;
+}
+*.column-block.top-aligned {
+  justify-content: flex-start;
+}
+*.column-block.bottom-aligned {
+  justify-content: flex-end;
+}
+
+/* column-block */
+*.row-block, div.button-bar, *.flex-block {
+  display: flex;
+  flex-direction: row;
+}
+*.row-block.a-little-spaced-out, div.button-bar, *.flex-block.a-little-spaced-out {
+  column-gap: 0.25rem;
+}
+*.row-block.somewhat-spaced-out, div.somewhat-spaced-out.button-bar, *.flex-block.somewhat-spaced-out {
+  column-gap: 0.5rem;
+}
+*.row-block.spaced-out, div.spaced-out.button-bar, *.flex-block.spaced-out {
+  column-gap: 1rem;
+}
+*.row-block.very-spaced-out, div.very-spaced-out.button-bar, *.flex-block.very-spaced-out {
+  column-gap: 2rem;
+}
+*.row-block.totally-spaced-out, div.totally-spaced-out.button-bar, *.flex-block.totally-spaced-out {
+  justify-content: space-between;
+}
+*.row-block.left-aligned, div.left-aligned.button-bar, *.flex-block.left-aligned {
+  justify-content: flex-start;
+}
+*.row-block.right-aligned, div.button-bar, *.flex-block.right-aligned {
+  justify-content: flex-end;
+}
+*.row-block.column-centered, div.column-centered.button-bar, *.flex-block.column-centered {
+  justify-content: center;
+}
+*.row-block.row-centered, div.row-centered.button-bar, *.flex-block.row-centered {
+  align-items: center;
+}
+*.row-block.top-aligned, div.top-aligned.button-bar, *.flex-block.top-aligned {
+  align-items: flex-start;
+}
+*.row-block.bottom-aligned, div.bottom-aligned.button-bar, *.flex-block.bottom-aligned {
+  align-items: flex-end;
+}
+
+/* row-block */
+*.centered {
+  align-items: center;
+  justify-content: center;
+}
+
+/**** Margin Styles ****/
+*.with-some-left-space, .with-some-row-space, *.with-some-space {
+  margin-left: 0.5rem;
+}
+
+*.with-left-space, .with-row-space, *.with-with-space {
+  margin-left: 1rem;
+}
+
+*.with-lotsa-left-space, .with-lotsa-row-space, *.with-lotsa-space {
+  margin-left: 2rem;
+}
+
+*.with-some-right-space, .with-some-row-space, *.with-some-space {
+  margin-right: 0.5rem;
+}
+
+*.with-right-space, .with-row-space, *.with-with-space {
+  margin-right: 1rem;
+}
+
+*.with-lotsa-right-space, .with-lotsa-row-space, *.with-lotsa-space {
+  margin-right: 2rem;
+}
+
+*.with-some-headspace, div.button-bar, .with-some-room, *.with-some-space {
+  margin-top: 0.5rem;
+}
+
+*.with-headspace, .with-room, *.with-with-space {
+  margin-top: 1rem;
+}
+
+*.with-lotsa-headspace, .with-lotsa-room, *.with-lotsa-space {
+  margin-top: 2rem;
+}
+
+*.with-some-legroom, .with-some-room, *.with-some-space {
+  margin-bottom: 0.5rem;
+}
+
+*.with-legroom, .with-room, *.with-with-space {
+  margin-bottom: 1rem;
+}
+
+*.with-lotsa-legroom, .with-lotsa-room, *.with-lotsa-space {
+  margin-bottom: 2rem;
+}
+
+/**** Positioning Styles ****/
+div.full-screen, div.blackout {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: 0;
+}
+
+/**** Button Styles ****/
+div.glyph-arrow {
+  width: 0;
+  height: 0;
+  border: solid 0.5rem transparent;
+  border-bottom-width: 0;
+  border-top-color: var(--dropdown-arrow-color);
+  cursor: pointer;
+}
+
+div.glyph-arrow.sort-arrow {
+  border-top-color: var(--sort-arrow-color);
+}
+
+/**** Grid and Table Styles ****/
+div[class*=two-column-] {
+  grid-template-columns: repeat(2, min-content);
+}
+
+div[class*=three-column-] {
+  grid-template-columns: repeat(3, min-content);
+}
+
+div[class*=four-column-] {
+  grid-template-columns: repeat(4, min-content);
+}
+
+div[class*=five-column-] {
+  grid-template-columns: repeat(5, min-content);
+}
+
+div[class*=six-column-] {
+  grid-template-columns: repeat(6, min-content);
+}
+
+div[class*=-column-grid] {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  column-gap: 0.5rem;
+  row-gap: 0.2rem;
+}
+div[class*=-column-grid].left-aligned {
+  justify-content: flex-start;
+}
+div[class*=-column-grid].right-aligned, div[class*=-column-grid].button-bar {
+  justify-content: flex-end;
+}
+div[class*=-column-grid] label {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+}
+div[class*=-column-grid] *.full-width, div[class*=-column-grid] html, div[class*=-column-grid] body, div[class*=-column-grid] .full-page, div[class*=-column-grid] div.button-bar {
+  grid-column: 1/-1;
+}
+
+div.nested {
+  width: 100%;
+  justify-content: space-between;
+}
+div.nested div.nested label {
+  justify-self: right;
+}
+
+/**** Form Styles ****/
+div.checkbox-list {
+  margin-left: 1rem;
+}
+
+div.checkbox-list label {
+  justify-content: flex-start;
+}
+
+div.form-table {
+  display: inline-grid;
+  grid-template-columns: min-content 1fr;
+  row-gap: 0.5em;
+}
+div.form-table label {
+  align-items: center;
+  justify-content: flex-end;
+}
+
+div.miniform {
+  display: inline-grid;
+  grid-template-columns: repeat(2, min-content);
+  column-gap: 0.25rem;
+}
+
+form div.compact input, form div.compact select {
+  width: 8.5rem;
+}
+
+/**** Eyecandy Styles ****/
+img.eyecandy {
+  height: 1.2rem;
+  width: auto;
+  margin-right: 0.3rem;
+}
+img.eyecandy .small {
+  height: 0.8rem;
+}
+img.eyecandy .medium {
+  height: 1.2rem;
+}
+
+/********/
+div.blackout {
+  background-color: black;
+  opacity: 0.4;
+  z-index: 5;
+}
+
+div.popup-window {
+  position: absolute;
+  left: 50%;
+  top: 25%;
+  transform: translate(-50%);
+  padding: 2em;
+  border: var(--popup-border);
+  border-radius: 0.2rem;
+  filter: drop-shadow(0.15em 0.15em 0.1em #666);
+  background-color: #FFFFFD;
+  transition: opacity 0.25s ease-in-out;
+  z-index: 10;
+}

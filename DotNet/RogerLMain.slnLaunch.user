@@ -1,0 +1,16 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "Client\\Client.esproj",
+        "Action": "Start",
+        "DebugTarget": "localhost (Chrome)"
+      },
+      {
+        "Path": "Server\\Server.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

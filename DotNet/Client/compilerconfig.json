@@ -1,0 +1,10 @@
+﻿[
+  {
+    "outputFile": "public/Styles/common.css",
+    "inputFile": "public/Styles/common.scss"
+  },
+  {
+    "outputFile": "public/Styles/controls.css",
+    "inputFile": "public/Styles/controls.scss"
+  }
+]

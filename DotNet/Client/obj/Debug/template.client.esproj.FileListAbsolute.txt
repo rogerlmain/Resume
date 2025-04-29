@@ -1,0 +1,1 @@
+D:\Projects\Templates\DotNet\React\Typescript\template.client\obj\Debug\template.client.esproj.CoreCompileInputs.cache

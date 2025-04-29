@@ -1,0 +1,6 @@
+D:\Projects\Templates\DotNet\React\Typescript\template.client\obj\Debug\Client.esproj.CoreCompileInputs.cache
+D:\Projects\Templates\DotNet\React\Typescript\Client\obj\Debug\Client.esproj.CoreCompileInputs.cache
+D:\Projects\Mirror\Application\Client\obj\Debug\Client.esproj.CoreCompileInputs.cache
+D:\Projects\Template\Application\Client\obj\Debug\Client.esproj.CoreCompileInputs.cache
+D:\Projects\ZZZLinuxTest\Client\obj\Debug\Client.esproj.CoreCompileInputs.cache
+D:\Projects\Resume\DotNet\Client\obj\Debug\Client.esproj.CoreCompileInputs.cache

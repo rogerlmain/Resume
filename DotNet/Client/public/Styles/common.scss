@@ -1,0 +1,420 @@
+:root {
+	--border-color: #66A;
+	--element-border-color: #DDF;
+	--highlight-color: #FFFDDD;
+	--selected-color: #DDF;
+
+	--table-border: solid 1px var(--element-border-color);
+	--table-header-background-color: #EFEFFF;
+	--table-footer-background-color: white;
+
+	--popup-border: solid 1px #889;
+	--element-background-color: #FFFFF8;
+	--dropdown-arrow-color: #DDF;
+	--sort-arrow-color: #888;
+	--required-field-color: #FFF8F8;
+}
+
+
+/**** Debugging Styles ****/
+
+
+*.bordered, *.bordered *, *.semi-bordered, *.semi-bordered > *, *.outlined { border: solid 1px red }
+*.blue-outlined { border: solid 1px blue }
+*.green-outlined { border: solid 1px green }
+
+
+div.test-grid div { 
+	align-items: center;
+	width: 200px;
+}
+
+
+/**** Global Styles ****/
+
+
+* {
+	font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+	box-sizing: border-box;
+	white-space: nowrap;
+	margin: 0;
+	padding: 0;
+}
+
+
+/**** Tag Styles ****/
+
+
+html, body, *.full-page { @extend .full-width, .full-height }
+
+
+body {
+	font-size: 9pt;
+}
+
+
+label {
+	font-weight: bold;
+	margin-right: 0.5rem;
+}
+
+
+/**** Text Styles ****/
+
+
+div.title {
+	font-weight: bold;
+	font-size: 9pt;
+	margin-bottom: 1rem;
+}
+
+
+div.warning {
+	font-weight: bold;
+	font-size: 9pt;
+	margin-bottom: 1rem;
+}
+
+
+div.row-divider {
+	height: 0;
+	margin: 1rem 0;
+	border: none;
+	border-top: solid 1px var(--border-color);
+}
+
+
+div.bold-text { font-weight: bold }
+
+
+/**** Display Styles ****/
+
+
+*.container { display: contents }
+
+*.hidden { display: none !important }
+
+
+/**** Layout Styles ****/
+
+
+*.full-width { width: 100% }
+*.full-height { height: 100% }
+
+
+*.full-page {
+	display: flex;
+	align-items: flex-start;
+	justify-content: flex-start;
+}
+
+
+*.full-size {
+	flex-grow: 1;
+	overflow: hidden;
+}
+
+
+*.scrollable { overflow: hidden }
+
+
+*.column-block {
+
+	display: flex;
+	flex-direction: column; 
+
+	&.a-little-spaced-out { row-gap: 0.25rem }
+	&.somewhat-spaced-out { row-gap: 0.5rem }
+	&.spaced-out { row-gap: 1rem }
+	&.very-spaced-out { row-gap: 2rem }
+	&.totally-spaced-out { align-content: space-between }
+
+	&.left-aligned { align-items: flex-start }
+	&.right-aligned { align-items: flex-end }
+
+	&.column-centered { align-items: center }
+	&.row-centered { justify-content: center }
+
+	&.top-aligned { justify-content: flex-start }
+	&.bottom-aligned { justify-content: flex-end }
+
+}/* column-block */
+
+
+*.row-block, *.flex-block {
+
+	display: flex;
+	flex-direction: row; 
+
+	&.a-little-spaced-out { column-gap: 0.25rem }
+	&.somewhat-spaced-out { column-gap: 0.5rem }
+	&.spaced-out { column-gap: 1rem }
+	&.very-spaced-out { column-gap: 2rem }
+	&.totally-spaced-out { justify-content: space-between }
+
+	&.left-aligned { justify-content: flex-start }
+	&.right-aligned { justify-content: flex-end }
+
+	&.column-centered { justify-content: center }
+	&.row-centered { align-items: center }
+
+	&.top-aligned { align-items: flex-start }
+	&.bottom-aligned { align-items: flex-end }
+
+}/* row-block */
+
+
+*.centered {
+	align-items: center;
+	justify-content: center;
+}
+
+
+/**** Margin Styles ****/
+
+
+*.with-a-little-left-margin { margin-left: 0.25rem }
+*.with-a-little-left-padding { padding-left: 0.25rem }
+*.with-a-little-left-area { @extend .with-a-little-left-margin, .with-a-little-left-padding }
+
+*.with-a-little-right-margin { margin-right: 0.25rem }
+*.with-a-little-right-padding { padding-right: 0.25rem }
+*.with-a-little-right-area { @extend .with-a-little-right-margin, .with-a-little-right-padding }
+
+*.with-a-little-row-margin { @extend .with-a-little-left-margin, .with-a-little-right-margin }
+*.with-a-little-row-padding { @extend .with-a-little-left-padding, .with-a-little-right-padding }
+*.with-a-little-row-area { @extend .with-a-little-left-area, .with-a-little-right-area }
+
+*.with-a-little-headspace { margin-top: 0.25rem }
+*.with-a-little-head-padding { padding-top: 0.25rem }
+*.with-a-little-headarea { @extend .with-a-little-headspace, .with-a-little-head-padding }
+
+*.with-a-little-legroom { margin-bottom: 0.25rem }
+*.with-a-little-leg-padding { padding-bottom: 0.25rem }
+*.with-a-little-legarea { @extend .with-a-little-legroom, .with-a-little-leg-padding }
+
+*.with-a-little-column-margin { @extend .with-a-little-legroom, .with-a-little-headspace }
+*.with-a-little-column-padding { @extend .with-a-little-leg-padding, .with-a-little-head-padding }
+*.with-a-little-column-area { @extend .with-a-little-legarea, .with-a-little-headarea }
+
+*.with-a-little-margin { @extend .with-a-little-row-margin, .with-a-little-column-margin }
+*.with-a-little-padding { @extend .with-a-little-row-padding, .with-a-little-column-padding }
+*.with-a-little-area { @extend .with-a-little-row-area, .with-a-little-column-area }
+
+
+
+*.with-some-left-margin { margin-left: 0.5rem }
+*.with-some-left-padding { padding-left: 0.5rem }
+*.with-some-left-area { @extend .with-some-left-margin, .with-some-left-padding }
+
+*.with-some-right-margin { margin-right: 0.5rem }
+*.with-some-right-padding { padding-right: 0.5rem }
+*.with-some-right-area { @extend .with-some-right-margin, .with-some-right-padding }
+
+*.with-some-row-margin { @extend .with-some-left-margin, .with-some-right-margin }
+*.with-some-row-padding { @extend .with-some-left-padding, .with-some-right-padding }
+*.with-some-row-area { @extend .with-some-left-area, .with-some-right-area }
+
+*.with-some-headspace { margin-top: 0.5rem }
+*.with-some-head-padding { padding-top: 0.5rem }
+*.with-some-headarea { @extend .with-some-headspace, .with-some-head-padding }
+
+*.with-some-legroom { margin-bottom: 0.5rem }
+*.with-some-leg-padding { padding-bottom: 0.5rem }
+*.with-some-legarea { @extend .with-some-legroom, .with-some-leg-padding }
+
+*.with-some-column-margin { @extend .with-some-legroom, .with-some-headspace }
+*.with-some-column-padding { @extend .with-some-leg-padding, .with-some-head-padding }
+*.with-some-column-area { @extend .with-some-legarea, .with-some-headarea }
+
+*.with-some-margin { @extend .with-some-row-margin, .with-some-column-margin }
+*.with-some-padding { @extend .with-some-row-padding, .with-some-column-padding }
+*.with-some-area { @extend .with-some-row-area, .with-some-column-area }
+
+
+
+*.with-left-margin { margin-left: 1rem }
+*.with-left-padding { padding-left: 1rem }
+*.with-left-area { @extend .with-left-margin, .with-left-padding }
+
+*.with-right-margin { margin-right: 1rem }
+*.with-right-padding { padding-right: 1rem }
+*.with-right-area { @extend .with-right-margin, .with-right-padding }
+
+*.with-row-margin { @extend .with-left-margin, .with-right-margin }
+*.with-row-padding { @extend .with-left-padding, .with-right-padding }
+*.with-row-area { @extend .with-left-area, .with-right-area }
+
+*.with-headspace { margin-top: 1rem }
+*.with-head-padding { padding-top: 1rem }
+*.with-headarea { @extend .with-headspace, .with-head-padding }
+
+*.with-legroom { margin-bottom: 1rem }
+*.with-leg-padding { padding-bottom: 1rem }
+*.with-legarea { @extend .with-legroom, .with-leg-padding }
+
+*.with-column-margin { @extend .with-legroom, .with-headspace }
+*.with-column-padding { @extend .with-leg-padding, .with-head-padding }
+*.with-column-area { @extend .with-legarea, .with-headarea }
+
+*.with-margin { @extend .with-row-margin, .with-column-margin }
+*.with-padding { @extend .with-row-padding, .with-column-padding }
+*.with-area { @extend .with-row-area, .with-column-area }
+
+
+
+*.with-lotsa-left-margin { margin-left: 2rem }
+*.with-lotsa-left-padding { padding-left: 2rem }
+*.with-lotsa-left-area { @extend .with-lotsa-left-margin, .with-lotsa-left-padding }
+
+*.with-lotsa-right-margin { margin-right: 2rem }
+*.with-lotsa-right-padding { padding-right: 2rem }
+*.with-lotsa-right-area { @extend .with-lotsa-right-margin, .with-lotsa-right-padding }
+
+*.with-lotsa-row-margin { @extend .with-lotsa-left-margin, .with-lotsa-right-margin }
+*.with-lotsa-row-padding { @extend .with-lotsa-left-padding, .with-lotsa-right-padding }
+*.with-lotsa-row-area { @extend .with-lotsa-left-area, .with-lotsa-right-area }
+
+*.with-lotsa-headspace { margin-top: 2rem }
+*.with-lotsa-head-padding { padding-top: 2rem }
+*.with-lotsa-headarea { @extend .with-lotsa-headspace, .with-lotsa-head-padding }
+
+*.with-lotsa-legroom { margin-bottom: 2rem }
+*.with-lotsa-leg-padding { padding-bottom: 2rem }
+*.with-lotsa-legarea { @extend .with-lotsa-legroom, .with-lotsa-leg-padding }
+
+*.with-lotsa-column-margin { @extend .with-lotsa-legroom, .with-lotsa-headspace }
+*.with-lotsa-column-padding { @extend .with-lotsa-leg-padding, .with-lotsa-head-padding }
+*.with-lotsa-column-area { @extend .with-lotsa-legarea, .with-lotsa-headarea }
+
+*.with-lotsa-margin { @extend .with-lotsa-row-margin, .with-lotsa-column-margin }
+*.with-lotsa-padding { @extend .with-lotsa-row-padding, .with-lotsa-column-padding }
+*.with-lotsa-area { @extend .with-lotsa-row-area, .with-lotsa-column-area }
+
+
+/**** Border Styles ****/
+
+
+*.with-right-border { border-right: solid 1px var(--border-color) }
+
+
+/**** Positioning Styles ****/
+
+
+*.full-screen {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	margin: 0;
+}
+
+
+/**** Button Styles ****/
+
+
+div.button-bar { @extend .right-aligned, .full-width, .a-little-spaced-out, .row-block, .with-some-headspace }
+
+
+div.glyph-arrow {
+	width: 0;
+	height: 0;
+	border: solid 0.5rem transparent;
+	border-bottom-width: 0;
+	border-top-color: var(--dropdown-arrow-color);
+	cursor: pointer;
+}
+
+div.glyph-arrow.sort-arrow { border-top-color: var(--sort-arrow-color) }
+
+
+/**** Grid and Table Styles ****/
+
+
+div[class*="two-column-"] { grid-template-columns: repeat(2, max-content) }
+div[class*="three-column-"] { grid-template-columns: repeat(3, min-content) }
+div[class*="four-column-"] { grid-template-columns: repeat(4, min-content) }
+div[class*="five-column-"] { grid-template-columns: repeat(5, min-content) }
+div[class*="six-column-"] { grid-template-columns: repeat(6, min-content) }
+
+
+div[class*="-column-grid"] {
+	display: grid;
+	align-items: center;
+	justify-content: center;
+	column-gap: 0.5rem;
+	row-gap: 0.2rem;
+
+	&.left-aligned { justify-content: flex-start }
+	&.right-aligned { justify-content: flex-end }
+
+	label {
+		display: inline-flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-end;
+	}
+
+	*.all-columns { grid-column: 1/-1 }
+
+}
+
+
+div.nested {
+	width: 100%;
+	justify-content: space-between;
+
+	div.nested label {
+		justify-self: right
+	}
+}
+
+
+/**** Form Styles ****/
+
+
+div.checkbox-list { margin-left: 1rem }
+
+
+div.checkbox-list label { justify-content: flex-start }
+
+
+div.form-table {
+	display: inline-grid;
+	grid-template-columns: min-content 1fr;
+	row-gap: 0.5em;
+
+	label {
+		align-items: center;
+		justify-content: flex-end;
+	}
+}
+
+
+div.miniform {
+	display: inline-grid;
+	grid-template-columns: repeat(2, min-content);
+	column-gap: 0.25rem
+}
+
+
+form div.compact {
+	input, select { width: 8.5rem }
+}
+
+
+/**** Eyecandy Styles ****/
+
+
+img.eyecandy {
+	height: 1.2rem;
+	width: auto;
+	margin-right: 0.3rem;
+
+	.small { height: 0.8rem }
+
+	.medium { height: 1.2rem }
+}
+
+
