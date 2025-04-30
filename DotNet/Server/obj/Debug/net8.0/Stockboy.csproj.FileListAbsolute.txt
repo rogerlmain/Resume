@@ -1,9 +1,0 @@
-D:\Projects\Mirror\Application\Stockboy\obj\Debug\net8.0\Stockboy.csproj.AssemblyReference.cache
-D:\Projects\Mirror\Application\Stockboy\obj\Debug\net8.0\spa.proxy.json
-D:\Projects\Mirror\Application\Stockboy\obj\Debug\net8.0\Stockboy.GeneratedMSBuildEditorConfig.editorconfig
-D:\Projects\Mirror\Application\Stockboy\obj\Debug\net8.0\Stockboy.AssemblyInfoInputs.cache
-D:\Projects\Mirror\Application\Stockboy\obj\Debug\net8.0\Stockboy.AssemblyInfo.cs
-D:\Projects\Mirror\Application\Stockboy\obj\Debug\net8.0\Stockboy.csproj.CoreCompileInputs.cache
-D:\Projects\Mirror\Application\Stockboy\obj\Debug\net8.0\Stockboy.MvcApplicationPartsAssemblyInfo.cs
-D:\Projects\Mirror\Application\Stockboy\obj\Debug\net8.0\Stockboy.MvcApplicationPartsAssemblyInfo.cache
-D:\Projects\Mirror\Application\Stockboy\obj\Debug\net8.0\Stockboy.sourcelink.json
