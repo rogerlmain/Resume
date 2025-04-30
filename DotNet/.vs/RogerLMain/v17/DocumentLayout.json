@@ -3,48 +3,44 @@
   "WorkspaceRootPath": "D:\\Projects\\Resume\\DotNet\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{DB100F2F-9631-4A38-96D7-5515DDB302C0}|Client\\Client.esproj|d:\\projects\\resume\\dotnet\\client\\src\\controls\\sweeppanel.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
-      "RelativeMoniker": "D:0:0:{DB100F2F-9631-4A38-96D7-5515DDB302C0}|Client\\Client.esproj|solutionrelative:client\\src\\controls\\sweeppanel.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+      "AbsoluteMoniker": "D:0:0:{DB100F2F-9631-4A38-96D7-5515DDB302C0}|Client\\Client.esproj|d:\\projects\\resume\\dotnet\\client\\src\\pages\\editors\\edittechnologies.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{DB100F2F-9631-4A38-96D7-5515DDB302C0}|Client\\Client.esproj|solutionrelative:client\\src\\pages\\editors\\edittechnologies.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DB100F2F-9631-4A38-96D7-5515DDB302C0}|Client\\Client.esproj|d:\\projects\\resume\\dotnet\\client\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{DB100F2F-9631-4A38-96D7-5515DDB302C0}|Client\\Client.esproj|solutionrelative:client\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{DB100F2F-9631-4A38-96D7-5515DDB302C0}|Client\\Client.esproj|d:\\projects\\resume\\dotnet\\client\\src\\pages\\editors\\editemployment.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{DB100F2F-9631-4A38-96D7-5515DDB302C0}|Client\\Client.esproj|solutionrelative:client\\src\\pages\\editors\\editemployment.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{537A417B-3302-4834-ADD8-BA50C5D2A4B5}|Server\\Server.csproj|d:\\projects\\resume\\dotnet\\server\\controllers\\main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{537A417B-3302-4834-ADD8-BA50C5D2A4B5}|Server\\Server.csproj|solutionrelative:server\\controllers\\main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{537A417B-3302-4834-ADD8-BA50C5D2A4B5}|Server\\Server.csproj|d:\\projects\\resume\\dotnet\\server\\models\\contextmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{537A417B-3302-4834-ADD8-BA50C5D2A4B5}|Server\\Server.csproj|solutionrelative:server\\models\\contextmodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{537A417B-3302-4834-ADD8-BA50C5D2A4B5}|Server\\Server.csproj|d:\\projects\\resume\\dotnet\\server\\classes\\datacontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{537A417B-3302-4834-ADD8-BA50C5D2A4B5}|Server\\Server.csproj|solutionrelative:server\\classes\\datacontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{537A417B-3302-4834-ADD8-BA50C5D2A4B5}|Server\\Server.csproj|d:\\projects\\resume\\dotnet\\server\\classes\\extensions\\ienumerableextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{537A417B-3302-4834-ADD8-BA50C5D2A4B5}|Server\\Server.csproj|solutionrelative:server\\classes\\extensions\\ienumerableextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DB100F2F-9631-4A38-96D7-5515DDB302C0}|Client\\Client.esproj|d:\\projects\\resume\\dotnet\\client\\src\\classes\\data\\database.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{DB100F2F-9631-4A38-96D7-5515DDB302C0}|Client\\Client.esproj|solutionrelative:client\\src\\classes\\data\\database.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DB100F2F-9631-4A38-96D7-5515DDB302C0}|Client\\Client.esproj|d:\\projects\\resume\\dotnet\\client\\src\\models\\datamodels.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{DB100F2F-9631-4A38-96D7-5515DDB302C0}|Client\\Client.esproj|solutionrelative:client\\src\\models\\datamodels.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DB100F2F-9631-4A38-96D7-5515DDB302C0}|Client\\Client.esproj|d:\\projects\\resume\\dotnet\\client\\src\\classes\\prototypes.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{DB100F2F-9631-4A38-96D7-5515DDB302C0}|Client\\Client.esproj|solutionrelative:client\\src\\classes\\prototypes.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{DB100F2F-9631-4A38-96D7-5515DDB302C0}|Client\\Client.esproj|d:\\projects\\resume\\dotnet\\client\\src\\pages\\main.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
       "RelativeMoniker": "D:0:0:{DB100F2F-9631-4A38-96D7-5515DDB302C0}|Client\\Client.esproj|solutionrelative:client\\src\\pages\\main.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DB100F2F-9631-4A38-96D7-5515DDB302C0}|Client\\Client.esproj|d:\\projects\\resume\\dotnet\\client\\src\\master.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
-      "RelativeMoniker": "D:0:0:{DB100F2F-9631-4A38-96D7-5515DDB302C0}|Client\\Client.esproj|solutionrelative:client\\src\\master.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DB100F2F-9631-4A38-96D7-5515DDB302C0}|Client\\Client.esproj|d:\\projects\\resume\\dotnet\\client\\src\\models\\common.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
-      "RelativeMoniker": "D:0:0:{DB100F2F-9631-4A38-96D7-5515DDB302C0}|Client\\Client.esproj|solutionrelative:client\\src\\models\\common.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DB100F2F-9631-4A38-96D7-5515DDB302C0}|Client\\Client.esproj|d:\\projects\\resume\\dotnet\\client\\src\\classes\\handlers.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
-      "RelativeMoniker": "D:0:0:{DB100F2F-9631-4A38-96D7-5515DDB302C0}|Client\\Client.esproj|solutionrelative:client\\src\\classes\\handlers.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DB100F2F-9631-4A38-96D7-5515DDB302C0}|Client\\Client.esproj|d:\\projects\\resume\\dotnet\\client\\src\\classes\\types.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
-      "RelativeMoniker": "D:0:0:{DB100F2F-9631-4A38-96D7-5515DDB302C0}|Client\\Client.esproj|solutionrelative:client\\src\\classes\\types.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DB100F2F-9631-4A38-96D7-5515DDB302C0}|Client\\Client.esproj|d:\\projects\\resume\\dotnet\\client\\src\\classes\\globals.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
-      "RelativeMoniker": "D:0:0:{DB100F2F-9631-4A38-96D7-5515DDB302C0}|Client\\Client.esproj|solutionrelative:client\\src\\classes\\globals.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DB100F2F-9631-4A38-96D7-5515DDB302C0}|Client\\Client.esproj|d:\\projects\\resume\\dotnet\\client\\src\\pages\\home.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
-      "RelativeMoniker": "D:0:0:{DB100F2F-9631-4A38-96D7-5515DDB302C0}|Client\\Client.esproj|solutionrelative:client\\src\\pages\\home.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DB100F2F-9631-4A38-96D7-5515DDB302C0}|Client\\Client.esproj|d:\\projects\\resume\\dotnet\\client\\src\\classes\\properties.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
-      "RelativeMoniker": "D:0:0:{DB100F2F-9631-4A38-96D7-5515DDB302C0}|Client\\Client.esproj|solutionrelative:client\\src\\classes\\properties.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DB100F2F-9631-4A38-96D7-5515DDB302C0}|Client\\Client.esproj|d:\\projects\\resume\\dotnet\\client\\src\\classes\\constants.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
-      "RelativeMoniker": "D:0:0:{DB100F2F-9631-4A38-96D7-5515DDB302C0}|Client\\Client.esproj|solutionrelative:client\\src\\classes\\constants.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -54,85 +50,62 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "SweepPanel.tsx",
-              "DocumentMoniker": "D:\\Projects\\Resume\\DotNet\\Client\\src\\Controls\\SweepPanel.tsx",
-              "RelativeDocumentMoniker": "Client\\src\\Controls\\SweepPanel.tsx",
-              "ToolTip": "D:\\Projects\\Resume\\DotNet\\Client\\src\\Controls\\SweepPanel.tsx",
-              "RelativeToolTip": "Client\\src\\Controls\\SweepPanel.tsx",
-              "ViewState": "AgIAABsAAAAAAAAAAAAYwCcAAAAMAAAAAAAAAA==",
+              "DocumentIndex": 9,
+              "Title": "Main.tsx",
+              "DocumentMoniker": "D:\\Projects\\Resume\\DotNet\\Client\\src\\Pages\\Main.tsx",
+              "RelativeDocumentMoniker": "Client\\src\\Pages\\Main.tsx",
+              "ToolTip": "D:\\Projects\\Resume\\DotNet\\Client\\src\\Pages\\Main.tsx",
+              "RelativeToolTip": "Client\\src\\Pages\\Main.tsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-04-26T15:41:22.262Z",
+              "WhenOpened": "2025-04-29T14:45:53.046Z",
               "IsPinned": true,
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "index.html",
-              "DocumentMoniker": "D:\\Projects\\Resume\\DotNet\\Client\\index.html",
-              "RelativeDocumentMoniker": "Client\\index.html",
-              "ToolTip": "D:\\Projects\\Resume\\DotNet\\Client\\index.html",
-              "RelativeToolTip": "Client\\index.html",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAAAHAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2025-04-27T14:10:52.648Z",
+              "Title": "EditEmployment.tsx",
+              "DocumentMoniker": "D:\\Projects\\Resume\\DotNet\\Client\\src\\Pages\\Editors\\EditEmployment.tsx",
+              "RelativeDocumentMoniker": "Client\\src\\Pages\\Editors\\EditEmployment.tsx",
+              "ToolTip": "D:\\Projects\\Resume\\DotNet\\Client\\src\\Pages\\Editors\\EditEmployment.tsx",
+              "RelativeToolTip": "Client\\src\\Pages\\Editors\\EditEmployment.tsx",
+              "ViewState": "AgIAAMwAAAAAAAAAAAAuwOMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-04-29T19:15:12.408Z",
+              "IsPinned": true,
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Master.tsx",
-              "DocumentMoniker": "D:\\Projects\\Resume\\DotNet\\Client\\src\\Master.tsx",
-              "RelativeDocumentMoniker": "Client\\src\\Master.tsx",
-              "ToolTip": "D:\\Projects\\Resume\\DotNet\\Client\\src\\Master.tsx",
-              "RelativeToolTip": "Client\\src\\Master.tsx",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "EditTechnologies.tsx",
+              "DocumentMoniker": "D:\\Projects\\Resume\\DotNet\\Client\\src\\Pages\\Editors\\EditTechnologies.tsx",
+              "RelativeDocumentMoniker": "Client\\src\\Pages\\Editors\\EditTechnologies.tsx",
+              "ToolTip": "D:\\Projects\\Resume\\DotNet\\Client\\src\\Pages\\Editors\\EditTechnologies.tsx",
+              "RelativeToolTip": "Client\\src\\Pages\\Editors\\EditTechnologies.tsx",
+              "ViewState": "AgIAACUAAAAAAAAAAAAuwDsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-04-27T14:09:01.048Z",
+              "WhenOpened": "2025-04-30T19:17:39.338Z",
+              "IsPinned": true,
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Common.tsx",
-              "DocumentMoniker": "D:\\Projects\\Resume\\DotNet\\Client\\src\\Models\\Common.tsx",
-              "RelativeDocumentMoniker": "Client\\src\\Models\\Common.tsx",
-              "ToolTip": "D:\\Projects\\Resume\\DotNet\\Client\\src\\Models\\Common.tsx",
-              "RelativeToolTip": "Client\\src\\Models\\Common.tsx",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAPAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-04-27T13:51:22.415Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Handlers.tsx",
-              "DocumentMoniker": "D:\\Projects\\Resume\\DotNet\\Client\\src\\Classes\\Handlers.tsx",
-              "RelativeDocumentMoniker": "Client\\src\\Classes\\Handlers.tsx",
-              "ToolTip": "D:\\Projects\\Resume\\DotNet\\Client\\src\\Classes\\Handlers.tsx",
-              "RelativeToolTip": "Client\\src\\Classes\\Handlers.tsx",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-04-27T13:50:43.148Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Types.tsx",
-              "DocumentMoniker": "D:\\Projects\\Resume\\DotNet\\Client\\src\\Classes\\Types.tsx",
-              "RelativeDocumentMoniker": "Client\\src\\Classes\\Types.tsx",
-              "ToolTip": "D:\\Projects\\Resume\\DotNet\\Client\\src\\Classes\\Types.tsx",
-              "RelativeToolTip": "Client\\src\\Classes\\Types.tsx",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-04-27T13:50:31.929Z",
+              "DocumentIndex": 2,
+              "Title": "Main.cs",
+              "DocumentMoniker": "D:\\Projects\\Resume\\DotNet\\Server\\Controllers\\Main.cs",
+              "RelativeDocumentMoniker": "Server\\Controllers\\Main.cs",
+              "ToolTip": "D:\\Projects\\Resume\\DotNet\\Server\\Controllers\\Main.cs",
+              "RelativeToolTip": "Server\\Controllers\\Main.cs",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAowFgAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-30T14:02:57.939Z",
+              "IsPinned": true,
               "EditorCaption": ""
             },
             {
@@ -145,67 +118,80 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Globals.tsx",
-              "DocumentMoniker": "D:\\Projects\\Resume\\DotNet\\Client\\src\\Classes\\Globals.tsx",
-              "RelativeDocumentMoniker": "Client\\src\\Classes\\Globals.tsx",
-              "ToolTip": "D:\\Projects\\Resume\\DotNet\\Client\\src\\Classes\\Globals.tsx",
-              "RelativeToolTip": "Client\\src\\Classes\\Globals.tsx",
-              "ViewState": "AgIAAE4AAAAAAAAAAAAswGwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-04-27T12:42:58.593Z",
+              "DocumentIndex": 5,
+              "Title": "IEnumerableExtensions.cs",
+              "DocumentMoniker": "D:\\Projects\\Resume\\DotNet\\Server\\Classes\\Extensions\\IEnumerableExtensions.cs",
+              "RelativeDocumentMoniker": "Server\\Classes\\Extensions\\IEnumerableExtensions.cs",
+              "ToolTip": "D:\\Projects\\Resume\\DotNet\\Server\\Classes\\Extensions\\IEnumerableExtensions.cs",
+              "RelativeToolTip": "Server\\Classes\\Extensions\\IEnumerableExtensions.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-30T19:58:30.279Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "Constants.tsx",
-              "DocumentMoniker": "D:\\Projects\\Resume\\DotNet\\Client\\src\\Classes\\Constants.tsx",
-              "RelativeDocumentMoniker": "Client\\src\\Classes\\Constants.tsx",
-              "ToolTip": "D:\\Projects\\Resume\\DotNet\\Client\\src\\Classes\\Constants.tsx",
-              "RelativeToolTip": "Client\\src\\Classes\\Constants.tsx",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAApAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-04-26T15:48:06.955Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Properties.tsx",
-              "DocumentMoniker": "D:\\Projects\\Resume\\DotNet\\Client\\src\\Classes\\Properties.tsx",
-              "RelativeDocumentMoniker": "Client\\src\\Classes\\Properties.tsx",
-              "ToolTip": "D:\\Projects\\Resume\\DotNet\\Client\\src\\Classes\\Properties.tsx",
-              "RelativeToolTip": "Client\\src\\Classes\\Properties.tsx",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-04-26T15:44:43.413Z",
+              "DocumentIndex": 4,
+              "Title": "DataContext.cs",
+              "DocumentMoniker": "D:\\Projects\\Resume\\DotNet\\Server\\Classes\\DataContext.cs",
+              "RelativeDocumentMoniker": "Server\\Classes\\DataContext.cs",
+              "ToolTip": "D:\\Projects\\Resume\\DotNet\\Server\\Classes\\DataContext.cs",
+              "RelativeToolTip": "Server\\Classes\\DataContext.cs",
+              "ViewState": "AgIAAAIAAAAAAAAAAAD4vw4AAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-30T19:47:15.044Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 8,
-              "Title": "Home.tsx",
-              "DocumentMoniker": "D:\\Projects\\Resume\\DotNet\\Client\\src\\Pages\\Home.tsx",
-              "RelativeDocumentMoniker": "Client\\src\\Pages\\Home.tsx",
-              "ToolTip": "D:\\Projects\\Resume\\DotNet\\Client\\src\\Pages\\Home.tsx",
-              "RelativeToolTip": "Client\\src\\Pages\\Home.tsx",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAABVAAAAAAAAAA==",
+              "Title": "Prototypes.tsx",
+              "DocumentMoniker": "D:\\Projects\\Resume\\DotNet\\Client\\src\\Classes\\Prototypes.tsx",
+              "RelativeDocumentMoniker": "Client\\src\\Classes\\Prototypes.tsx",
+              "ToolTip": "D:\\Projects\\Resume\\DotNet\\Client\\src\\Classes\\Prototypes.tsx",
+              "RelativeToolTip": "Client\\src\\Classes\\Prototypes.tsx",
+              "ViewState": "AgIAAHsBAAAAAAAAAAAwwI4BAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-04-26T15:39:29.492Z",
+              "WhenOpened": "2025-04-30T17:58:32.287Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Main.tsx",
-              "DocumentMoniker": "D:\\Projects\\Resume\\DotNet\\Client\\src\\Pages\\Main.tsx",
-              "RelativeDocumentMoniker": "Client\\src\\Pages\\Main.tsx",
-              "ToolTip": "D:\\Projects\\Resume\\DotNet\\Client\\src\\Pages\\Main.tsx",
-              "RelativeToolTip": "Client\\src\\Pages\\Main.tsx",
-              "ViewState": "AgIAAAIAAAAAAAAAAAAowCQAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "ContextModels.cs",
+              "DocumentMoniker": "D:\\Projects\\Resume\\DotNet\\Server\\Models\\ContextModels.cs",
+              "RelativeDocumentMoniker": "Server\\Models\\ContextModels.cs",
+              "ToolTip": "D:\\Projects\\Resume\\DotNet\\Server\\Models\\ContextModels.cs",
+              "RelativeToolTip": "Server\\Models\\ContextModels.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-30T17:34:48.898Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "DataModels.tsx",
+              "DocumentMoniker": "D:\\Projects\\Resume\\DotNet\\Client\\src\\Models\\DataModels.tsx",
+              "RelativeDocumentMoniker": "Client\\src\\Models\\DataModels.tsx",
+              "ToolTip": "D:\\Projects\\Resume\\DotNet\\Client\\src\\Models\\DataModels.tsx",
+              "RelativeToolTip": "Client\\src\\Models\\DataModels.tsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-04-26T15:39:06.621Z",
+              "WhenOpened": "2025-04-30T19:44:13.688Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Database.tsx",
+              "DocumentMoniker": "D:\\Projects\\Resume\\DotNet\\Client\\src\\Classes\\Data\\Database.tsx",
+              "RelativeDocumentMoniker": "Client\\src\\Classes\\Data\\Database.tsx",
+              "ToolTip": "D:\\Projects\\Resume\\DotNet\\Client\\src\\Classes\\Data\\Database.tsx",
+              "RelativeToolTip": "Client\\src\\Classes\\Data\\Database.tsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-04-30T17:34:19.262Z",
               "EditorCaption": ""
             }
           ]

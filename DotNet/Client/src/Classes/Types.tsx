@@ -5,6 +5,9 @@ export { };
 
 declare global {
 
+	class AnyArray extends Array<any> {}
+
+
 	type FormField = (HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement)
 	type FormFieldList = NodeListOf<FormField>
 

@@ -1,7 +1,7 @@
-global using static RogerLMain.Classes.Globals;
+global using static Resume.Classes.Globals;
 
 using Microsoft.EntityFrameworkCore;
-using RogerLMain.Classes;
+using Resume.Classes;
 
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder (args);
@@ -9,19 +9,15 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder (args);
 
 builder.Services.AddControllers ().AddNewtonsoftJson ();
 builder.Services.AddEndpointsApiExplorer ();
-builder.Services.AddSwaggerGen ();
 
-builder.Services.AddDbContext<DataContext> (options => options.UseMySQL (builder.Configuration.GetConnectionString ("MySqlConnection")!));
+String connection_string = builder.Configuration.GetConnectionString ("MySqlConnection")!;
+
+builder.Services.AddDbContext<DataContext> (options => options.UseMySql (connection_string, ServerVersion.AutoDetect (connection_string)));
 
 WebApplication app = builder.Build ();
 
 app.UseDefaultFiles ();
 app.UseStaticFiles ();
-
-if (app.Environment.IsDevelopment ()) {
-	app.UseSwagger ();
-	app.UseSwaggerUI ();
-}
 
 app.UseHttpsRedirection ();
 app.UseCors (builder => builder.AllowAnyHeader ().AllowAnyMethod ().AllowAnyOrigin ());

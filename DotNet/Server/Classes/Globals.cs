@@ -1,4 +1,7 @@
-﻿namespace RogerLMain.Classes {
+﻿global using StringList = System.Collections.Generic.List<System.String>;
+
+
+namespace Resume.Classes {
 
 	public class AbortException: Exception {
 		public AbortException (): base ("aborted") {}

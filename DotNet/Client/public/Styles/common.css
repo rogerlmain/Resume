@@ -1,4 +1,5 @@
 ﻿:root {
+  --anchor-color: #444;
   --border-color: #000;
   --element-border-color: #DDF;
   --highlight-color: #FFFDDD;
@@ -11,24 +12,21 @@
   --dropdown-arrow-color: #DDF;
   --sort-arrow-color: #888;
   --required-field-color: #FFF8F8;
+  --disabled-text-color: #888;
 }
 
-/**** Debugging Styles ****/
-*.bordered, *.bordered *, *.semi-bordered, *.semi-bordered > *, *.outlined {
-  border: solid 1px red;
+.testgrid {
+  border: solid 1px blue !important;
 }
 
-*.blue-outlined {
-  border: solid 1px blue;
+.testgrid div:first-child {
+  width: auto;
+  height: auto;
 }
 
-*.green-outlined {
-  border: solid 1px green;
-}
-
-div.test-grid div {
-  align-items: center;
-  width: 200px;
+.testgrid * {
+  width: 5rem !important;
+  height: 3rem !important;
 }
 
 /**** Global Styles ****/
@@ -40,14 +38,553 @@ div.test-grid div {
   padding: 0;
 }
 
+/**** Debugging Styles ****/
+*.bordered, *.bordered *, *.semi-bordered, *.semi-bordered > *, *.outlined, *.surrounded > div {
+  border: solid 1px red;
+}
+
+*.blue-outlined {
+  border: solid 1px blue;
+}
+
+*.green-outlined {
+  border: solid 1px green;
+}
+
+*.testing > div {
+  margin: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+div.test-grid div {
+  align-items: center;
+  width: 200px;
+}
+
 /**** Tag Styles ****/
 body {
   font-size: 9pt;
 }
 
 label {
+  display: flex;
+  align-items: center;
   font-weight: bold;
   margin-right: 0.5rem;
+}
+
+hr {
+  width: 100%;
+  margin: 1rem 0;
+  border: none;
+  border-top: solid 1px black;
+}
+
+textarea {
+  text-wrap: auto;
+  overflow-y: auto;
+  width: 100%;
+  height: 20cqw;
+}
+
+/**** Text Styles ****/
+*.bold-text, a {
+  font-weight: bold;
+}
+
+*.header {
+  font-size: 12pt;
+}
+
+*.disabled {
+  color: var(--disabled-text-color);
+}
+
+*.unhighlightable, *.unhighlightable * {
+  user-select: none;
+}
+
+*.highlightable {
+  user-select: text;
+}
+
+/**** Link Styles ****/
+a {
+  color: var(--anchor-color);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/**** Display Styles ****/
+*.container, .padded-container {
+  display: contents;
+  width: fit-content;
+  height: fit-content;
+}
+
+*.padded-container > div {
+  padding: 0.25rem 0.5rem;
+  background-color: white;
+}
+
+*.hidden {
+  display: none !important;
+}
+
+/**** Layout Styles ****/
+div.grid-stack {
+  display: grid;
+  grid-template-columns: min-content;
+}
+
+div.grid-stack > * {
+  grid-area: 1/1;
+}
+
+*.full-width, div.button-bar, html, body, .full-page {
+  width: 100%;
+}
+
+*.full-height, html, body, .full-page {
+  height: 100%;
+}
+
+*.with-full-width-children * {
+  width: 100%;
+}
+
+*.with-full-height-children * {
+  height: 100%;
+}
+
+*.shrink-wrapped {
+  width: min-content;
+  height: min-content;
+}
+
+*.full-page {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+*.full-size {
+  flex-grow: 1;
+  align-self: stretch;
+  overflow: hidden;
+}
+
+*.half-width, .half-size {
+  width: 50%;
+}
+
+*.half-height, .half-size {
+  height: 50%;
+}
+
+*.scrollable {
+  overflow: hidden;
+}
+
+*.row-scrolling, .full-scrolling {
+  overflow-x: scroll;
+}
+
+*.column-scrolling, .full-scrolling {
+  overflow-y: scroll;
+}
+
+*.column-block, .inline-column-block, .fill-size.inline-column-block, .hidden-column-block, .fill-size.hidden-column-block, .column-block.fill-size {
+  display: flex;
+  flex-direction: column;
+}
+*.column-block.minimal, *.minimal.inline-column-block, *.minimal.hidden-column-block {
+  width: min-content;
+}
+*.column-block.slightly-spaced-out, div.column-block.button-bar, *.slightly-spaced-out.inline-column-block, div.inline-column-block.button-bar, *.slightly-spaced-out.hidden-column-block, div.hidden-column-block.button-bar {
+  row-gap: 0.25rem;
+}
+*.column-block.somewhat-spaced-out, *.somewhat-spaced-out.inline-column-block, *.somewhat-spaced-out.hidden-column-block {
+  row-gap: 0.5rem;
+}
+*.column-block.spaced-out, *.spaced-out.inline-column-block, *.spaced-out.hidden-column-block {
+  row-gap: 1rem;
+}
+*.column-block.very-spaced-out, *.very-spaced-out.inline-column-block, *.very-spaced-out.hidden-column-block {
+  row-gap: 2rem;
+}
+*.column-block.totally-spaced-out, *.totally-spaced-out.inline-column-block, *.totally-spaced-out.hidden-column-block, *.column-block.fully-spaced-out, *.fully-spaced-out.inline-column-block, *.fully-spaced-out.hidden-column-block {
+  align-content: space-between;
+  row-gap: 0.25rem;
+}
+*.column-block.slightly-gapped, *.slightly-gapped.inline-column-block, *.slightly-gapped.hidden-column-block {
+  row-gap: 0.25rem;
+}
+*.column-block.gapped, *.gapped.inline-column-block, *.gapped.hidden-column-block {
+  row-gap: 1rem;
+}
+*.column-block[class*=left][class*=-aligned], *[class*=left][class*=-aligned].inline-column-block, *[class*=left][class*=-aligned].hidden-column-block {
+  align-items: flex-start;
+}
+*.column-block[class*=right][class*=-aligned], *[class*=right][class*=-aligned].inline-column-block, *[class*=right][class*=-aligned].hidden-column-block {
+  align-items: flex-end;
+}
+*.column-block.column-centered, *.column-centered.inline-column-block, *.column-centered.hidden-column-block {
+  align-items: center;
+}
+*.column-block.row-centered, *.row-centered.inline-column-block, *.row-centered.hidden-column-block {
+  justify-content: center;
+}
+*.column-block[class*=top][class*=-aligned], *[class*=top][class*=-aligned].inline-column-block, *[class*=top][class*=-aligned].hidden-column-block {
+  justify-content: flex-start;
+}
+*.column-block[class*=bottom][class*=-aligned], *[class*=bottom][class*=-aligned].inline-column-block, *[class*=bottom][class*=-aligned].hidden-column-block {
+  justify-content: flex-end;
+}
+*.column-block.fill-width, *.fill-width.inline-column-block, *.fill-width.hidden-column-block, *.column-block.fill-size, *.fill-size.inline-column-block, *.fill-size.hidden-column-block {
+  flex-grow: 1;
+}
+*.column-block.fill-height, *.fill-height.inline-column-block, *.fill-height.hidden-column-block, *.column-block.fill-size, *.fill-size.inline-column-block, *.fill-size.hidden-column-block {
+  align-self: stretch;
+}
+/* column-block */
+*.hidden-column-block {
+  overflow: hidden;
+}
+
+*.inline-column-block {
+  display: inline-flex;
+}
+
+*.row-block, div.button-bar, div.fill-size.button-bar, .inline-row-block, .fill-size.inline-row-block, .row-block.fill-size, .flex-block.fill-size, *.flex-block {
+  display: flex;
+  flex-direction: row;
+}
+*.row-block.slightly-spaced-out, div.row-block.button-bar, div.button-bar, div.button-bar.fill-size, *.slightly-spaced-out.inline-row-block, *.flex-block.slightly-spaced-out, div.flex-block.button-bar {
+  column-gap: 0.25rem;
+}
+*.row-block.somewhat-spaced-out, div.somewhat-spaced-out.button-bar, *.somewhat-spaced-out.inline-row-block, *.flex-block.somewhat-spaced-out {
+  column-gap: 0.5rem;
+}
+*.row-block.spaced-out, div.spaced-out.button-bar, *.spaced-out.inline-row-block, *.flex-block.spaced-out {
+  column-gap: 1rem;
+}
+*.row-block.very-spaced-out, div.very-spaced-out.button-bar, *.very-spaced-out.inline-row-block, *.flex-block.very-spaced-out {
+  column-gap: 2rem;
+}
+*.row-block.totally-spaced-out, div.totally-spaced-out.button-bar, *.totally-spaced-out.inline-row-block, *.row-block.fully-spaced-out, div.fully-spaced-out.button-bar, *.fully-spaced-out.inline-row-block, *.flex-block.totally-spaced-out, *.flex-block.fully-spaced-out {
+  justify-content: space-between;
+  column-gap: 0.25rem;
+}
+*.row-block[class*=left][class*=-aligned], div[class*=left][class*=-aligned].button-bar, *[class*=left][class*=-aligned].inline-row-block, *.flex-block[class*=left][class*=-aligned] {
+  justify-content: flex-start;
+}
+*.row-block[class*=right][class*=-aligned], div[class*=right][class*=-aligned].button-bar, *[class*=right][class*=-aligned].inline-row-block, *.flex-block[class*=right][class*=-aligned] {
+  justify-content: flex-end;
+}
+*.row-block.column-centered, div.column-centered.button-bar, *.column-centered.inline-row-block, *.flex-block.column-centered {
+  justify-content: center;
+}
+*.row-block.row-centered, div.row-centered.button-bar, *.row-centered.inline-row-block, *.flex-block.row-centered {
+  align-items: center;
+}
+*.row-block[class*=top][class*=-aligned], div[class*=top][class*=-aligned].button-bar, *[class*=top][class*=-aligned].inline-row-block, *.flex-block[class*=top][class*=-aligned] {
+  align-items: flex-start;
+}
+*.row-block[class*=bottom][class*=-aligned], div[class*=bottom][class*=-aligned].button-bar, *[class*=bottom][class*=-aligned].inline-row-block, *.flex-block[class*=bottom][class*=-aligned] {
+  align-items: flex-end;
+}
+*.row-block.fill-width, div.fill-width.button-bar, *.fill-width.inline-row-block, *.row-block.fill-size, div.fill-size.button-bar, *.fill-size.inline-row-block, *.flex-block.fill-width, *.flex-block.fill-size {
+  align-self: stretch;
+}
+*.row-block.fill-height, div.fill-height.button-bar, *.fill-height.inline-row-block, *.row-block.fill-size, div.fill-size.button-bar, *.fill-size.inline-row-block, *.flex-block.fill-height, *.flex-block.fill-size {
+  flex-grow: 1;
+}
+*.row-block.backwards, div.backwards.button-bar, *.backwards.inline-row-block, *.backwards.flex-block.fill-size, *.column-block.backwards, *.backwards.hidden-column-block, *.backwards.inline-column-block {
+  flex-direction: column-reverse;
+}
+
+*.row-block.minimal-width, div.minimal-width.button-bar, *.minimal-width.inline-row-block, *.flex-block.minimal-width, *.column-block.minimal-width, *.minimal-width.hidden-column-block, *.minimal-width.inline-column-block {
+  width: min-content;
+}
+*.row-block.minimal-height, div.minimal-height.button-bar, *.minimal-height.inline-row-block, *.flex-block.minimal-height, *.column-block.minimal-height, *.minimal-height.hidden-column-block, *.minimal-height.inline-column-block {
+  height: min-content;
+}
+
+*.inline-row-block {
+  display: inline-flex;
+}
+
+div.two-row-block {
+  display: grid;
+  grid-template-rows: repeat(3, minmax(auto, min-content));
+}
+
+div.three-row-block {
+  display: grid;
+  grid-template-rows: repeat(5, minmax(auto, min-content));
+}
+
+*.centered, *.fully-centered {
+  align-items: center;
+  justify-content: center;
+}
+
+*.wrappable {
+  white-space: normal;
+}
+
+*.padded-cell {
+  padding: 1rem 2rem;
+}
+
+/**** Margin Styles ****/
+*.with-a-little-headspace {
+  margin-top: 0.2rem;
+}
+
+*.with-some-headspace, div.button-bar, .with-some-room, *.with-some-space {
+  margin-top: 0.5rem;
+}
+
+*.with-headspace, .with-room, *.with-space {
+  margin-top: 1rem;
+}
+
+*.with-lotsa-headspace, .with-lotsa-room, *.with-lotsa-space {
+  margin-top: 2rem;
+}
+
+*.with-some-legroom, .with-some-room, *.with-some-space {
+  margin-bottom: 0.5rem;
+}
+
+*.with-legroom, .with-room, *.with-space {
+  margin-bottom: 1rem;
+}
+
+*.with-lotsa-legroom, .with-lotsa-room, *.with-lotsa-space {
+  margin-bottom: 2rem;
+}
+
+*.with-some-left-space, .with-some-row-space, *.with-some-space {
+  margin-left: 0.5rem;
+}
+
+*.with-left-space, .with-row-space, *.with-space {
+  margin-left: 1rem;
+}
+
+*.with-lotsa-left-space, .with-lotsa-row-space, *.with-lotsa-space {
+  margin-left: 2rem;
+}
+
+*.with-some-right-space, .with-some-row-space, *.with-some-space {
+  margin-right: 0.5rem;
+}
+
+*.with-right-space, .with-row-space, *.with-space {
+  margin-right: 1rem;
+}
+
+*.with-lotsa-right-space, .with-lotsa-row-space, *.with-lotsa-space {
+  margin-right: 2rem;
+}
+
+/**** Padding Styles ****/
+*.with-some-head-padding, .with-some-column-padding, *.somewhat-padded-cell, *.with-some-padding {
+  padding-top: 0.5rem;
+}
+
+*.with-head-padding, .with-column-padding, *.standard-padded-cell, *.with-padding {
+  padding-top: 1rem;
+}
+
+*.with-lotsa-head-padding, .with-lotsa-column-padding, *.lotsa-padded-cell, *.with-lotsa-padding {
+  padding-top: 2rem;
+}
+
+*.with-some-leg-padding, .with-some-column-padding, *.somewhat-padded-cell, *.with-some-padding {
+  padding-bottom: 0.5rem;
+}
+
+*.with-leg-padding, .with-column-padding, *.standard-padded-cell, *.with-padding {
+  padding-bottom: 1rem;
+}
+
+*.with-lotsa-leg-padding, .with-lotsa-column-padding, *.lotsa-padded-cell, *.with-lotsa-padding {
+  padding-bottom: 2rem;
+}
+
+*.with-some-left-padding, .with-some-row-padding, *.somewhat-padded-cell, *.with-some-padding {
+  padding-left: 0.5rem;
+}
+
+*.with-left-padding, .with-row-padding, *.standard-padded-cell, *.with-padding {
+  padding-left: 1rem;
+}
+
+*.with-lotsa-left-padding, .with-lotsa-row-padding, *.lotsa-padded-cell, *.with-lotsa-padding {
+  padding-left: 2rem;
+}
+
+*.with-some-right-padding, .with-some-row-padding, *.somewhat-padded-cell, *.with-some-padding {
+  padding-right: 0.5rem;
+}
+
+*.with-right-padding, .with-row-padding, *.standard-padded-cell, *.with-padding {
+  padding-right: 1rem;
+}
+
+*.with-lotsa-right-padding, .with-lotsa-row-padding, *.lotsa-padded-cell, *.with-lotsa-padding {
+  padding-right: 2rem;
+}
+
+/**** Positioning Styles ****/
+*.relative {
+  position: relative;
+}
+
+*.absolute {
+  position: absolute;
+}
+
+div.full-screen {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: 0;
+}
+
+/**** Grid and Table Styles ****/
+div[class*=two-column] {
+  grid-template-columns: repeat(2, min-content);
+}
+
+div[class*=three-column] {
+  grid-template-columns: repeat(2, min-content) 1fr;
+}
+
+div[class*=four-column] {
+  grid-template-columns: repeat(3, min-content) 1fr;
+}
+
+div[class*=five-column] {
+  grid-template-columns: repeat(5, min-content);
+}
+
+div[class*=six-column] {
+  grid-template-columns: repeat(6, min-content);
+}
+
+div[class*=seven-column] {
+  grid-template-columns: repeat(7, min-content);
+}
+
+div[class*=column-grid] {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  column-gap: 0.5rem;
+  row-gap: 0.2rem;
+}
+div[class*=column-grid].left-aligned {
+  justify-content: flex-start;
+}
+div[class*=column-grid].right-aligned, div[class*=column-grid].button-bar {
+  justify-content: flex-end;
+}
+div[class*=column-grid].slightly-spaced-out, div[class*=column-grid].button-bar {
+  column-gap: 0.25rem;
+}
+div[class*=column-grid].somewhat-spaced-out {
+  column-gap: 0.5rem;
+}
+div[class*=column-grid].spaced-out {
+  column-gap: 1rem;
+}
+div[class*=column-grid].very-spaced-out {
+  column-gap: 2rem;
+}
+div[class*=column-grid].gapped {
+  row-gap: 1rem;
+}
+div[class*=column-grid] label {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+}
+div[class*=column-grid] *.full-width, div[class*=column-grid] div.button-bar, div[class*=column-grid] html, div[class*=column-grid] body, div[class*=column-grid] .full-page {
+  grid-column: 1/-1;
+}
+div[class*=column-grid] *.all-columns {
+  grid-column: 1/-1;
+}
+div[class*=column-grid] *.second-column {
+  grid-column: 2/2;
+}
+div[class*=column-grid] *.three-column-span {
+  grid-column: span 3;
+}
+div[class*=column-grid] *.four-column-span {
+  grid-column: span 4;
+}
+
+div.nested {
+  width: 100%;
+  justify-content: space-between;
+}
+div.nested div.nested label {
+  justify-self: right;
+}
+
+/**** Line Styles ****/
+div[class*=divider] {
+  background-color: var(--border-color);
+}
+
+div[class*=vertical-divider] {
+  height: 100%;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  width: 2px;
+}
+
+div.thin-vertical-divider {
+  width: 1px;
+}
+
+div.fat-vertical-divider {
+  width: 3px;
+}
+
+div[class*=horizontal-divider] {
+  width: 100%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+div.thin-horizontal-divider {
+  height: 1px;
+}
+
+/**** Eyecandy Styles ****/
+img.eyecandy {
+  height: 1.2rem;
+  width: auto;
+  margin-right: 0.3rem;
+}
+img.eyecandy .small {
+  height: 0.8rem;
+}
+img.eyecandy .medium {
+  height: 1.2rem;
 }
 
 /**** Text Styles ****/
@@ -70,183 +607,8 @@ div.row-divider {
   border-top: solid 1px var(--border-color);
 }
 
-div.bold-text {
-  font-weight: bold;
-}
-
-/**** Display Styles ****/
-*.container {
-  display: contents;
-}
-
-*.hidden {
-  display: none !important;
-}
-
-/**** Layout Styles ****/
-*.full-width, div.button-bar, html, body, .full-page {
-  width: 100%;
-}
-
-*.full-height, html, body, .full-page {
-  height: 100%;
-}
-
-*.full-page {
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-}
-
-*.full-size {
-  flex-grow: 1;
-  overflow: hidden;
-}
-
-*.scrollable {
-  overflow: hidden;
-}
-
-*.column-block {
-  display: flex;
-  flex-direction: column;
-}
-*.column-block.a-little-spaced-out, div.column-block.button-bar {
-  row-gap: 0.25rem;
-}
-*.column-block.somewhat-spaced-out {
-  row-gap: 0.5rem;
-}
-*.column-block.spaced-out {
-  row-gap: 1rem;
-}
-*.column-block.very-spaced-out {
-  row-gap: 2rem;
-}
-*.column-block.totally-spaced-out {
-  align-content: space-between;
-}
-*.column-block.left-aligned {
-  align-items: flex-start;
-}
-*.column-block.right-aligned, div.column-block.button-bar {
-  align-items: flex-end;
-}
-*.column-block.column-centered {
-  align-items: center;
-}
-*.column-block.row-centered {
-  justify-content: center;
-}
-*.column-block.top-aligned {
-  justify-content: flex-start;
-}
-*.column-block.bottom-aligned {
-  justify-content: flex-end;
-}
-
-/* column-block */
-*.row-block, div.button-bar, *.flex-block {
-  display: flex;
-  flex-direction: row;
-}
-*.row-block.a-little-spaced-out, div.button-bar, *.flex-block.a-little-spaced-out {
-  column-gap: 0.25rem;
-}
-*.row-block.somewhat-spaced-out, div.somewhat-spaced-out.button-bar, *.flex-block.somewhat-spaced-out {
-  column-gap: 0.5rem;
-}
-*.row-block.spaced-out, div.spaced-out.button-bar, *.flex-block.spaced-out {
-  column-gap: 1rem;
-}
-*.row-block.very-spaced-out, div.very-spaced-out.button-bar, *.flex-block.very-spaced-out {
-  column-gap: 2rem;
-}
-*.row-block.totally-spaced-out, div.totally-spaced-out.button-bar, *.flex-block.totally-spaced-out {
-  justify-content: space-between;
-}
-*.row-block.left-aligned, div.left-aligned.button-bar, *.flex-block.left-aligned {
-  justify-content: flex-start;
-}
-*.row-block.right-aligned, div.button-bar, *.flex-block.right-aligned {
-  justify-content: flex-end;
-}
-*.row-block.column-centered, div.column-centered.button-bar, *.flex-block.column-centered {
-  justify-content: center;
-}
-*.row-block.row-centered, div.row-centered.button-bar, *.flex-block.row-centered {
-  align-items: center;
-}
-*.row-block.top-aligned, div.top-aligned.button-bar, *.flex-block.top-aligned {
-  align-items: flex-start;
-}
-*.row-block.bottom-aligned, div.bottom-aligned.button-bar, *.flex-block.bottom-aligned {
-  align-items: flex-end;
-}
-
-/* row-block */
-*.centered {
-  align-items: center;
-  justify-content: center;
-}
-
-/**** Margin Styles ****/
-*.with-some-left-space, .with-some-row-space, *.with-some-space {
-  margin-left: 0.5rem;
-}
-
-*.with-left-space, .with-row-space, *.with-with-space {
-  margin-left: 1rem;
-}
-
-*.with-lotsa-left-space, .with-lotsa-row-space, *.with-lotsa-space {
-  margin-left: 2rem;
-}
-
-*.with-some-right-space, .with-some-row-space, *.with-some-space {
-  margin-right: 0.5rem;
-}
-
-*.with-right-space, .with-row-space, *.with-with-space {
-  margin-right: 1rem;
-}
-
-*.with-lotsa-right-space, .with-lotsa-row-space, *.with-lotsa-space {
-  margin-right: 2rem;
-}
-
-*.with-some-headspace, div.button-bar, .with-some-room, *.with-some-space {
-  margin-top: 0.5rem;
-}
-
-*.with-headspace, .with-room, *.with-with-space {
-  margin-top: 1rem;
-}
-
-*.with-lotsa-headspace, .with-lotsa-room, *.with-lotsa-space {
-  margin-top: 2rem;
-}
-
-*.with-some-legroom, .with-some-room, *.with-some-space {
-  margin-bottom: 0.5rem;
-}
-
-*.with-legroom, .with-room, *.with-with-space {
-  margin-bottom: 1rem;
-}
-
-*.with-lotsa-legroom, .with-lotsa-room, *.with-lotsa-space {
-  margin-bottom: 2rem;
-}
-
-/**** Positioning Styles ****/
-div.full-screen, div.blackout {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  margin: 0;
+div.warning {
+  color: #A00;
 }
 
 /**** Button Styles ****/
@@ -263,59 +625,12 @@ div.glyph-arrow.sort-arrow {
   border-top-color: var(--sort-arrow-color);
 }
 
-/**** Grid and Table Styles ****/
-div[class*=two-column-] {
-  grid-template-columns: repeat(2, min-content);
+div.link {
+  cursor: pointer;
+  color: #048;
 }
 
-div[class*=three-column-] {
-  grid-template-columns: repeat(3, min-content);
-}
-
-div[class*=four-column-] {
-  grid-template-columns: repeat(4, min-content);
-}
-
-div[class*=five-column-] {
-  grid-template-columns: repeat(5, min-content);
-}
-
-div[class*=six-column-] {
-  grid-template-columns: repeat(6, min-content);
-}
-
-div[class*=-column-grid] {
-  display: grid;
-  align-items: center;
-  justify-content: center;
-  column-gap: 0.5rem;
-  row-gap: 0.2rem;
-}
-div[class*=-column-grid].left-aligned {
-  justify-content: flex-start;
-}
-div[class*=-column-grid].right-aligned, div[class*=-column-grid].button-bar {
-  justify-content: flex-end;
-}
-div[class*=-column-grid] label {
-  display: inline-flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-end;
-}
-div[class*=-column-grid] *.full-width, div[class*=-column-grid] html, div[class*=-column-grid] body, div[class*=-column-grid] .full-page, div[class*=-column-grid] div.button-bar {
-  grid-column: 1/-1;
-}
-
-div.nested {
-  width: 100%;
-  justify-content: space-between;
-}
-div.nested div.nested label {
-  justify-self: right;
-}
-
-/**** Form Styles ****/
+/**** List Styles ****/
 div.checkbox-list {
   margin-left: 1rem;
 }
@@ -324,6 +639,18 @@ div.checkbox-list label {
   justify-content: flex-start;
 }
 
+ul.bullet-list {
+  list-style: disc;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+ul.bullet-list li {
+  margin-left: 2rem;
+  line-height: 95%;
+}
+
+/**** Form Styles ****/
 div.form-table {
   display: inline-grid;
   grid-template-columns: min-content 1fr;
@@ -344,36 +671,6 @@ form div.compact input, form div.compact select {
   width: 8.5rem;
 }
 
-/**** Eyecandy Styles ****/
-img.eyecandy {
-  height: 1.2rem;
-  width: auto;
-  margin-right: 0.3rem;
-}
-img.eyecandy .small {
-  height: 0.8rem;
-}
-img.eyecandy .medium {
-  height: 1.2rem;
-}
-
-/********/
-div.blackout {
-  background-color: black;
-  opacity: 0.4;
-  z-index: 5;
-}
-
-div.popup-window {
-  position: absolute;
-  left: 50%;
-  top: 25%;
-  transform: translate(-50%);
-  padding: 2em;
-  border: var(--popup-border);
-  border-radius: 0.2rem;
-  filter: drop-shadow(0.15em 0.15em 0.1em #666);
-  background-color: #FFFFFD;
-  transition: opacity 0.25s ease-in-out;
-  z-index: 10;
+div.scroll-block {
+  border-right: var(--table-border);
 }

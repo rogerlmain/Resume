@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Resume.Models;
 
 
-namespace RogerLMain.Classes {
+namespace Resume.Classes {
 
 	public class DataContext: DbContext {
 
@@ -11,7 +12,11 @@ namespace RogerLMain.Classes {
 		/********/
 
 
-		// public DbSet<SAMPLE_CLASS> sample_context { get; set; }
+		public DbSet<CategoryModel> categories { get; set; }
+		public DbSet<EmploymentModel> employment { get; set; }
+		public DbSet<LookupsModel> lookups { get; set; }
+		public DbSet<LookupTypesModel> lookup_types { get; set; }
+		public DbSet<TechnologyModel> technologies { get; set; }
 
 
 		public DataContext (DbContextOptions<DataContext> context) : base (context) {}

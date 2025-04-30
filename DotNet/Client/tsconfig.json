@@ -6,10 +6,12 @@
     ],
     "compilerOptions": {
         "lib": [ "ESNext", "DOM", "WebWorker", "DOM.Iterable" ],
+        "target": "ESNext",
+        "moduleResolution": "Bundler",
+
         "baseUrl": "src",
-        "paths": {
-            "src/*": [ "./src/*" ]
-        },
+        "paths": { "src/*": [ "./src/*" ] },
+
         "jsx": "react-jsx",
         "strictNullChecks": false,
         "noImplicitAny": false,
@@ -17,5 +19,6 @@
         "useDefineForClassFields": false,
         "emitDecoratorMetadata": true,
         "sourceMap": true
+
     }
 }

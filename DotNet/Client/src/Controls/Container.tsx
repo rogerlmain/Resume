@@ -3,7 +3,7 @@ import { Component } from "react";
 
 
 class ComponentProps extends Fertile { 
-	public id?: string = null;
+	public id?: string;
 }// ComponentProps;
 
 

@@ -1,4 +1,4 @@
-import { DateFormats } from "Classes/Globals";
+import { DateFormat, StringList } from "Classes/Globals";
 import { Component } from "react";
 
 
@@ -12,13 +12,17 @@ declare global {
 		add (value: T): Array<T>
 		append (value: T): Array<T>
 		assign (template: Array<any>, data_type: any): Array<T>
-		contains (value: any): boolean
+		contains (value: T, case_sensitive?: boolean): boolean;
 		getDates (fieldname: string): Array<Date>
+		getIndex (value: T, case_sensitive?: boolean, fromIndex?: number): number;
 		getIntegers (allow_non_numeric?: boolean): Array<number>
+		insert (item: any, fieldname?: string): void;
 		list (fieldname: string): Array<any>
 		remove (value: T): Array<T>
+		sortby (fieldname: string, copy?: boolean): Array<T>;
 		sorted (fieldname: string): Array<T>
 
+		get cleaned (): Array<T>;
 		get empty (): boolean
 
 	}// Array<T>;
@@ -27,17 +31,17 @@ declare global {
 	interface DateConstructor {
 		current_date (): Date;
 		earlier (value: Date);
-		format (date_value: string | Date, format?: DateFormats): string;
+		format (date_value: string | Date, format?: DateFormat): string;
 		later (value: Date);
 		month_name (month: number): string;
-		today (format?: DateFormats): string;
+		today (format?: DateFormat): string;
 		weekday_name (day: number): string;
 	}// DateConstructor;
 
 
 	interface Date {
 		appended_day (): string;
-		format (template: string): string;
+		format (template: string | DateFormat): string;
 		timestamp (): number;
 		toUnix (): number;
 	}// Date;
@@ -106,6 +110,7 @@ declare global {
 		copy (...candidates: Object []): Object;
 		hasKey (key_name: string): boolean;
 		matches (candidate: any): boolean;
+		nested_field (field_name): any;
 		merge (...candidates: Object []): Object;
 		toJson (): string;
 
@@ -124,6 +129,7 @@ declare global {
 		Empty: string;
 		Space: string;
 		Comma: string;
+		Underscore: string;
 
 		isString (candidate: any): boolean;
 
@@ -143,7 +149,11 @@ declare global {
 		trimmedStart (value: string);
 		trimmedEnd (value: string);
 		trimmed (value: string): string;
+
+		get is_numeric (): boolean;
 		get null_value (): string;
+		get underscored (): string;
+
 
 	}// String;
 
@@ -191,7 +201,7 @@ Array.prototype.assign = function (template: Array<any>, data_type: any = Object
 }// assign;
 
 
-Array.prototype.contains = function (value: any) { return this.indexOf (value) > -1 };
+Array.prototype.contains = function<TModel> (value: TModel, case_sensitive: boolean = true) { return this.getIndex (value, case_sensitive) > -1 };
 
 
 Array.prototype.getDates = function (fieldname: string): Array<Date> {
@@ -208,6 +218,17 @@ Array.prototype.getDates = function (fieldname: string): Array<Date> {
 	return result;
 
 }// getDates;
+
+
+Array.prototype.getIndex = function<TModel> (value: TModel, case_sensitive: boolean = true, fromIndex: number = 0): number {
+
+	for (let index: number = fromIndex; index < this.length; index++) {
+		if ((String.isString (value) && case_sensitive) ? this [index].matches (value) : (this [index] == value)) return index;
+	}// for;
+
+	return -1;
+
+}// getIndex;
 
 
 Array.prototype.getIntegers = function (allow_non_numeric: boolean = false): Array<number> {
@@ -231,6 +252,17 @@ Array.prototype.getIntegers = function (allow_non_numeric: boolean = false): Arr
 }// getIntegers;
 
 
+Array.prototype.insert = function (item: any, fieldname: string = "value") {
+
+	for (let index = 0; index < this.length; index++) {
+		if (this [index][fieldname] > item [fieldname]) return this.splice (index, 0, item);
+	}// for;
+
+	this.push (item);
+
+}// insert;
+
+
 Array.prototype.list = function (fieldname: string): Array<any> {
 
 	let result = null;
@@ -251,6 +283,16 @@ Array.prototype.remove = function<T> (value: T): Array<T> {
 }// remove;
 
 
+Array.prototype.sortby = function<T> (fieldname: string, copy: boolean = true): Array<T> {
+
+	let sort_routine: (a: any, b: any) => number = (previous: Object, next: Object) => next.nested_field (fieldname) < previous.nested_field (fieldname) ? 1 : -1;
+
+	if (copy) return this.toSorted (sort_routine);
+	return this.sort (sort_routine);
+
+}// sortby;
+
+
 Array.prototype.sorted = function<T> (fieldname: string): Array<T> {
 	let result: Array<T> = this.toSorted ((previous: Object, next: Object) => next [fieldname] < previous [fieldname] ? 1 : -1);
 	return result;
@@ -258,7 +300,21 @@ Array.prototype.sorted = function<T> (fieldname: string): Array<T> {
 
 
 Object.defineProperties (Array.prototype, {
+
+	cleaned: { 
+		get: function<T> (): Array<T> {
+
+			for (let index = (this.length - 1); index > -1; index--) {
+				if (this [index].matches (String.Empty)) this.splice (index, 1);
+			}// for;
+
+			return this;
+
+		}// get;
+	},// cleaned;
+
 	empty: { get: function () { return this.length == 0 } },
+
 });
 
 
@@ -285,14 +341,14 @@ Date.earlier = function (value: String | Date): boolean {
 }// earlier;
 
 
-Date.format = function (date_value: string | Date, format: DateFormats = DateFormats.readable): string {
+Date.format = function (date_value: string | Date, format: DateFormat = DateFormat.readable): string {
 
 	if (is_null (date_value)) return null;
 
 	let date: Date = (date_value instanceof Date) ? date_value : new Date (date_value);
 
-	if (format == DateFormats.readable) return `${(date.getMonth () + 1).toString ().padStart (2, "0")}-${date.getDate ().toString ().padStart (2, "0")}-${date.getFullYear ()}`;
-	if (format == DateFormats.database) return `${date.getFullYear ()}-${(date.getMonth () + 1).toString ().padStart (2, "0")}-${date.getDate ().toString ().padStart (2, "0")}`;
+	if (format == DateFormat.readable) return `${(date.getMonth () + 1).toString ().padStart (2, "0")}-${date.getDate ().toString ().padStart (2, "0")}-${date.getFullYear ()}`;
+	if (format == DateFormat.database) return `${date.getFullYear ()}-${(date.getMonth () + 1).toString ().padStart (2, "0")}-${date.getDate ().toString ().padStart (2, "0")}`;
 
 	return date.toDateString ();
 
@@ -308,7 +364,7 @@ Date.later = function (value: String | Date): boolean {
 
 Date.month_name = (month: number) => { return ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"][month - 1] }
 
-Date.today = function (format: DateFormats = DateFormats.readable): string { return Date.format (new Date (), format); }
+Date.today = function (format: DateFormat = DateFormat.readable): string { return Date.format (new Date (), format); }
 
 
 Date.weekday_name = (day: number) => { return ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][day - 1] }
@@ -331,15 +387,16 @@ Date.prototype.appended_day = function () {
 }// appended_day;
 
 
-Date.prototype.format = function (template) {
+Date.prototype.format = function (template: string | DateFormat = DateFormat.readable) {
 
 	let hours = this.getHours ();
 	let month = this.getMonth ();
 
-	let result = (template.replace ? template : String.Empty);
+	let format: string = (String.isString (template) ? (template as string) : (template == DateFormat.readable ? "M-d-yyyy" : "yyyy-MM-dd"));
+	let result = (format.replace ? format : String.Empty);
 
-	return result.
-		replace ("yyyy", this.getFullYear ().toString ()).
+	result = result.
+		replace ("yyyy", this.getFullYear ().padded (4)).
 		replace ("MMMM", Date.month_name (month + 1)).
 		replace ("MM", (month + 1).padded (2)).
 		replace ("dd", this.getDate ().padded (2)).
@@ -352,6 +409,8 @@ Date.prototype.format = function (template) {
 		replace ("H", ((hours % 12) || 12).toString ()).
 		replace ("ap", (hours < 12) ? "am" : "pm").
 		replace ("w", Date.weekday_name [this.getDay ()]);
+
+	return result;
 
 }// format;
 
@@ -377,8 +436,9 @@ FormData.prototype.get_data = function (): FormData {
 	let form_data = null;
 
 	this.forEach ((value: FormDataEntryValue, key: string) => {
-		if (is_defined (value)) {
+		if (!key.matches ("null") && is_assigned (value)) {
 			if (is_null (form_data)) form_data = new FormData ();
+			if (String.isString (value) && (value as string).is_numeric) return form_data.append (key, (value as String).parseNumeric ());
 			form_data.append (key, value);
 		}// if;
 	});
@@ -471,7 +531,7 @@ Number.prototype.format = function (decimal_places: number): string {
 }// format;
 
 
-Number.prototype.padded = function (digits: number) { return this.toString ().padStart (digits - this.toString ().length, "0") }
+Number.prototype.padded = function (digits: number) { return this.toString ().padStart (digits, "0") }
 
 
 Number.prototype.padFractions = function (decimal_places: number): string {
@@ -535,37 +595,7 @@ Object.notObjectLike = function (candidate: any): boolean {
 
 
 Object.prototype.assign = function (template: any): any {
-
-	function create_element (element_type: any, template: any) {
-
-		if (Object.notObject (template)) return template;
-		if (not_set (element_type)) element_type = template.GetType;
-
-		let new_element = new element_type ();
-
-		new_element.assign (template);
-		return new_element;
-
-	}// create_element;
-
-
-	for (let item of Object.getOwnPropertyNames (template)) {
-
-		let element = this.properties?.[item];
-
-		if (not_defined (template [item])) continue;
-
-		if (Array.isArray (template [item])) {
-			this [item] = new Array<typeof element> ().assign (template [item], element);
-			continue;
-		}// if;
-
-		this [item] = create_element (element, template [item]);
-
-	}// for;
-
-	return this;
-
+	return Object.assign (this, template);
 }// assign;
 
 
@@ -602,6 +632,13 @@ Object.prototype.merge = function (...candidates: Object []): Object {
 }// merge;
 
 
+Object.prototype.nested_field = function (field_names: string) {
+	let name_list: StringList = field_names.split (period).cleaned;
+	if (name_list.length == 1) return this [name_list [0]];
+	return this [name_list [0]].nested_field (name_list.slice (1).join (period));
+}// nested_field;
+
+
 Object.prototype.toJson = function () { return JSON.stringify (this) }
 
 
@@ -623,6 +660,7 @@ Object.defineProperties (Object.prototype, {
 String.Empty = "";
 String.Space = " ";
 String.Comma = ",";
+String.Underscore = "_";
 
 
 String.isString = function (candidate: any) { return typeof candidate == "string" }
@@ -739,6 +777,8 @@ String.prototype.trimmed = function (value: string = String.Empty) {
 }// trimmed;
 
 
-Object.defineProperty (String.prototype, "null_value", {
-	get: function (): string { return (this.trim () == String.Empty) ? null : this }
-})
+Object.defineProperties (String.prototype, {
+	is_numeric: { get: function (): boolean { return this.parseNumeric ().toString () == this } },
+	null_value: { get: function (): string { return (this.trim () == String.Empty) ? null : this } },
+	underscored: { get: function (): string { return (this.toLowerCase ().trim ().replace (String.Space, String.Underscore)) } }
+});

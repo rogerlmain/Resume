@@ -17,8 +17,8 @@ export default class Eyecandy extends Component<EyecandyProps> {
 
 
 	public render = () => <div className="row-block centered">
-		<img src="Images/eyecandy.gif" className={`eyecandy ${this.props.small ? "small" : null}`} />
+		<img src="Images/eyecandy.gif" className={`${this.props.small ? "small" : null} eyecandy`} />
 		<div className="linear-text">{this.props.text}</div>
 	</div>
 
-}// TransactionEyecandy;
+}// Eyecandy;
