@@ -155,6 +155,20 @@ namespace Server.Controllers {
         }// GetTechnologies;
 
 
+        [HttpPost]
+        [Route ("GetTechnologies")]
+        public IActionResult GetTechnologies ([FromBody] Guid category_id) {
+
+			List<TechnologyModel>? options = (from item in context.technologies 
+				where item.category_id == category_id
+				select item
+			).ToListOrNull ();
+
+            return new JsonResult (options);
+
+        }// GetTechnologies;
+
+
 		[HttpPost]
 		[Route ("SaveTechnology")]
 		public IActionResult SaveTechnology ([FromBody] TechnologyModel technology) {

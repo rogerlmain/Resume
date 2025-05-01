@@ -45,6 +45,11 @@ export class IDValue<IModel = string> {
 }// IDModel;
 
 
+export class IndexArray<IModel> {
+	[key: string]: IModel;
+}// IndexArray;
+
+
 /**** Lists ****/
 
 

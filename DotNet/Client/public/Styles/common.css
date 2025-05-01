@@ -238,6 +238,9 @@ div.grid-stack > * {
 *.column-block.row-centered, *.row-centered.inline-column-block, *.row-centered.hidden-column-block {
   justify-content: center;
 }
+*.column-block.top-aligned, *.top-aligned.inline-column-block, *.top-aligned.hidden-column-block {
+  align-items: flex-start;
+}
 *.column-block[class*=top][class*=-aligned], *[class*=top][class*=-aligned].inline-column-block, *[class*=top][class*=-aligned].hidden-column-block {
   justify-content: flex-start;
 }
@@ -519,6 +522,9 @@ div[class*=column-grid] label {
   flex-direction: row;
   align-items: center;
   justify-content: flex-end;
+}
+div[class*=column-grid] label.left-aligned {
+  justify-content: flex-start;
 }
 div[class*=column-grid] *.full-width, div[class*=column-grid] div.button-bar, div[class*=column-grid] html, div[class*=column-grid] body, div[class*=column-grid] .full-page {
   grid-column: 1/-1;

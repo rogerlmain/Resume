@@ -1,13 +1,19 @@
 import Database from "Classes/Data/Database";
-import Eyecandy from "Controls/Windows/Eyecandy";
-import SelectList from "Controls/SelectList";
 
-import { EmploymentDetails, EmploymentModel, EmploymentModelList } from "Models/DataModels";
-import { IDValue, IDValueList } from "Models/BaseModels";
+import CheckboxList from "Controls/CheckboxList";
+import DateInput from "Controls/DateInput";
+import Optional from "Controls/Optional";
+import SelectList from "Controls/SelectList";
+import Eyecandy from "Controls/Windows/Eyecandy";
+
 import { DateFormat } from "Classes/Globals";
+import { IDValue, IDValueList, IndexArray } from "Models/BaseModels";
+import { CategoryModelList, EmploymentDetails, EmploymentModel, EmploymentModelList, TechnologyModelList } from "Models/DataModels";
 
 import { ChangeEvent, Component, createRef, RefObject } from "react";
-import DateInput from "../../Controls/DateInput";
+
+
+class TechnologyModelArray extends IndexArray<TechnologyModelList> {}
 
 
 class EditEmploymentState {
@@ -26,6 +32,10 @@ class EditEmploymentState {
 
 	public cities: IDValueList = null;
 	public selected_city: IDValue = null;
+
+	public categories: CategoryModelList = null;
+	public technologies: TechnologyModelArray = null;
+	public active_technologies: TechnologyModelList;
 
 }// EditEmploymentState;
 
@@ -72,6 +82,21 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 		});
 
 	}// get_employment;
+
+
+	private load_technology_list (category_id: string) {
+
+		let result: TechnologyModelList = this.state.technologies?.[category_id];
+		if (isset (result)) return this.setState ({ active_technologies: result });
+
+		Database.get_technologies (category_id).then (response => {
+			let technologies = new TechnologyModelList ().assign (response.sortby ("name"));
+			if (is_null (this.state.technologies)) this.state.technologies = new TechnologyModelArray ();
+			this.state.technologies [category_id] = technologies;
+			this.setState ({ active_technologies: technologies });
+		});
+
+	}// load_technology_list;
 
 
 	private save_employment () {
@@ -169,50 +194,70 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 
 			<div className={`${this.state.editing ? String.Empty : "hidden"} column-block`}>
 
-				<div className="four-column-grid with-lotsa-headspace">
+				<div className="spaced-out row-block with-lotsa-headspace">
 
-					<input type="hidden" value={this.state.active_employment?.id} />
+					<div className="four-column-grid">
 
-					<label htmlFor="company">Company</label>
-					<input type="text" id="company" className="three-column-span" 
-						defaultValue={this.state.active_employment?.company}
-						onChange={(event: ChangeEvent) => this.set_employment_property ("company", (event.currentTarget as HTMLInputElement).value)}>
-					</input>
+						<input type="hidden" value={this.state.active_employment?.id} />
 
-					<label htmlFor="position">Position</label>
-					<input type="text" id="position" className="three-column-span"
-						defaultValue={this.state.active_employment?.position}
-						onChange={(event: ChangeEvent) => this.set_employment_property ("position", (event.currentTarget as HTMLInputElement).value)}>
-					</input>
+						<label htmlFor="company">Company</label>
+						<input type="text" id="company" className="three-column-span" 
+							defaultValue={this.state.active_employment?.company}
+							onChange={(event: ChangeEvent) => this.set_employment_property ("company", (event.currentTarget as HTMLInputElement).value)}>
+						</input>
 
-					<label htmlFor="location">Location</label>
-					<div className="slightly-spaced-out three-column-span row-block">
+						<label htmlFor="position">Position</label>
+						<input type="text" id="position" className="three-column-span"
+							defaultValue={this.state.active_employment?.position}
+							onChange={(event: ChangeEvent) => this.set_employment_property ("position", (event.currentTarget as HTMLInputElement).value)}>
+						</input>
 
-						<SelectList items={this.state.countries} selected_item={this.state.selected_country?.id} 
-							disabled={is_null (this.state.countries)} onChange={this.select_country.bind (this)}>
-						</SelectList>
+						<label htmlFor="location">Location</label>
+						<div className="slightly-spaced-out three-column-span row-block">
 
-						<SelectList items={this.state.states} selected_item={this.state.selected_state?.id} 
-							disabled={is_null (this.state.states)} onChange={this.select_state.bind (this)}>
-						</SelectList>
+							<SelectList items={this.state.countries} selected_item={this.state.selected_country?.id} 
+								disabled={is_null (this.state.countries)} onChange={this.select_country.bind (this)}>
+							</SelectList>
 
-						<SelectList items={this.state.cities} selected_item={this.state.selected_city?.id} 
-							disabled={is_null (this.state.cities)} onChange={this.select_city.bind (this)}>
-						</SelectList>
+							<SelectList items={this.state.states} selected_item={this.state.selected_state?.id} 
+								disabled={is_null (this.state.states)} onChange={this.select_state.bind (this)}>
+							</SelectList>
+
+							<SelectList items={this.state.cities} selected_item={this.state.selected_city?.id} 
+								disabled={is_null (this.state.cities)} onChange={this.select_city.bind (this)}>
+							</SelectList>
+
+						</div>
+
+						<label htmlFor="start_date">Start date</label>
+						<DateInput id="start_date" ref={this.start_date} onChange={this.update_date.bind (this)} value={this.get_date ("start_date")} />
+
+						<label htmlFor="end_date">End date</label>
+						<DateInput id="end_date" ref={this.end_date} onChange={this.update_date.bind (this)} value={this.get_date ("end_date")} />
+
+						<label htmlFor="description" className="full-width left-aligned four-column-span row-block with-headspace">Description</label>
+
+						<textarea id="description" className="four-column-span" value={this.state.active_employment?.description ?? String.Empty}
+							onChange={(event: ChangeEvent) => this.set_employment_property ("description", (event.currentTarget as HTMLInputElement).value)}>
+						</textarea>
 
 					</div>
 
-					<label htmlFor="start_date">Start date</label>
-					<DateInput id="start_date" ref={this.start_date} onChange={this.update_date.bind (this)} value={this.get_date ("start_date")} />
+					<div className="vertical-divider" />
 
-					<label htmlFor="end_date">End date</label>
-					<DateInput id="end_date" ref={this.end_date} onChange={this.update_date.bind (this)} value={this.get_date ("end_date")} />
+					<div className="top-aligned spaced-out column-block">
 
-					<label htmlFor="description" className="full-width left-aligned four-column-span row-block with-headspace">Description</label>
+						<label>Add technologies</label>
+						<div className="row-block">
+							<SelectList items={this.state.categories} disabled={is_null (this.state.categories)} text_field="name"
+								onChange={(event: SelectEvent) => this.load_technology_list ((event.currentTarget as HTMLSelectElement).value)}>
+							</SelectList>
+						</div>
 
-					<textarea id="description" className="four-column-span" value={this.state.active_employment?.description ?? String.Empty}
-						onChange={(event: ChangeEvent) => this.set_employment_property ("description", (event.currentTarget as HTMLInputElement).value)}>
-					</textarea>
+						<Optional condition={isset (this.state.active_technologies)}>
+							<CheckboxList items={this.state.active_technologies} />
+						</Optional>
+					</div>
 
 				</div>
 
@@ -252,6 +297,10 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 			if (is_null (this.state.countries)) this.state.countries = new IDValueList ();
 			this.state.countries.assign (response);
 			this.forceUpdate ();
+		});
+
+		Database.get_categories ().then ((response: CategoryModelList) => {
+			this.setState ({ categories: new CategoryModelList ().assign (response.sortby ("name")) });
 		});
 
 	}// constructor;

@@ -228,6 +228,8 @@ div.grid-stack > * {
 	&.column-centered { align-items: center }
 	&.row-centered { justify-content: center }
 
+	&.top-aligned { align-items: flex-start }
+
 	&[class*="top"][class*="-aligned"] { justify-content: flex-start }
 	&[class*="bottom"][class*="-aligned"] { justify-content: flex-end }
 
@@ -446,7 +448,9 @@ div[class*="column-grid"] {
 		flex-direction: row;
 		align-items: center;
 		justify-content: flex-end;
-	}
+
+		&.left-aligned { justify-content: flex-start }
+	}// label;
 
 	*.full-width { grid-column: 1/-1 }
 

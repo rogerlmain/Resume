@@ -1,6 +1,6 @@
 import APIHandler from "Classes/Data/APIHandler";
 
-import { ChangeEvent } from "react";
+import { ChangeEvent, MouseEvent } from "react";
 
 
 export {};
@@ -24,6 +24,7 @@ declare global {
 
 
 declare global {
+	type ClickEvent = MouseEvent<HTMLInputElement>
 	type SelectEvent = ChangeEvent<HTMLSelectElement>
 }// global;
 
