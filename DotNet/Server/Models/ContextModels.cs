@@ -1,4 +1,6 @@
-﻿namespace Resume.Models {
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Resume.Models {
 
 	public class CategoryModel: IDModel {
 		public required String name { get; set; }
@@ -14,6 +16,16 @@
 		public required DateOnly end_date { get; set; }
 		public required String description { get; set; }
 	}// EmploymentModel;
+
+
+	public class EmploymentTechnologiesModel: IDModel {
+
+		public required Guid employment_id { get; set; }
+
+		[Required]
+		public Guid technology_id { get; set; }
+
+	}// EmploymentTechnologiesModel;
 
 
 	public class LookupsModel: IDModel {

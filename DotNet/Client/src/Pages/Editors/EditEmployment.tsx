@@ -6,8 +6,9 @@ import Optional from "Controls/Optional";
 import SelectList from "Controls/SelectList";
 import Eyecandy from "Controls/Windows/Eyecandy";
 
-import { DateFormat } from "Classes/Globals";
+import { DateFormat, StringList } from "Classes/Globals";
 import { IDValue, IDValueList, IndexArray } from "Models/BaseModels";
+import { EmploymentAPIModel } from "Models/APIModels";
 import { CategoryModelList, EmploymentDetails, EmploymentModel, EmploymentModelList, TechnologyModelList } from "Models/DataModels";
 
 import { ChangeEvent, Component, createRef, RefObject } from "react";
@@ -44,6 +45,10 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 
 	private start_date: RefObject<DateInput> = createRef ();
 	private end_date: RefObject<DateInput> = createRef ();
+	private technology_reference: RefObject<CheckboxList> = createRef ();
+
+
+	private get selected_technologies (): StringList { return this.technology_reference.current.state.selected_items }
 
 
 	private get_date = (date_field: string) => this.state.active_employment?.[date_field]?.format (DateFormat.database) ?? String.Empty;
@@ -102,12 +107,15 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 	private save_employment () {
 		this.setState ({ saving: true }, () => {
 
-			let active_employment = new EmploymentModel ().assign (this.state.active_employment);
+			let employment_data = new EmploymentAPIModel ().assign ({
+				employment: this.state.active_employment,
+				technologies: this.selected_technologies
+			});
 
-			active_employment.start_date = active_employment.start_date.format (DateFormat.database);
-			active_employment.end_date = active_employment.end_date.format (DateFormat.database);
+			employment_data.employment.start_date = employment_data.employment.start_date.format (DateFormat.database);
+			employment_data.employment.end_date = employment_data.employment.end_date.format (DateFormat.database);
 
-			Database.save_employment (active_employment).then ((result: string) => {
+			Database.save_employment (employment_data).then ((result: string) => {
 				if (is_null (this.state.active_employment?.id)) {
 					this.state.employment.insert (this.state.active_employment, "company");
 					this.state.saving = false;
@@ -255,14 +263,14 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 						</div>
 
 						<Optional condition={isset (this.state.active_technologies)}>
-							<CheckboxList items={this.state.active_technologies} />
+							<CheckboxList items={this.state.active_technologies} ref={this.technology_reference} />
 						</Optional>
 					</div>
 
 				</div>
 
 				<div className="full-width right-aligned row-block with-some-headspace">
-					{this.state.saving ? <Eyecandy text="Saving..." /> : <button onClick={this.save_employment.bind (this)}>Save</button>}
+					{/*{this.state.saving ? <Eyecandy text="Saving..." /> : */}<button onClick={this.save_employment.bind (this)}>Save</button>{/*}*/}
 				</div>
 
 			</div>

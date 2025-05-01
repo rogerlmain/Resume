@@ -179,9 +179,27 @@ namespace Server.Controllers {
 
 		[HttpPost]
 		[Route ("SaveEmployment")]
-		public IActionResult SaveEmployment ([FromBody] EmploymentModel employment) {
-			Guid? id = context.employment.Save<EmploymentModel> (employment);
+		public IActionResult SaveEmployment ([FromBody] EmploymentAPIModel model) {
+
+			Guid id = context.employment.Save<EmploymentModel> (model.employment) ?? throw new Exception ("Error saving to employment - id is null.");
+
+			if (model.technologies is not null) {
+
+				context.employment_technologies.Delete (new { employment_id = id });
+
+				List<EmploymentTechnologiesModel>? technology_list = (from tech in model.technologies 
+					select new EmploymentTechnologiesModel () {
+						employment_id = id,
+						technology_id = tech
+					}
+				).ToListOrNull ();
+
+				if (technology_list is not null) context.employment_technologies.SaveAll (technology_list);
+
+			}// if;
+
 			return new JsonResult (id);
+
 		}// SaveEmployment;
 
     }// Main;

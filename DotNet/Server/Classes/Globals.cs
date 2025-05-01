@@ -1,4 +1,5 @@
-﻿global using StringList = System.Collections.Generic.List<System.String>;
+﻿global using GuidList = System.Collections.Generic.List<System.Guid>;
+global using StringList = System.Collections.Generic.List<System.String>;
 
 
 namespace Resume.Classes {

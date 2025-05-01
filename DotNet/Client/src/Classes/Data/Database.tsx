@@ -1,5 +1,6 @@
+import { EmploymentAPIModel } from "Models/APIModels";
 import { IDValueList } from "Models/BaseModels";
-import { CategoryModelList, EmploymentDetails, EmploymentModel, TechnologyModel, TechnologyModelList } from "Models/DataModels";
+import { CategoryModelList, EmploymentDetails, TechnologyModel, TechnologyModelList } from "Models/DataModels";
 
 export default class Database {
 
@@ -11,7 +12,7 @@ export default class Database {
 	public static get_states = (country_id: string): Promise<IDValueList> => api_handler.get_data ("GetStates", country_id);
 	public static get_technologies = (category_id: string = null): Promise<TechnologyModelList> => api_handler.get_data ("GetTechnologies", category_id);
 
-	public static save_employment = (employment: EmploymentModel): Promise<string> => api_handler.set_data ("SaveEmployment", employment);
+	public static save_employment = (employment: EmploymentAPIModel): Promise<string> => api_handler.set_data ("SaveEmployment", employment);
 	public static save_technology = (technology: TechnologyModel): Promise<string> => api_handler.set_data ("SaveTechnology", technology);
 
 }// MigrationDatabase;

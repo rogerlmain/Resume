@@ -1,5 +1,11 @@
 ﻿namespace Resume.Models {
 
+	public class EmploymentAPIModel {
+		public required EmploymentModel employment { get; set; }
+		public GuidList? technologies { get; set; }
+	}// EmploymentAPIModel;
+
+
 	public class EmploymentDetails {
 		public required EmploymentModel employment { get; set; }
 		public required IDValueList countries { get; set; }

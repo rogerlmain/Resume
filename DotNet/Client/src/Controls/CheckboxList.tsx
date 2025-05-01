@@ -53,8 +53,6 @@ export default class CheckboxList extends Component<CheckboxListProps, CheckboxL
 					<label htmlFor={item.id} className="left-aligned">{item.name}</label>
 				</Container>)}
 			</div>
-
-<button onClick={() => alert (JSON.stringify (this.state.selected_items))}>Debug</button>
 		</div>
 	}// render;
 
