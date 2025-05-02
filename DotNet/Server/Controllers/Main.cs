@@ -74,6 +74,23 @@ namespace Server.Controllers {
 		}// GetLocationDetails;
 
 
+		private List<TechnologyDetails>? GetTechnologyDetails (Guid employment_id) {
+
+			List<TechnologyDetails>? result = (from item in context.technologies
+				join etech in context.employment_technologies on item.id equals etech.technology_id into joined_tech
+				from employment_tech in joined_tech.DefaultIfEmpty ()
+				where ((employment_tech.employment_id == employment_id) || (employment_tech == null))
+				select new TechnologyDetails () {
+					technology = item,
+					included = (employment_tech != null)
+				}
+			).ToListOrNull ();
+
+			return result;
+
+		}// GetTechnologyDetails;
+
+
 		/********/
 
 
@@ -121,6 +138,7 @@ namespace Server.Controllers {
 
 			EmploymentModel employment_model = GetEmploymentModel (employment_id) ?? throw new Exception ("Cannot find employment details.");
 			LocationDetails location_details = GetLocationDetails ((Guid) employment_model.location_id!) ?? throw new Exception ("Cannot find location details.");
+			List<TechnologyDetails> technology_list = GetTechnologyDetails (employment_id) ?? throw new Exception ("Cannot find technology details.");
 
 			IDValueList country_list = GetCountryList () ?? throw new Exception ("No countries found.");
 			IDValueList state_list = GetStateList (location_details.country_id) ?? throw new Exception ("No states found.");
@@ -129,6 +147,7 @@ namespace Server.Controllers {
 			EmploymentDetails details = new () {
 				employment = employment_model,
 				countries = country_list,
+				technologies = technology_list,
 				states = state_list,
 				cities = city_list,
 				location = location_details
@@ -157,15 +176,9 @@ namespace Server.Controllers {
 
         [HttpPost]
         [Route ("GetTechnologies")]
-        public IActionResult GetTechnologies ([FromBody] Guid category_id) {
-
-			List<TechnologyModel>? options = (from item in context.technologies 
-				where item.category_id == category_id
-				select item
-			).ToListOrNull ();
-
-            return new JsonResult (options);
-
+        public IActionResult GetTechnologies ([FromBody] Guid employment_id) {
+			List<TechnologyDetails>? details = GetTechnologyDetails (employment_id);
+            return new JsonResult (details);
         }// GetTechnologies;
 
 

@@ -1,4 +1,6 @@
 import TypedArray from "Classes/Collections/TypedArray";
+
+import { TechnologyDetailsList } from "Models/APIModels";
 import { BaseModel, IDValueList } from "Models/BaseModels";
 
 
@@ -18,6 +20,7 @@ export class EmploymentDetails {
 	public states: IDValueList = null;
 	public cities: IDValueList = null;
 	public location: LocationDetails = null;
+	public technologies: TechnologyDetailsList = null;
 }// EmploymentDetails;
 
 

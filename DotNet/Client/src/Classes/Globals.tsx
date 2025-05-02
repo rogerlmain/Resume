@@ -15,7 +15,6 @@ export class StringList extends Array<string> {}
 
 
 declare global {
-
 	type ChangeFunction = (event: SelectEvent) => void;
 }// global;
 

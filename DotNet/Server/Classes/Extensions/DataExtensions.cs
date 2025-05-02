@@ -1,11 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Resume.Models;
-using System;
 using System.Linq.Expressions;
-
-using fex = System.Linq.Expressions.Expression<System.Func<dynamic, bool>>;
 
 
 namespace Resume.Classes.Extensions {

@@ -12,6 +12,7 @@
 		public required IDValueList states { get; set; }
 		public required IDValueList cities { get; set; }
 		public required LocationDetails location { get; set; }
+		public required List<TechnologyDetails> technologies { get; set; }
 	}// EmploymentDetails;
 
 
@@ -20,5 +21,17 @@
 		public required Guid state_id { get; set; }
 		public required Guid city_id { get; set; }
 	}// LocationDetails;
+
+
+	public class TechnologyDetails {
+		public required TechnologyModel technology { get; set; }
+		public required Boolean included { get; set; }
+	}// TechnologyDetails;
+
+
+	public class TechnologyAPIModel {
+		public required Guid category_id { get; set; }
+		public required Guid employment_id { get; set; }
+	}// TechnologyDetailsCatalog;
 
 }// Resume.Models;

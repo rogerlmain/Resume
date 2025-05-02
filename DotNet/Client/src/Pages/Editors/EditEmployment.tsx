@@ -4,17 +4,15 @@ import CheckboxList from "Controls/CheckboxList";
 import DateInput from "Controls/DateInput";
 import Optional from "Controls/Optional";
 import SelectList from "Controls/SelectList";
-import Eyecandy from "Controls/Windows/Eyecandy";
 
 import { DateFormat, StringList } from "Classes/Globals";
-import { IDValue, IDValueList, IndexArray } from "Models/BaseModels";
-import { EmploymentAPIModel } from "Models/APIModels";
-import { CategoryModelList, EmploymentDetails, EmploymentModel, EmploymentModelList, TechnologyModelList } from "Models/DataModels";
+
+import { EmploymentAPIModel, TechnologyDetailsCatalog } from "Models/APIModels";
+import { IDValue, IDValueList } from "Models/BaseModels";
+import { Technology, TechnologyList } from "Models/ClientModels";
+import { CategoryModelList, EmploymentDetails, EmploymentModel, EmploymentModelList } from "Models/DataModels";
 
 import { ChangeEvent, Component, createRef, RefObject } from "react";
-
-
-class TechnologyModelArray extends IndexArray<TechnologyModelList> {}
 
 
 class EditEmploymentState {
@@ -35,8 +33,8 @@ class EditEmploymentState {
 	public selected_city: IDValue = null;
 
 	public categories: CategoryModelList = null;
-	public technologies: TechnologyModelArray = null;
-	public active_technologies: TechnologyModelList;
+	public technologies: TechnologyDetailsCatalog = null;
+	public active_technologies: TechnologyList = null;
 
 }// EditEmploymentState;
 
@@ -45,10 +43,23 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 
 	private start_date: RefObject<DateInput> = createRef ();
 	private end_date: RefObject<DateInput> = createRef ();
-	private technology_reference: RefObject<CheckboxList> = createRef ();
 
 
-	private get selected_technologies (): StringList { return this.technology_reference.current.state.selected_items }
+	private get selected_technologies (): StringList {
+
+		let result: StringList = null;
+
+		this.state.technologies.Keys.forEach ((key: string) => {
+			let technology_list: TechnologyList = this.state.technologies [key];
+			let selections: StringList = technology_list.filteredMap ((technology: Technology) => technology.included ? technology.id : null);
+			if (is_null (selections)) return;
+			if (is_null (result)) result = new StringList ();
+			result.append (selections);
+		});
+
+		return result;
+
+	}// selected_technologies;
 
 
 	private get_date = (date_field: string) => this.state.active_employment?.[date_field]?.format (DateFormat.database) ?? String.Empty;
@@ -70,6 +81,7 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 				countries: response.countries,
 				states: response.states,
 				cities: response.cities,
+				technologies: TechnologyDetailsCatalog.Parse (response.technologies),
 				active_employment: new EmploymentModel ().assign (response.employment),
 				selected_country: response.countries.find ((country: IDValue) => country.id == response.location.country_id),
 				selected_state: response.states.find ((state: IDValue) => state.id == response.location.state_id),
@@ -90,17 +102,8 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 
 
 	private load_technology_list (category_id: string) {
-
-		let result: TechnologyModelList = this.state.technologies?.[category_id];
+		let result: TechnologyList = this.state.technologies?.[category_id];
 		if (isset (result)) return this.setState ({ active_technologies: result });
-
-		Database.get_technologies (category_id).then (response => {
-			let technologies = new TechnologyModelList ().assign (response.sortby ("name"));
-			if (is_null (this.state.technologies)) this.state.technologies = new TechnologyModelArray ();
-			this.state.technologies [category_id] = technologies;
-			this.setState ({ active_technologies: technologies });
-		});
-
 	}// load_technology_list;
 
 
@@ -111,9 +114,6 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 				employment: this.state.active_employment,
 				technologies: this.selected_technologies
 			});
-
-			employment_data.employment.start_date = employment_data.employment.start_date.format (DateFormat.database);
-			employment_data.employment.end_date = employment_data.employment.end_date.format (DateFormat.database);
 
 			Database.save_employment (employment_data).then ((result: string) => {
 				if (is_null (this.state.active_employment?.id)) {
@@ -263,7 +263,10 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 						</div>
 
 						<Optional condition={isset (this.state.active_technologies)}>
-							<CheckboxList items={this.state.active_technologies} ref={this.technology_reference} />
+							<CheckboxList items={this.state.active_technologies}
+								selected_items={this.state.active_technologies?.filteredMap ((item: Technology) => item.included ? item.id : null)}
+								onChange={(technology: Technology, checked: boolean) => technology.included = checked}>
+							</CheckboxList>
 						</Optional>
 					</div>
 

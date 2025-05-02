@@ -1,9 +1,3 @@
-Object.defineProperties (sweep_panel.prototype, {
-	
-	
-});
-
-
 Object.defineProperties (jQuery.fn, {
 	
 	onscreen: {
