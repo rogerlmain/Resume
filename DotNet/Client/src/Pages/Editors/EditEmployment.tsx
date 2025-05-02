@@ -2,7 +2,6 @@ import Database from "Classes/Data/Database";
 
 import CheckboxList from "Controls/CheckboxList";
 import DateInput from "Controls/DateInput";
-import Optional from "Controls/Optional";
 import SelectList from "Controls/SelectList";
 
 import { DateFormat, StringList } from "Classes/Globals";
@@ -33,6 +32,8 @@ class EditEmploymentState {
 	public selected_city: IDValue = null;
 
 	public categories: CategoryModelList = null;
+	public selected_category: string = null;
+
 	public technologies: TechnologyDetailsCatalog = null;
 	public active_technologies: TechnologyList = null;
 
@@ -102,8 +103,8 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 
 
 	private load_technology_list (category_id: string) {
-		let result: TechnologyList = this.state.technologies?.[category_id];
-		if (isset (result)) return this.setState ({ active_technologies: result });
+		let result: TechnologyList = this.state.technologies?.[category_id] ?? null;
+		return this.setState ({ active_technologies: result });
 	}// load_technology_list;
 
 
@@ -257,17 +258,19 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 
 						<label>Add technologies</label>
 						<div className="row-block">
-							<SelectList items={this.state.categories} disabled={is_null (this.state.categories)} text_field="name"
-								onChange={(event: SelectEvent) => this.load_technology_list ((event.currentTarget as HTMLSelectElement).value)}>
+							<SelectList items={this.state.categories} disabled={is_null (this.state.categories)} 
+								text_field="name" selected_item={this.state.selected_category}
+								onChange={(event: SelectEvent) => {
+									this.state.selected_category = (event.currentTarget as HTMLSelectElement).value;
+									this.load_technology_list (this.state.selected_category);
+								}}>
 							</SelectList>
 						</div>
 
-						<Optional condition={isset (this.state.active_technologies)}>
-							<CheckboxList items={this.state.active_technologies}
-								selected_items={this.state.active_technologies?.filteredMap ((item: Technology) => item.included ? item.id : null)}
-								onChange={(technology: Technology, checked: boolean) => technology.included = checked}>
-							</CheckboxList>
-						</Optional>
+						{isset (this.state.active_technologies) ? <CheckboxList items={this.state.active_technologies}
+							selected_items={this.state.active_technologies?.filteredMap ((item: Technology) => item.included ? item.id : null)}
+							onChange={(technology: Technology, checked: boolean) => technology.included = checked}>
+						</CheckboxList> : <div className="full-width column-centered bold-text row-block">No technologies found</div>}
 					</div>
 
 				</div>
