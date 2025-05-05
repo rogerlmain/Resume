@@ -1,3 +1,8 @@
+import "Classes/Prototypes/ArrayPrototypes";
+import "Classes/Prototypes/HTMLElementPrototypes";
+import "Classes/Prototypes/HTMLDivElementPrototypes";
+
+
 import { DateFormat, StringList } from "Classes/Globals";
 import { Component } from "react";
 
@@ -35,23 +40,6 @@ declare global {
 	interface FormData {
 		get_data (): FormData;
 	}// FormData;
-
-
-	interface HTMLElement {
-
-		setClass (value: String, condition: Boolean): void;
-		styleSelector (style: string, value: string): HTMLElement;
-
-		get tagType (): string;
-		get totalWidth (): number;
-		get totalHeight (): number;
-
-	}// HTMLElement;
-
-
-	interface HTMLDivElement {
-		form_data ();
-	}// HTMLDivElement;
 
 
 	interface NumberConstructor {
@@ -139,17 +127,6 @@ declare global {
 	}// String;
 
 }// declare global;
-
-
-declare module "react" {
-	interface HTMLAttributes<T> extends AriaAttributes, DOMAttributes<T> {
-		commas?: string;
-		decimalPlaces?: number;
-		leadingZeros?: boolean;
-		negativeNumbers?: string;
-	}// HTMLAttributes;
-
-}// react;
 
 
 /**** React Component Prototype Functions ****/
@@ -283,73 +260,6 @@ FormData.prototype.get_data = function (): FormData {
 	return form_data;
 
 }// get_data;
-
-
-/**** HTMLElement Prototype Functions ****/
-
-
-HTMLElement.prototype.setClass = function (value: string, condition: Boolean) {
-	if (condition) return this.classList.add (value);
-	this.classList.remove (value);
-}// setClass;
-
-
-HTMLElement.prototype.styleSelector = function (style: string, value: string): HTMLElement {
-
-	for (let child of this.childNodes) {
-
-		let next_child: HTMLElement = (child as HTMLElement);
-
-		if (next_child.style [style].matches (value)) return next_child;
-		return next_child.styleSelector (style, value);
-
-	}// for;
-
-	return null;
-
-}// styleSelector;
-
-
-Object.defineProperties (HTMLElement.prototype, {
-	tagType: {
-		get: function (): string {
-			if (this.tagName == "INPUT") return this.getAttribute ("type").toLowerCase ();
-			return this.tagName.toLowerCase ();
-		}// tagType;
-	},
-
-	totalWidth: {
-		get: function (): number { 
-			let style = window.getComputedStyle (this);
-			return this.offsetWidth + parseInt (style.marginLeft) + parseInt (style.marginRight)
-		}
-	},
-
-	totalHeight: {
-		get: function (): number { 
-			let style = window.getComputedStyle (this);
-			return this.offsetWidth + parseInt (style.marginTop) + parseInt (style.marginBottom)
-		}
-	}
-
-});
-
-
-/**** HTMLDivElement Prototype Functions ****/
-
-
-HTMLDivElement.prototype.form_data = function (): FormData {
-
-	let elements = this.querySelectorAll ("select");
-	let result: FormData = new FormData ();
-
-	elements.forEach (element => {
-		result.append (element.id, element.value);
-	});
-
-	return result;
-
-}// form_data;
 
 
 /**** Number Prototype Functions ****/

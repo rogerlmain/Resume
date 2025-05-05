@@ -7,7 +7,7 @@ class ComponentProps extends Fertile {
 }// ComponentProps;
 
 
-export class Container extends Component<ComponentProps> { 
+export default class Container extends Component<ComponentProps> { 
 
 	public static defaultProps: ComponentProps = { id: null }
 	

@@ -47,7 +47,7 @@ module.exports = {
 		new CopyPlugin ({
 			patterns: [
 				{ from: "*.min.css", to: "Styles", context: "Public/Styles" },
-				{ from: "*", to: "Images", context: "Public/Images" }
+				{ from: "**/*", to: "Images", context: "Public/Images" }
 			]
 		})
 	],

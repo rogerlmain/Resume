@@ -65,7 +65,7 @@ Array.prototype.assign = function (template: AnyArray, data_type: any = Object):
 }// assign;
 
 
-Array.prototype.contains = function<TModel> (value: TModel, case_sensitive: boolean = true) { return this.getIndex (value, case_sensitive) > -1 };
+Array.prototype.contains = function<TModel> (value: TModel, case_sensitive: boolean = false) { return this.getIndex (value, case_sensitive) > -1 };
 
 
 Array.prototype.filteredMap = function (processor: (item: any) => any): AnyArray {

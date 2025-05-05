@@ -1,5 +1,6 @@
+import Container from "Controls/Container";
+
 import { StringList } from "Classes/Globals";
-import { Container } from "Controls/Container";
 
 import { Component } from "react";
 

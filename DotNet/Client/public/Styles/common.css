@@ -1,4 +1,15 @@
-﻿:root {
+﻿.text-block {
+  max-width: 25rem;
+  white-space: break-spaces;
+  text-align: justify;
+}
+
+img.profile {
+  height: 7rem;
+  width: auto;
+}
+
+:root {
   --anchor-color: #444;
   --border-color: #000;
   --element-border-color: #DDF;
@@ -197,60 +208,60 @@ div.grid-stack > * {
   overflow-y: scroll;
 }
 
-*.column-block, .inline-column-block, .fill-size.inline-column-block, .hidden-column-block, .fill-size.hidden-column-block, .column-block.fill-size {
+*.column-block, .inline-column-block, .fill-size.inline-column-block, .hidden-column-block, .fill-size.hidden-column-block, .column-block.fill-size, .fill-size.text-block, .text-block {
   display: flex;
   flex-direction: column;
 }
-*.column-block.minimal, *.minimal.inline-column-block, *.minimal.hidden-column-block {
+*.column-block.minimal, *.minimal.inline-column-block, *.minimal.hidden-column-block, *.minimal.text-block {
   width: min-content;
 }
-*.column-block.slightly-spaced-out, div.column-block.button-bar, *.slightly-spaced-out.inline-column-block, div.inline-column-block.button-bar, *.slightly-spaced-out.hidden-column-block, div.hidden-column-block.button-bar {
+*.column-block.slightly-spaced-out, div.column-block.button-bar, *.slightly-spaced-out.inline-column-block, div.inline-column-block.button-bar, *.slightly-spaced-out.hidden-column-block, div.hidden-column-block.button-bar, *.slightly-spaced-out.text-block, div.text-block.button-bar {
   row-gap: 0.25rem;
 }
-*.column-block.somewhat-spaced-out, *.somewhat-spaced-out.inline-column-block, *.somewhat-spaced-out.hidden-column-block {
+*.column-block.somewhat-spaced-out, *.somewhat-spaced-out.inline-column-block, *.somewhat-spaced-out.hidden-column-block, *.somewhat-spaced-out.text-block {
   row-gap: 0.5rem;
 }
-*.column-block.spaced-out, *.spaced-out.inline-column-block, *.spaced-out.hidden-column-block {
+*.column-block.spaced-out, *.spaced-out.inline-column-block, *.spaced-out.hidden-column-block, *.spaced-out.text-block {
   row-gap: 1rem;
 }
-*.column-block.very-spaced-out, *.very-spaced-out.inline-column-block, *.very-spaced-out.hidden-column-block {
+*.column-block.very-spaced-out, *.very-spaced-out.inline-column-block, *.very-spaced-out.hidden-column-block, *.very-spaced-out.text-block {
   row-gap: 2rem;
 }
-*.column-block.totally-spaced-out, *.totally-spaced-out.inline-column-block, *.totally-spaced-out.hidden-column-block, *.column-block.fully-spaced-out, *.fully-spaced-out.inline-column-block, *.fully-spaced-out.hidden-column-block {
+*.column-block.totally-spaced-out, *.totally-spaced-out.inline-column-block, *.totally-spaced-out.hidden-column-block, *.totally-spaced-out.text-block, *.column-block.fully-spaced-out, *.fully-spaced-out.inline-column-block, *.fully-spaced-out.hidden-column-block, *.fully-spaced-out.text-block {
   align-content: space-between;
   row-gap: 0.25rem;
 }
-*.column-block.slightly-gapped, *.slightly-gapped.inline-column-block, *.slightly-gapped.hidden-column-block {
+*.column-block.slightly-gapped, *.slightly-gapped.inline-column-block, *.slightly-gapped.hidden-column-block, *.slightly-gapped.text-block {
   row-gap: 0.25rem;
 }
-*.column-block.gapped, *.gapped.inline-column-block, *.gapped.hidden-column-block {
+*.column-block.gapped, *.gapped.inline-column-block, *.gapped.hidden-column-block, *.gapped.text-block {
   row-gap: 1rem;
 }
-*.column-block[class*=left][class*=-aligned], *[class*=left][class*=-aligned].inline-column-block, *[class*=left][class*=-aligned].hidden-column-block {
+*.column-block[class*=left][class*=-aligned], *[class*=left][class*=-aligned].inline-column-block, *[class*=left][class*=-aligned].hidden-column-block, *[class*=left][class*=-aligned].text-block {
   align-items: flex-start;
 }
-*.column-block[class*=right][class*=-aligned], *[class*=right][class*=-aligned].inline-column-block, *[class*=right][class*=-aligned].hidden-column-block {
+*.column-block[class*=right][class*=-aligned], *[class*=right][class*=-aligned].inline-column-block, *[class*=right][class*=-aligned].hidden-column-block, *[class*=right][class*=-aligned].text-block {
   align-items: flex-end;
 }
-*.column-block.column-centered, *.column-centered.inline-column-block, *.column-centered.hidden-column-block {
+*.column-block.column-centered, *.column-centered.inline-column-block, *.column-centered.hidden-column-block, *.column-centered.text-block {
   align-items: center;
 }
-*.column-block.row-centered, *.row-centered.inline-column-block, *.row-centered.hidden-column-block {
+*.column-block.row-centered, *.row-centered.inline-column-block, *.row-centered.hidden-column-block, *.row-centered.fill-size.text-block, .text-block {
   justify-content: center;
 }
-*.column-block.top-aligned, *.top-aligned.inline-column-block, *.top-aligned.hidden-column-block {
+*.column-block.top-aligned, *.top-aligned.inline-column-block, *.top-aligned.hidden-column-block, *.top-aligned.text-block {
   align-items: flex-start;
 }
-*.column-block[class*=top][class*=-aligned], *[class*=top][class*=-aligned].inline-column-block, *[class*=top][class*=-aligned].hidden-column-block {
+*.column-block[class*=top][class*=-aligned], *[class*=top][class*=-aligned].inline-column-block, *[class*=top][class*=-aligned].hidden-column-block, *[class*=top][class*=-aligned].text-block {
   justify-content: flex-start;
 }
-*.column-block[class*=bottom][class*=-aligned], *[class*=bottom][class*=-aligned].inline-column-block, *[class*=bottom][class*=-aligned].hidden-column-block {
+*.column-block[class*=bottom][class*=-aligned], *[class*=bottom][class*=-aligned].inline-column-block, *[class*=bottom][class*=-aligned].hidden-column-block, *[class*=bottom][class*=-aligned].text-block {
   justify-content: flex-end;
 }
-*.column-block.fill-width, *.fill-width.inline-column-block, *.fill-width.hidden-column-block, *.column-block.fill-size, *.fill-size.inline-column-block, *.fill-size.hidden-column-block {
+*.column-block.fill-width, *.fill-width.inline-column-block, *.fill-width.hidden-column-block, *.column-block.fill-size, *.fill-size.inline-column-block, *.fill-size.hidden-column-block, *.fill-width.text-block, *.text-block.fill-size {
   flex-grow: 1;
 }
-*.column-block.fill-height, *.fill-height.inline-column-block, *.fill-height.hidden-column-block, *.column-block.fill-size, *.fill-size.inline-column-block, *.fill-size.hidden-column-block {
+*.column-block.fill-height, *.fill-height.inline-column-block, *.fill-height.hidden-column-block, *.column-block.fill-size, *.fill-size.inline-column-block, *.fill-size.hidden-column-block, *.fill-height.text-block, *.text-block.fill-size {
   align-self: stretch;
 }
 /* column-block */
@@ -291,7 +302,7 @@ div.grid-stack > * {
 *.row-block.column-centered, div.column-centered.button-bar, *.column-centered.inline-row-block, *.flex-block.column-centered {
   justify-content: center;
 }
-*.row-block.row-centered, div.row-centered.button-bar, *.row-centered.inline-row-block, *.flex-block.row-centered {
+*.row-block.row-centered, div.row-centered.button-bar, *.row-centered.inline-row-block, *.row-block.text-block, div.text-block.button-bar, *.text-block.inline-row-block, *.flex-block.row-centered, *.flex-block.text-block {
   align-items: center;
 }
 *.row-block[class*=top][class*=-aligned], div[class*=top][class*=-aligned].button-bar, *[class*=top][class*=-aligned].inline-row-block, *.flex-block[class*=top][class*=-aligned] {
@@ -306,14 +317,14 @@ div.grid-stack > * {
 *.row-block.fill-height, div.fill-height.button-bar, *.fill-height.inline-row-block, *.row-block.fill-size, div.fill-size.button-bar, *.fill-size.inline-row-block, *.flex-block.fill-height, *.flex-block.fill-size {
   flex-grow: 1;
 }
-*.row-block.backwards, div.backwards.button-bar, *.backwards.inline-row-block, *.backwards.flex-block.fill-size, *.column-block.backwards, *.backwards.hidden-column-block, *.backwards.inline-column-block {
+*.row-block.backwards, div.backwards.button-bar, *.backwards.inline-row-block, *.backwards.flex-block.fill-size, *.column-block.backwards, *.backwards.text-block, *.backwards.hidden-column-block, *.backwards.inline-column-block {
   flex-direction: column-reverse;
 }
 
-*.row-block.minimal-width, div.minimal-width.button-bar, *.minimal-width.inline-row-block, *.flex-block.minimal-width, *.column-block.minimal-width, *.minimal-width.hidden-column-block, *.minimal-width.inline-column-block {
+*.row-block.minimal-width, div.minimal-width.button-bar, *.minimal-width.inline-row-block, *.flex-block.minimal-width, *.column-block.minimal-width, *.minimal-width.text-block, *.minimal-width.hidden-column-block, *.minimal-width.inline-column-block {
   width: min-content;
 }
-*.row-block.minimal-height, div.minimal-height.button-bar, *.minimal-height.inline-row-block, *.flex-block.minimal-height, *.column-block.minimal-height, *.minimal-height.hidden-column-block, *.minimal-height.inline-column-block {
+*.row-block.minimal-height, div.minimal-height.button-bar, *.minimal-height.inline-row-block, *.flex-block.minimal-height, *.column-block.minimal-height, *.minimal-height.text-block, *.minimal-height.hidden-column-block, *.minimal-height.inline-column-block {
   height: min-content;
 }
 

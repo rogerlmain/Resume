@@ -6,7 +6,9 @@ export { };
 declare global {
 
 	class AnyArray extends Array<any> {}
+	class ReactElementList extends Array<ReactElement> {}
 
+	type ReactElementContainer = ReactElement | ReactElementList;
 
 	type FormField = (HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement)
 	type FormFieldList = NodeListOf<FormField>

@@ -1,0 +1,13 @@
+.text-block {
+	@extend .column-block;
+	@extend .row-centered;
+	max-width: 25rem;
+	white-space: break-spaces;
+	text-align: justify;
+}// text-block;
+
+
+img.profile {
+	height: 7rem;
+	width: auto;
+}
