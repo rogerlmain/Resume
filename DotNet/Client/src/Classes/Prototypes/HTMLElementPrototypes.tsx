@@ -7,9 +7,6 @@ export {}
 type TransitionEndEventType = (this: HTMLElement, event: any) => any;
 
 
-const transitions_complete_event = new CustomEvent ("transitionscomplete", { bubbles: true });
-
-
 declare global {
 
 	interface HTMLElement {
@@ -78,29 +75,6 @@ HTMLElement.prototype.addEventListener = function (event: string, handler: Trans
 	this.hasTransitionsComplete = (event == "transitionscomplete");
 	nativeEventListener (event, handler);
 }// addEventListener;
-
-
-var previous_event: TransitionEvent = null;
-
-
-window.addEventListener ("transitionend", (event: TransitionEvent) => {
-
-	let element: HTMLElement = event.target as HTMLElement;
-
-	if (!element.hasTransitionsComplete) return;
-
-previous_event = event;
-
-	let transitions = get_transitions_list (element);
-
-	if (!element.transitionEvents?.contains (event.propertyName)) {
-		if (not_set (element.transitionEvents)) element.transitionEvents = new StringList ();
-		element.transitionEvents.push (event.propertyName);
-	}// if;
-
-	if (is_empty (transitions.filter ((item: string) => !element.transitionEvents.contains (item)))) element.dispatchEvent (transitions_complete_event);
-	
-});
 
 
 Object.defineProperties (HTMLElement.prototype, {

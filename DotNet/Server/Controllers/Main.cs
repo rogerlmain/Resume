@@ -132,6 +132,14 @@ namespace Server.Controllers {
 		}// GetCountries;
 
 
+		[HttpGet]
+		[Route ("GetEmployment")]
+		public IActionResult GetEmployment () {
+			List<EmploymentModel>? result = (from employment in context.employment select employment).ToList ().SortBy ("start_date");
+			return new JsonResult (result);
+		}// GetEmployment;
+
+
 		[HttpPost]
 		[Route ("GetEmployment")]
 		public IActionResult GetEmployment ([FromBody] Guid employment_id) {

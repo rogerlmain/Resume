@@ -76,12 +76,15 @@ declare global {
 	/********/
 
 
+	var conditional: Function;
+
 	var is_array: Function;
 	var is_function: Function;
 	var is_object: Function;
 	var is_string: Function;
 
-	var conditional: Function;
+	var random: Function;
+	var round: Function;
 
 	var event_handler: EventTarget;
 
@@ -155,12 +158,15 @@ global.not_undefined = (value: any): boolean => !is_undefined (value);
 /********/
 
 
+global.conditional = (condition: boolean, output: any): string => condition ? output : String.Empty;
+
 global.is_array = (value: any) => value instanceof Array;
 global.is_function = (value: any): boolean => (value instanceof Function);
 global.is_object = (value: any): boolean => ((value instanceof Object) && (!is_function (value)));
 global.is_string = (value: any): boolean => (typeof value == "string");
 
-global.conditional = (condition: boolean, output: any): string => condition ? output : String.Empty;
+global.random = (lower: number, upper: number) => Math.round (Math.random () * (upper - lower) + lower);
+global.round = (value: number, decimal_places: number) => Math.round (value * (Math.pow (10, decimal_places - 1))) / Math.pow (10, decimal_places - 1);
 
 global.event_handler = new EventTarget ();
 

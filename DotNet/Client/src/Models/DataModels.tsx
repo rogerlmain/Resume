@@ -9,6 +9,9 @@ export class EmploymentModelList extends TypedArray { public constructor () { su
 export class TechnologyModelList extends TypedArray { public constructor () { super (TechnologyModel) } }
 
 
+export type EmploymentType = EmploymentDetails | EmploymentModelList;
+
+
 export class CategoryModel extends BaseModel {
 	public name: string = null;
 }// CategoryModel;
@@ -38,6 +41,7 @@ export class EmploymentModel extends BaseModel {
     public start_date: Date = null;
     public end_date: Date = null;
     public description: string = null;
+	public date_percentage: number = null;
 }// EmploymentModel;
 
 

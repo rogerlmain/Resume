@@ -160,6 +160,7 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 
 
 	private set_employment_property (property: string, value: any) {
+		if (is_null (this.state.active_employment)) this.state.active_employment = new EmploymentModel ();
 		this.state.active_employment [property] = value;
 		this.forceUpdate ();
 	}// set_employment_property;

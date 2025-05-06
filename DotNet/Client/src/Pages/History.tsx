@@ -1,98 +1,52 @@
-import PulseDot, { PulseDotArray } from "Controls/Animation/PulseDot";
-import { Coordinates } from "Controls/Animation/Coordinates";
+import Database from "Classes/Data/Database";
+import Timeline from "Controls/Animation/Timeline";
 
-import { Component, createRef, RefObject } from "react";
+import Container from "Controls/Container";
+
+import { Coordinates } from "Controls/Animation/Coordinates";
+import { EmploymentModelList, EmploymentType } from "Models/DataModels";
+
+import { Component } from "react";
 
 
 class HistoryPageState {
-	context: CanvasRenderingContext2D = null;
-	coordinates: Coordinates = null;
-	pulse_dots: PulseDotArray = null;
+	public employment: EmploymentModelList = null;
 }// HistoryPageState;
 
 
 export default class HistoryPage extends Component<Object, HistoryPageState> {
 
-	private canvas_ref: RefObject<HTMLCanvasElement> = createRef ();
-
-
-	private get canvas (): HTMLCanvasElement { return this.canvas_ref.current }
-
-
-	/********/
-
-
 	public state: HistoryPageState = new HistoryPageState ();
 
 
-	private draw_line () {
-
-		this.state.coordinates.x++;
-
-		this.state.context.lineTo (this.state.coordinates.x, this.state.coordinates.y);
-		this.state.context.stroke ();
-
-		if (this.state.coordinates.x < 700) setTimeout (() => this.draw_line ());
-
-	}// move_line;
-
-
-	private add_pulse_dot () {
-		if (is_null (this.state.pulse_dots)) this.state.pulse_dots = new PulseDotArray ();
-		this.state.pulse_dots.push (<PulseDot onComplete={() => {/*alert ("pulse dot complete")*/}} />);
-		this.forceUpdate ();
-	}// pulsate;
-
-
-	public animate () {
-
-		this.add_pulse_dot ();
-
-return;
-
-		this.state.coordinates = new Coordinates (50, 50);
-
-		this.state.context.strokeStyle = "#000000";
-		this.state.context.lineWidth = 2;
-
-		this.state.context.beginPath ();
-		this.state.context.moveTo (this.state.coordinates.x, this.state.coordinates.y);
-
-		this.draw_line ();
-
-	}// animate;
-
-
-	public componentDidMount () {
-/*
-		this.setState ({ context: this.canvas.getContext ("2d") }, () => {
-			this.canvas.width = parseInt (window.getComputedStyle (this.canvas).width);
-			this.canvas.height = parseInt (window.getComputedStyle (this.canvas).height);
-		});
-*/
-	}// componentDidMount;
-
-
 	public render () {
-		return <div className="column-centered full-size column-block">
+		return <Container>
+			{/*<Optional condition={isset (this.state.employment)}>*/}
+				<div className="column-centered full-size column-block outlined">
 
-			<div className="Title">History</div>
+					<div className="Title">History</div>
 
-<button onClick={this.animate.bind (this)}>Doit</button>
-<button onClick={() => alert (window.devicePixelRatio)}>Showme</button>
+					<Timeline data={this.state.employment} />
 
-			<div className="full-size outlined" style={{ position: "relative" }}>
+				</div>
 {/*
-				<canvas key="main_canvas" id="main_canvas" className="full-page" style={{ 
-					border: "solid 1px blue",
-					imageRendering: "pixelated"
-				}} ref={this.canvas_ref} />
+			</Optional>
+
+			<Optional condition={not_set (this.state.employment)}>
+				<div className="fully-centered full-page column-block">
+					<Eyecandy text="Loading..." />
+				</div>
+			</Optional>
 */}
-				{this.state.pulse_dots}
-
-			</div>
-
-		</div>
+		</Container>
 	}// render;
+
+
+	public constructor (props: Object) {
+		super (props);
+		Database.get_employment ().then ((employment: EmploymentType) => {
+			this.setState ({ employment: new EmploymentModelList ().assign (employment)});
+		});
+	}// constructor;
 
 }// HistoryPage;

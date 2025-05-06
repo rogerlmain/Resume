@@ -99,7 +99,7 @@ export default class MainPage extends Component<Object, MainPageState> {
 
 					<div className="full-size fully-centered flex-block">
 						<FadePanel className="full-page" ref={this.main_panel_ref} speed={default_speed} 
-							onShow={() => { if (isset (this.current_page ["animate"])) this.current_page ["animate"] ()} }>
+							onShow={() => { if (isset (this?.current_page?.["animate"])) this.current_page ["animate"] ()} }>
 							{this.active_page}
 						</FadePanel>
 					</div>
