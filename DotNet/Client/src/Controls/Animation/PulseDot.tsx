@@ -93,7 +93,7 @@ export default class PulseDot extends Component<PulseDotProps> {
 
 	private inner_transition_end (event: Event) {
 		this.inner_dot.ontransitionend = null;
-		alert ("transition complete");
+		if (isset (this.props.onComplete)) this.props.onComplete ();
 	}// inner_transition_end;
 
 
@@ -119,7 +119,7 @@ export default class PulseDot extends Component<PulseDotProps> {
 			height: `${this.props.dimensions.height}px`,
 			left: `${this.props.coordinates.x - (this.props.dimensions.width / 2)}px`,
 			top: `${this.props.coordinates.y - (this.props.dimensions.height / 2)}px`
-		}), 1000);
+		}), 10);
 
 	}// componentDidMount;
 

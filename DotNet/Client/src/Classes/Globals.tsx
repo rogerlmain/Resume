@@ -166,7 +166,7 @@ global.is_object = (value: any): boolean => ((value instanceof Object) && (!is_f
 global.is_string = (value: any): boolean => (typeof value == "string");
 
 global.random = (lower: number, upper: number) => Math.round (Math.random () * (upper - lower) + lower);
-global.round = (value: number, decimal_places: number) => Math.round (value * (Math.pow (10, decimal_places - 1))) / Math.pow (10, decimal_places - 1);
+global.round = (value: number, decimal_places: number) => Math.round (value * (Math.pow (10, decimal_places))) / Math.pow (10, decimal_places);
 
 global.event_handler = new EventTarget ();
 
