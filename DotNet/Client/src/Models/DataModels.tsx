@@ -41,7 +41,7 @@ export class EmploymentModel extends BaseModel {
     public start_date: Date = null;
     public end_date: Date = null;
     public description: string = null;
-	public date_percentage: number = null;
+	public line_length: number = null;
 }// EmploymentModel;
 
 

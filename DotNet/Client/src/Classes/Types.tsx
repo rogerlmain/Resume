@@ -1,6 +1,7 @@
 import { ChangeEvent, ReactElement } from "react";
 
-export { };
+
+export {};
 
 
 declare global {
@@ -13,6 +14,7 @@ declare global {
 	type FormField = (HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement)
 	type FormFieldList = NodeListOf<FormField>
 
+	type NumberString = string | number
 	type FieldValue = string | number | Date
 
 	type StringObject = string | Object

@@ -146,12 +146,10 @@ a:hover {
 }
 
 /**** Layout Styles ****/
-div.grid-stack {
+*.stacked {
   display: grid;
-  grid-template-columns: min-content;
 }
-
-div.grid-stack > * {
+*.stacked > * {
   grid-area: 1/1;
 }
 
@@ -349,6 +347,11 @@ div.three-row-block {
 
 *.wrappable {
   white-space: normal;
+}
+
+*.wrapped, *.wrapped * {
+  white-space: normal;
+  text-align: justify;
 }
 
 *.padded-cell {

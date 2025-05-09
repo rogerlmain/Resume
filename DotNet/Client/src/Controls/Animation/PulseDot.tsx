@@ -5,17 +5,12 @@ import { Coordinates, Dimensions } from "Controls/Animation/Coordinates";
 import { Component, createRef, CSSProperties, RefObject } from "react";
 
 
-type EventFunction = (event: Event) => void;
-
-
 const default_speed: number = 0.5;
-const default_dimensions: Dimensions = { width: 15, height: 15 }
-const default_coordinates: Coordinates = { x: 50, y: 50 }
+const default_dimensions: Dimensions = new Dimensions ().assign ({ width: 15, height: 15 });
 
 
 class PulseDotProps {
 	public speed?: number;
-	public coordinates?: Coordinates;
 	public dimensions?: Dimensions;
 	public onComplete?: Function;
 }// PulseDotProps;
@@ -34,6 +29,15 @@ export default class PulseDot extends Component<PulseDotProps> {
 	private get inner_dot (): HTMLDivElement { return this.inner_dot_reference.current }
 
 
+	private get compartment_style (): CSSProperties {
+		return {
+			position: "relative",
+			width: this.props.dimensions.width, 
+			height: this.props.dimensions.height
+		}// style;
+	}// compartment_style;
+
+
 	private transition (speed: number): string { return `opacity ${speed}s, width ${speed}s, height ${speed}s, left ${speed}s, top ${speed}s` }
 
 
@@ -42,13 +46,14 @@ export default class PulseDot extends Component<PulseDotProps> {
 			position: "absolute",
 			width: 0,
 			height: 0,
-			left: this.props.coordinates.x,
-			top: this.props.coordinates.y,
+			left: "50%",
+			top: "50%",
 			background: "radial-gradient(black, white)",
 			opacity: 0,
 			borderRadius: "100%",
 			transition: this.transition (this.props.speed / 4),
-			transitionTimingFunction: "linear"
+			transitionTimingFunction: "linear",
+			transform: "translate(-50%, -50%)"
 		}// style;
 	}// outer_dot_style;
 
@@ -57,8 +62,6 @@ export default class PulseDot extends Component<PulseDotProps> {
 		return this.outer_dot_style.assign ({
 			width: 0,
 			height: 0,
-			left: this.props.coordinates.x,
-			top: this.props.coordinates.y,
 			transition: this.transition (this.props.speed / 2),
 			background: "black"
 		});
@@ -74,18 +77,14 @@ export default class PulseDot extends Component<PulseDotProps> {
 
 		this.outer_dot.style.assign ({
 			opacity: 0,
-			left: `${this.props.coordinates.x}px`,
-			top: `${this.props.coordinates.y}px`,
 			width: "0",
 			height: "0"
 		});
 
 		this.inner_dot.style.assign ({
 			opacity: 1,
-			left: `${this.props.coordinates.x - (this.props.dimensions.width / 4)}px`,
-			top: `${this.props.coordinates.y - (this.props.dimensions.height / 4)}px`,
-			width: `${this.props.dimensions.width / 2}px`,
-			height: `${this.props.dimensions.width / 2}px`
+			width: `${this.props.dimensions.XValue / 2}px`,
+			height: `${this.props.dimensions.YValue / 2}px`
 		});
 
 	}// outer_transition_end;
@@ -101,7 +100,6 @@ export default class PulseDot extends Component<PulseDotProps> {
 
 
 	public static defaultProps: PulseDotProps = {
-		coordinates: new Coordinates ().assign (default_coordinates),
 		dimensions: new Dimensions ().assign (default_dimensions),
 		speed: default_speed,
 		onComplete: null
@@ -116,19 +114,17 @@ export default class PulseDot extends Component<PulseDotProps> {
 		setTimeout (() => this.outer_dot.style.assign ({
 			opacity: "0.7",
 			width: `${this.props.dimensions.width}px`,
-			height: `${this.props.dimensions.height}px`,
-			left: `${this.props.coordinates.x - (this.props.dimensions.width / 2)}px`,
-			top: `${this.props.coordinates.y - (this.props.dimensions.height / 2)}px`
+			height: `${this.props.dimensions.height}px`
 		}), 10);
 
 	}// componentDidMount;
 
 
 	public render () {
-		return <Container>
+		return <div style={this.compartment_style}>
 			<div name="outer_dot" style={this.outer_dot_style} ref={this.outer_dot_reference} />
 			<div name="inner_dot" style={this.inner_dot_style} ref={this.inner_dot_reference} />
-		</Container>
+		</div>
 	}// render;
 
 

@@ -26,7 +26,7 @@ export default class HistoryPage extends Component<Object, HistoryPageState> {
 
 					<div className="Title">History</div>
 
-					<div className="full-size column-block outlined" style={{ margin: "4rem", overflow: "visible" }}>
+					<div className="full-size column-block outlined" style={{ margin: "4rem" }}>
 						<Timeline data={this.state.employment} />
 					</div>
 
