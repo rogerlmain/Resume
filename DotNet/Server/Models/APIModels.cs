@@ -1,4 +1,6 @@
-﻿namespace Resume.Models {
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace Resume.Models {
 
 	public class EmploymentAPIModel {
 		public required EmploymentModel employment { get; set; }
@@ -21,6 +23,17 @@
 		public required Guid state_id { get; set; }
 		public required Guid city_id { get; set; }
 	}// LocationDetails;
+
+
+	public class PercentageData {
+		public required String name { get; set; }
+		public required Decimal percentage { get; set; }
+	}// PercentageData;
+
+
+	public class TechnologyData: IDValue {
+		public IDValueList? versions { get; set; } = null;
+	}// TechnologyData;
 
 
 	public class TechnologyDetails {

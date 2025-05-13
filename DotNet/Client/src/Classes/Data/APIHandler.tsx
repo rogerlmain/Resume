@@ -41,19 +41,19 @@ export default class APIHandler extends APIClass {
 	}// sanitized;
 
 
-	public get_data<TModel> (command: string, parameters: any = null): Promise<TModel> {
+	public get_data<TModel> (command: string, parameters: any = null, method: string = null): Promise<TModel> {
 
 		let data: any = Object.isObject (parameters) ? this.sanitized (parameters) : parameters;
 
-		return new Promise<TModel> (resolve => this.fetch_data (command, data).then ((data: TModel) => {
+		return new Promise<TModel> (resolve => this.fetch_data (command, data, method).then ((data: TModel) => {
 			if (not_assigned (data)) return resolve (null);
 			resolve (data);
 		}));
 	}// get_data;
 
 
-	// For semantics - same as get_data
-	public set_data = this.get_data;
+	public set_data<TModel> (command: string, parameters: any):Promise<TModel> { return this.get_data<TModel> (command, parameters, "put") }
+	public delete_data<TModel> (command: string, parameters: any): Promise<TModel> { return this.get_data<TModel> (command, parameters, "delete") }
 
 
 	public constructor () {

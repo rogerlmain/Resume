@@ -29,10 +29,12 @@ export default class PopupWindow extends Component<PopupWindowProps> {
 	}// constructor;
 
 
-	public show = (contents: String | ReactElement = this.state.contents) => this.setState ({ contents }, () => this.setState ({ visible: true }));
+	public show = (contents: String | ReactElement = this.state.contents, onShow: Function = null) => {
+		this.setState ({ contents }, () => this.setState ({ visible: true }, onShow?.bind (this) ?? null));
+	}// show;
 
 
-	public hide = () => this.setState ({ visible: false }, () => this.setState ({contents: null}));
+	public hide = (onHide: Function = null) => this.setState ({ visible: false }, () => this.setState ({contents: null}, onHide?.bind (this) ?? null));
 
 
 	public open = this.show;

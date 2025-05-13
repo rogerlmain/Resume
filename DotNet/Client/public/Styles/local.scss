@@ -11,3 +11,15 @@ img.profile {
 	height: 7rem;
 	width: auto;
 }
+
+
+div.timeline-item {
+
+	color: #04B;
+	transition: opacity 0.25s;
+	font-size: 10pt;
+	cursor: pointer;
+
+	&:hover { color: #008 }
+
+}// div.timeline-item;

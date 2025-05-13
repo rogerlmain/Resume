@@ -4,7 +4,7 @@ import { TechnologyDetailsList } from "Models/APIModels";
 import { BaseModel, IDValueList } from "Models/BaseModels";
 
 
-export class CategoryModelList extends TypedArray { public constructor () { super (CategoryModel) } }
+//export class CategoryModelList extends TypedArray { public constructor () { super (CategoryModel) } }
 export class EmploymentModelList extends TypedArray { public constructor () { super (EmploymentModel) } }
 export class TechnologyModelList extends TypedArray { public constructor () { super (TechnologyModel) } }
 
@@ -12,9 +12,9 @@ export class TechnologyModelList extends TypedArray { public constructor () { su
 export type EmploymentType = EmploymentDetails | EmploymentModelList;
 
 
-export class CategoryModel extends BaseModel {
-	public name: string = null;
-}// CategoryModel;
+//export class CategoryModel extends BaseModel {
+//	public name: string = null;
+//}// CategoryModel;
 
 
 export class EmploymentDetails {
@@ -49,3 +49,9 @@ export class TechnologyModel extends BaseModel {
 	public category_id: string = null;
 	public name: string = null;
 }// TechnologyModel;
+
+
+export class VersionModel extends BaseModel {
+	public technology_id: string = null;
+	public version: string = null;
+}// VersionModel;

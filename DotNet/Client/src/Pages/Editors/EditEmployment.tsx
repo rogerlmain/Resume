@@ -9,7 +9,7 @@ import { DateFormat, StringList } from "Classes/Globals";
 import { EmploymentAPIModel, TechnologyDetailsCatalog } from "Models/APIModels";
 import { IDValue, IDValueList } from "Models/BaseModels";
 import { Technology, TechnologyList } from "Models/ClientModels";
-import { CategoryModelList, EmploymentDetails, EmploymentModel, EmploymentModelList } from "Models/DataModels";
+import { EmploymentDetails, EmploymentModel, EmploymentModelList } from "Models/DataModels";
 
 import { ChangeEvent, Component, createRef, RefObject } from "react";
 
@@ -31,7 +31,7 @@ class EditEmploymentState {
 	public cities: IDValueList = null;
 	public selected_city: IDValue = null;
 
-	public categories: CategoryModelList = null;
+	public categories: IDValueList = null;
 	public selected_category: string = null;
 
 	public technologies: TechnologyDetailsCatalog = null;
@@ -76,28 +76,28 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 
 		let value: string = (event.currentTarget as HTMLSelectElement).value;
 
-		Database.get_employment (value).then ((response: EmploymentDetails) => {
+		//Database.get_employment (value).then ((response: EmploymentDetails) => {
 
-			this.state.assign ({
-				countries: response.countries,
-				states: response.states,
-				cities: response.cities,
-				technologies: TechnologyDetailsCatalog.Parse (response.technologies),
-				active_employment: new EmploymentModel ().assign (response.employment),
-				selected_country: response.countries.find ((country: IDValue) => country.id == response.location.country_id),
-				selected_state: response.states.find ((state: IDValue) => state.id == response.location.state_id),
-				selected_city: response.cities.find ((city: IDValue) => city.id == response.location.city_id),
-				editing: true
-			});
+		//	this.state.assign ({
+		//		countries: response.countries,
+		//		states: response.states,
+		//		cities: response.cities,
+		//		technologies: TechnologyDetailsCatalog.Parse (response.technologies),
+		//		active_employment: new EmploymentModel ().assign (response.employment),
+		//		selected_country: response.countries.find ((country: IDValue) => country.id == response.location.country_id),
+		//		selected_state: response.states.find ((state: IDValue) => state.id == response.location.state_id),
+		//		selected_city: response.cities.find ((city: IDValue) => city.id == response.location.city_id),
+		//		editing: true
+		//	});
 
-			this.state.active_employment.start_date = new Date (this.state.active_employment.start_date);
-			this.state.active_employment.end_date = new Date (this.state.active_employment.end_date);
+		//	this.state.active_employment.start_date = new Date (this.state.active_employment.start_date);
+		//	this.state.active_employment.end_date = new Date (this.state.active_employment.end_date);
 
-			this.start_date.current.update_value ();
+		//	this.start_date.current.update_value ();
 
-			this.forceUpdate ();
+		//	this.forceUpdate ();
 
-		});
+		//});
 
 	}// get_employment;
 
@@ -314,8 +314,8 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 			this.forceUpdate ();
 		});
 
-		Database.get_categories ().then ((response: CategoryModelList) => {
-			this.setState ({ categories: new CategoryModelList ().assign (response.sortby ("name")) });
+		Database.get_categories ().then ((response: IDValueList) => {
+			this.setState ({ categories: new IDValueList ().assign (response.sortby ("name")) });
 		});
 
 	}// constructor;

@@ -139,7 +139,7 @@ global.no_data = "No data available";
 /**** Validation Functions ****/
 
 
-global.is_empty = (value: any): boolean => (String.isString (value) && (value == String.Empty)) || (Array.isArray (value) && (value.length == 0) || Object.isObject (not_set (value.Keys)));
+global.is_empty = (value: any): boolean => (String.isString (value) && (value == String.Empty)) || (Array.isArray (value) && (value.length == 0)) || (Object.isObject (value) && not_set (value?.Keys));
 global.not_empty = (value: any): boolean => !is_empty (value);
 
 global.isset = (value: any): boolean => not_null (value) && (value != undefined);

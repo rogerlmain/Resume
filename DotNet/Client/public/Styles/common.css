@@ -9,6 +9,41 @@ img.profile {
   width: auto;
 }
 
+div.timeline-item {
+  color: #04B;
+  transition: opacity 0.25s;
+  font-size: 10pt;
+  cursor: pointer;
+}
+div.timeline-item:hover {
+  color: #008;
+}
+
+:root {
+  --popup-border: solid 1px #889;
+}
+
+div.blackout {
+  background-color: black;
+  opacity: 0.4;
+}
+
+div.popup-window {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 2em;
+  border: var(--popup-border);
+  border-radius: 0.2rem;
+  filter: drop-shadow(0.15em 0.15em 0.1em #666);
+  background-color: #FFFFFD;
+  transition: opacity 0.25s ease-in-out;
+  z-index: 10;
+  max-width: 95%;
+  max-height: 95%;
+  overflow-y: auto;
+} /* div.popup-window */
 :root {
   --anchor-color: #444;
   --border-color: #000;
@@ -303,6 +338,9 @@ a:hover {
 *.row-block.row-centered, div.row-centered.button-bar, *.row-centered.inline-row-block, *.row-block.text-block, div.text-block.button-bar, *.text-block.inline-row-block, *.flex-block.row-centered, *.flex-block.text-block {
   align-items: center;
 }
+*.row-block.right-aligned, div.row-block.button-bar, div.button-bar, div.button-bar.fill-size, *.right-aligned.inline-row-block, *.flex-block.right-aligned, div.flex-block.button-bar {
+  justify-content: flex-end;
+}
 *.row-block[class*=top][class*=-aligned], div[class*=top][class*=-aligned].button-bar, *[class*=top][class*=-aligned].inline-row-block, *.flex-block[class*=top][class*=-aligned] {
   align-items: flex-start;
 }
@@ -387,27 +425,27 @@ div.three-row-block {
   margin-bottom: 2rem;
 }
 
-*.with-some-left-space, .with-some-row-space, *.with-some-space {
+*.with-some-left-elbowroom, .with-some-row-space, *.with-some-space {
   margin-left: 0.5rem;
 }
 
-*.with-left-space, .with-row-space, *.with-space {
+*.with-left-elbowroom, .with-row-space, *.with-space {
   margin-left: 1rem;
 }
 
-*.with-lotsa-left-space, .with-lotsa-row-space, *.with-lotsa-space {
+*.with-lotsa-left-elbowroom, .with-lotsa-row-space, *.with-lotsa-space {
   margin-left: 2rem;
 }
 
-*.with-some-right-space, .with-some-row-space, *.with-some-space {
+*.with-some-right-elbowroom, .with-some-row-space, *.with-some-space {
   margin-right: 0.5rem;
 }
 
-*.with-right-space, .with-row-space, *.with-space {
+*.with-right-elbowroom, .with-row-space, *.with-space {
   margin-right: 1rem;
 }
 
-*.with-lotsa-right-space, .with-lotsa-row-space, *.with-lotsa-space {
+*.with-lotsa-right-elbowroom, .with-lotsa-row-space, *.with-lotsa-space {
   margin-right: 2rem;
 }
 
@@ -469,7 +507,7 @@ div.three-row-block {
   position: absolute;
 }
 
-div.full-screen {
+div.full-screen, div.blackout {
   position: absolute;
   left: 0;
   right: 0;

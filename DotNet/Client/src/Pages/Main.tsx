@@ -11,7 +11,7 @@ import HomePage from "Pages/Home";
 import { Component, createRef, ReactElement, RefObject } from "react";
 
 
-const default_speed: number = 1;
+const default_speed: number = 0.25;
 
 
 enum Pages {
@@ -38,12 +38,15 @@ class MainPageState {
 
 export default class MainPage extends Component<Object, MainPageState> {
 
-	private popup_window: RefObject<PopupWindow> = createRef ();
+	private popup_window_reference: RefObject<PopupWindow> = createRef ();
 
 	private fade_panel_ref: RefObject<FadePanel> = createRef ();
 	private main_panel_ref: RefObject<FadePanel> = createRef ();
 
 	private current_page_ref: RefObject<Component> = createRef ();
+
+
+	private get popup_window (): PopupWindow { return this.popup_window_reference.current }
 
 	private get fade_panel (): FadePanel { return this.fade_panel_ref.current }
 	private get main_panel (): FadePanel { return this.main_panel_ref.current }
@@ -71,12 +74,15 @@ export default class MainPage extends Component<Object, MainPageState> {
 	public state: MainPageState = new MainPageState ();
 
 
+	public componentDidMount () { popup_window = this.popup_window }
+
+
 	public render () {
 		return <ImageContainer onLoad={() => this.fade_panel.show ()}>
 			<FadePanel className="full-size" ref={this.fade_panel_ref} speed={default_speed} onShow={() => this.main_panel.show ()}>
 				<div className="full-page column-block bordered">
 
-					<PopupWindow id="popup_window" ref={this.popup_window} />
+					<PopupWindow id="popup_window" ref={this.popup_window_reference} />
 
 					<div className="full-width fully-spaced-out row-block with-some-padding">
 						<div className="slightly-spaced-out row-block">
@@ -112,7 +118,7 @@ export default class MainPage extends Component<Object, MainPageState> {
 
 	public constructor (props: Object) {
 		super (props);
-		this.state.active_page = Pages.History;
+		this.state.active_page = Pages.EditTechnologies;
 	}// constructor;
 
 }// MainPage;

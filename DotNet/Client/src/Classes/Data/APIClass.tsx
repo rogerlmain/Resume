@@ -57,10 +57,10 @@ export default abstract class APIClass {
 	/********/
 
 
-	public fetch_data (url: string, body: any = null): Promise<any> {
+	public fetch_data (url: string, body: any = null, method: string = null): Promise<any> {
 
 		const parameters: RequestInit = {
-			method: is_null (body) ? "get" : "post",
+			method: isset (method) ? method : is_null (body) ? "get" : "post",
 			headers: { "content-type": "application/json" }
 		};
 

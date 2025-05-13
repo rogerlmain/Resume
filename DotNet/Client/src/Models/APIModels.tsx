@@ -2,11 +2,12 @@ import TypedArray from "Classes/Collections/TypedArray";
 
 import { StringList } from "Classes/Globals";
 
-import { IndexArray } from "Models/BaseModels";
+import { IDValueList, IndexArray } from "Models/BaseModels";
 import { Technology, TechnologyList } from "Models/ClientModels";
 import { EmploymentModel, TechnologyModel } from "Models/DataModels";
 
 
+export class IndexedList<IModel = IDValueList> extends IndexArray<IModel> {}
 export class TechnologyDetailsList extends TypedArray { public constructor () { super (TechnologyDetails) } }
 
 

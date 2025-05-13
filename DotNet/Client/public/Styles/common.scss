@@ -1,4 +1,5 @@
 @import "local.scss";
+@import "Controls/PopupWindow.scss";
 
 
 :root {
@@ -275,6 +276,8 @@ a:hover {
 	&.column-centered { justify-content: center }
 	&.row-centered { align-items: center }
 
+	&.right-aligned { justify-content: flex-end }
+
 	&[class*="top"][class*="-aligned"] { align-items: flex-start }
 	&[class*="bottom"][class*="-aligned"] { align-items: flex-end }
 
@@ -335,9 +338,6 @@ div.three-row-block {
 *.padded-cell { padding: 1rem 2rem }
 
 
-
-
-
 /**** Margin Styles ****/
 
 
@@ -350,17 +350,17 @@ div.three-row-block {
 *.with-legroom { margin-bottom: 1rem }
 *.with-lotsa-legroom { margin-bottom: 2rem }
 
-*.with-some-left-space { margin-left: 0.5rem }
-*.with-left-space { margin-left: 1rem }
-*.with-lotsa-left-space { margin-left: 2rem }
+*.with-some-left-elbowroom { margin-left: 0.5rem }
+*.with-left-elbowroom { margin-left: 1rem }
+*.with-lotsa-left-elbowroom { margin-left: 2rem }
 
-*.with-some-right-space { margin-right: 0.5rem }
-*.with-right-space { margin-right: 1rem }
-*.with-lotsa-right-space { margin-right: 2rem }
+*.with-some-right-elbowroom { margin-right: 0.5rem }
+*.with-right-elbowroom { margin-right: 1rem }
+*.with-lotsa-right-elbowroom { margin-right: 2rem }
 
-*.with-some-row-space { @extend .with-some-left-space, .with-some-right-space }
-*.with-row-space { @extend .with-left-space, .with-right-space }
-*.with-lotsa-row-space { @extend .with-lotsa-left-space, .with-lotsa-right-space }
+*.with-some-row-space { @extend .with-some-left-elbowroom, .with-some-right-elbowroom }
+*.with-row-space { @extend .with-left-elbowroom, .with-right-elbowroom }
+*.with-lotsa-row-space { @extend .with-lotsa-left-elbowroom, .with-lotsa-right-elbowroom }
 
 *.with-some-room { @extend .with-some-legroom, .with-some-headspace }
 *.with-room { @extend .with-legroom, .with-headspace }

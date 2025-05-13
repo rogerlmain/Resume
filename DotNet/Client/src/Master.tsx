@@ -11,10 +11,11 @@ import TestPage from "Pages/Test";
 import HistoryPage from "Pages/History";
 
 
-let testing: boolean = true;
+let testing: boolean = false;
+
 
 if (testing) {
-	createRoot (document.getElementById ("main")).render (<HistoryPage />);
+	createRoot (document.getElementById ("main")).render (<TestPage />);
 } else {
 	createRoot (document.getElementById ("main")).render (<MainPage />);
 }// if;

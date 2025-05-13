@@ -28,6 +28,12 @@ namespace Resume.Models {
 	}// EmploymentTechnologiesModel;
 
 
+	public class EmploymentTechVersionsModel: IDModel {
+		public required Guid employment_technology_id { get; set; }
+		public required Guid version_id { get; set; }
+	}// EmploymentTechVersionsModel;
+
+
 	public class LookupsModel: IDModel {
 		public required Guid lookup_type_id { get; set; }
 		public Guid? parent_id { get; set; } = null;
@@ -41,9 +47,15 @@ namespace Resume.Models {
 
 
 	public class TechnologyModel: IDModel {
-		public required Guid category_id { get; set; }
+		public required Guid? category_id { get; set; }
 		public required String name { get; set; }
         
 	}// TechnologyModel;
+
+
+	public class VersionModel: IDModel {
+		public required Guid technology_id { get; set; }
+		public required String version { get; set; }
+	}// VersionModel;
 
 }// Resume.Models;

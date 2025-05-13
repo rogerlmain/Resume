@@ -8,6 +8,9 @@ import { Component, createRef, CSSProperties, RefObject } from "react";
 const default_speed: number = 0.5;
 const default_dimensions: Dimensions = new Dimensions ().assign ({ width: 15, height: 15 });
 
+const gradient_color: string = "#0AF";
+const bullet_color: string = "#04B";
+
 
 class PulseDotProps {
 	public speed?: number;
@@ -48,7 +51,7 @@ export default class PulseDot extends Component<PulseDotProps> {
 			height: 0,
 			left: "50%",
 			top: "50%",
-			background: "radial-gradient(black, white)",
+			background: `radial-gradient(${gradient_color}, white)`,
 			opacity: 0,
 			borderRadius: "100%",
 			transition: this.transition (this.props.speed / 4),
@@ -63,7 +66,7 @@ export default class PulseDot extends Component<PulseDotProps> {
 			width: 0,
 			height: 0,
 			transition: this.transition (this.props.speed / 2),
-			background: "black"
+			background: bullet_color
 		});
 	}// outer_dot_style;
 

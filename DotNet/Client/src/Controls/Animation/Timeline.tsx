@@ -1,6 +1,4 @@
 import TypedArray from "Classes/Collections/TypedArray";
-
-import AnimatedCanvas from "Controls/Animation/AnimatedCanvas";
 import TimePoints from "Controls/Animation/Timeline/TimePoints";
 
 import { Coordinates, Dimensions } from "Controls/Animation/Coordinates";
@@ -9,7 +7,10 @@ import { EmploymentModel, EmploymentModelList } from "Models/DataModels";
 import { Component, createRef, CSSProperties, ReactElement, RefObject } from "react";
 
 
-const dot_size: Dimensions = new Dimensions (22, 22);
+const dot_size: Dimensions = new Dimensions (14, 14);
+
+
+type DivReference = RefObject<HTMLDivElement>
 
 
 class TimelineItemList extends TypedArray { public constructor () { super (TimelineItem) } }
@@ -17,12 +18,12 @@ class TimelineItemList extends TypedArray { public constructor () { super (Timel
 
 class TimelineItem {
 
-	public body_reference: RefObject<HTMLDivElement> = null;
-	public title_reference: RefObject<HTMLDivElement> = null;
-	public element: ReactElement = null;
+	private element_reference: DivReference = null;
 
-	public get body (): HTMLDivElement { return this.body_reference.current }
-	public get title (): HTMLDivElement { return this.title_reference.current }
+	public react_element: ReactElement = null;
+
+	public get element (): HTMLDivElement { return this.element_reference.current }
+	public set reference (value: DivReference) { this.element_reference = value }
 
 }// TimelineItem;
 
@@ -41,31 +42,11 @@ class TimelineState {
 
 export default class Timeline extends Component<TimelineProps> {
 
-	private canvas_reference: RefObject<AnimatedCanvas> = createRef ();
 	private time_points_reference: RefObject<TimePoints> = createRef ();
 
-	private main_block_reference: RefObject<HTMLDivElement> = createRef ();
-	private text_block_reference: RefObject<HTMLDivElement> = createRef ();
 
-
-	private get canvas (): AnimatedCanvas { return this.canvas_reference.current }
 	private get time_points (): TimePoints { return this.time_points_reference.current }
-
-	private get main_block (): HTMLDivElement { return this.main_block_reference.current }
-	private get text_block (): HTMLDivElement { return this.text_block_reference.current }
-
 	private get index (): number { return isset (this.state.model) ? this.props.data.indexOf (this.state.model) + 1 : 0 }
-
-
-	private get item_style (): CSSProperties {
-		return { 
-			opacity: 0,
-			transition: "opacity 0.25s", //2s",
-			marginLeft: "0.5rem",
-			wordWrap: "break-word",
-			overflowWrap: "normal"
-		}// style;
-	}// item_style;
 
 
 	private get time_point_style (): CSSProperties {
@@ -76,56 +57,30 @@ export default class Timeline extends Component<TimelineProps> {
 	}// time_point_style;
 
 
-	private add_time_point (element: HTMLDivElement, onComplete: Function) {
-
-		let target: number = element.offsetTop + Math.round (element.clientHeight / 2);
+	private add_time_point (element: HTMLDivElement) {
 
 		let dot_center: Coordinates = new Coordinates ().assign ({
 			x: Math.floor (dot_size.XValue / 2),
 			y: Math.floor (dot_size.YValue / 2)
-		})
-
-		let end: Coordinates = new Coordinates ().assign ({
-			x: dot_center.XValue,
-			y: target
 		});
 
-		let dot_position: number = target - dot_center.YValue;
+		let coordinates: Coordinates = new Coordinates ().assign ({
+			x: dot_center.XValue,
+			y: element.offsetTop + Math.round (element.clientHeight / 2) - dot_center.YValue
+		});
 
-		if (isset (this.time_points.last_dot)) {
-
-			let start: Coordinates = new Coordinates ().assign ({
-				x: dot_center.XValue,
-				y: this.time_points.last_dot?.coordinates.YValue + dot_center.YValue
-			});
-
-			return this.canvas.draw_line (start, end, () => {
-				this.time_points.add_pulse_dot (new Coordinates (0, dot_position), onComplete);
-			});
-
-		}// if;
-
-		this.time_points.add_pulse_dot (new Coordinates (0, dot_position), onComplete);
+		this.time_points.add_pulse_dot (coordinates);
 
 	}// add_time_point;
 
 
 	private add_item (model: EmploymentModel) {
 
-		let item_body: RefObject<HTMLDivElement> = createRef ();
-		let item_title: RefObject<HTMLDivElement> = createRef ();
+		let item_reference: DivReference = createRef ();
 
 		let timeline_item: TimelineItem = new TimelineItem ().assign ({
-			body_reference: item_body,
-			title_reference: item_title,
-			element: <div ref={item_title} style={{ fontWeight: "bold" }}>{model.company}</div>
-/*			
-			<div className="somewhat-spaced-out full-size wrapped column-block" ref={item_body} style={this.item_style}>
-				<div ref={item_title} style={{ fontSize: "16pt", border: "none" }}>{model.start_date as unknown as string}</div>
-				<div style={{ fontWeight: "bold" }}>{model.company}</div>
-				<div>{model.description}</div>
-			</div>
-*/
+			reference: item_reference,
+			react_element: <div ref={item_reference} className="timeline-item" style={{ opacity: 0 }}>{model.company}</div>
 		});
 
 		if (is_null (this.state.items)) this.state.items = new TimelineItemList ();
@@ -141,12 +96,13 @@ export default class Timeline extends Component<TimelineProps> {
 
 		this.forceUpdate (() => {
 
-			this.state.active_item.body.addEventListener ("transitionend", (event: TransitionEvent) => {
-				if (event.target != this.state.active_item.body) return;
+			this.state.active_item.element.addEventListener ("transitionend", (event: TransitionEvent) => {
+				if (event.target != this.state.active_item.element) return;
 				this.next_item ();
 			}, { once: true });
 
-			this.add_time_point (this.state.active_item.title, () => setTimeout (() => { this.state.active_item.body.style.opacity = "1" }, 10));
+			this.add_time_point (this.state.active_item.element);
+			setTimeout (() => { this.state.active_item.element.style.opacity = "1" }, 10);
 
 		});
 
@@ -179,22 +135,18 @@ export default class Timeline extends Component<TimelineProps> {
 
 
 	public render () {
-		return <div className="full-page column-centered flex-block bordered">
+		return <div className="full-page column-centered flex-block outlined">
 
-			<div className="relative full-height row-block" style={{ overflowY: "auto", maxWidth: "700px" }} ref={this.main_block_reference}>
+			<div className="relative full-height row-block" style={{ overflowY: "auto", maxWidth: "700px" }}>
 
 				<div className="stacked" style={{ width: dot_size.width, height: "100%" }}>
-
-					<AnimatedCanvas ref={this.canvas_reference} dimensions={new Dimensions (dot_size.XValue, this.main_block?.scrollHeight ?? 0)} />
-
 					<div style={this.time_point_style}>
 						<TimePoints ref={this.time_points_reference} dimensions={dot_size} speed={0.75} />
 					</div>
-
 				</div>
 
-				<div className="very-spaced-out full-width column-block" style={{ height: "min-content" }} ref={this.text_block_reference}>
-					{this.state.items?.map ((item: TimelineItem) => item.element)}
+				<div className="full-width slightly-spaced-out column-block with-left-elbowroom" style={{ height: "min-content" }}>
+					{this.state.items?.map ((item: TimelineItem) => item.react_element)}
 				</div>
 
 			</div>

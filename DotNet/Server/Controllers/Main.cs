@@ -2,6 +2,7 @@
 using Resume.Models;
 using Resume.Classes;
 using Resume.Classes.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace Server.Controllers {
@@ -94,11 +95,85 @@ namespace Server.Controllers {
 		/********/
 
 
+		[HttpDelete]
+		[Route ("DeleteCategory")]
+		public IActionResult DeleteCategory ([FromBody] Guid category_id) {
+			
+return new JsonResult (null);
+
+			(from technology in context.technologies
+				where technology.category_id == category_id
+				select technology
+			).ExecuteUpdate (item => item.SetProperty (property => property.category_id, property => null));
+
+			(from category in context.categories
+				where category.id == category_id
+				select category
+			).ExecuteDelete ();
+
+			return new JsonResult (null);
+
+		}// DeleteCategory;
+
+
+		[HttpDelete]
+		[Route ("DeleteTechnology")]
+		public IActionResult DeleteTechnology ([FromBody] Guid technology_id) {
+
+return new JsonResult (null);
+
+			(from tech_version in context.employment_tech_versions
+				join version in context.versions on tech_version.version_id equals version.id
+				where version.technology_id == technology_id
+				select tech_version
+			).ExecuteDelete ();
+
+			(from version in context.versions
+				where version.technology_id == technology_id
+				select version
+			).ExecuteDelete ();
+
+			(from technology in context.technologies
+				where technology.id == technology_id
+				select technology
+			).ExecuteDelete ();
+
+			return new JsonResult (null);
+		}// DeleteTechnology;
+
+
+		[HttpDelete]
+		[Route ("DeleteVersion")]
+		public IActionResult DeleteVersion ([FromBody] Guid version_id) {
+
+return new JsonResult (null);
+
+			(from tech_version in context.employment_tech_versions
+				where tech_version.version_id == version_id
+				select tech_version
+			).ExecuteDelete ();
+
+			(from version in context.versions
+				where version.id == version_id
+				select version
+			).ExecuteDelete ();
+
+			return new JsonResult (null);
+
+		}// DeleteVersion;
+
+
 		[HttpGet]
 		[Route ("GetCategories")]
 		public IActionResult GetCategories () {
-			List<CategoryModel>? result = (from category in context.categories select category).ToListOrNull ();
+
+			List<IDValue>? result = (from category in context.categories select new IDValue () {
+				id = category.id,
+				value = category.name
+			}).OrderBy (item => item.value).ToListOrNull ();
+
 			return new JsonResult (result);
+
 		}// GetCategories;
 
 
@@ -191,14 +266,79 @@ namespace Server.Controllers {
 
 
 		[HttpPost]
-		[Route ("SaveTechnology")]
-		public IActionResult SaveTechnology ([FromBody] TechnologyModel technology) {
-			Guid? id = context.technologies.Save<TechnologyModel> (technology);
-			return new JsonResult (id);
-		}// SaveTechnology;
+		[Route ("GetTechnologiesByCategory")]
+		public IActionResult GetTechnologiesByCategory ([FromBody] Guid category_id) {
+
+			List<TechnologyData>? result = (from technology in context.technologies
+				where technology.category_id == category_id
+				select new TechnologyData () {
+					id = technology.id,
+					value = technology.name,
+					versions = (from version in context.versions
+						where version.technology_id == technology.id
+						select new IDValue () {
+							id = version.id,
+							value = version.version
+						}
+					).ToListOrNull ()
+				}
+			).ToListOrNull ()?.SortBy ("value");
+
+			return new JsonResult (result);
+
+		}// GetTechnologiesByCategory;
 
 
 		[HttpPost]
+		[Route ("GetTechnologyPercentages")]
+		public IActionResult GetTechnologyPercentages () {
+
+			List<PercentageData>? result = null;
+
+			//(from employment in context.employment
+				//join tech_employment in context.employment_technologies on employment.id equals tech_employment.employment_id
+				//join technology in context.technologies on tech_employment.technology_id equals technology.id
+				//group 
+				//select new PercentageData () {
+				//	name = technology.name,
+				//	percentage = 
+				//}
+			//)
+
+			return new JsonResult (result);
+
+		}// GetTechnologyPercentages;
+
+
+		[HttpPost]
+		[Route ("GetVersions")]
+		public IActionResult GetVersions ([FromBody] Guid technology_id) {
+			
+			List<VersionModel>? result = (from version in context.versions
+				where version.technology_id == technology_id
+				select version
+			).OrderBy (item => item.version).ToListOrNull ();
+
+			return new JsonResult (result);
+
+		}// GetVersions;
+
+
+		[HttpPut]
+		[Route ("SaveCategory")]
+		public IActionResult SaveCategory ([FromBody] IDValue category) {
+
+			Guid? id = context.categories.Save (new CategoryModel () {
+				id = category.id,
+				name = category.value ?? String.Empty
+			});
+
+			return new JsonResult (id);
+
+		}// SaveCategory;
+
+
+		[HttpPut]
 		[Route ("SaveEmployment")]
 		public IActionResult SaveEmployment ([FromBody] EmploymentAPIModel model) {
 
@@ -222,6 +362,22 @@ namespace Server.Controllers {
 			return new JsonResult (id);
 
 		}// SaveEmployment;
+
+
+		[HttpPut]
+		[Route ("SaveTechnology")]
+		public IActionResult SaveTechnology ([FromBody] TechnologyModel technology) {
+			Guid? id = context.technologies.Save (technology);
+			return new JsonResult (id);
+		}// SaveTechnology;
+
+
+		[HttpPut]
+		[Route ("SaveVersion")]
+		public IActionResult SaveVersion ([FromBody] VersionModel version) {
+			Guid? id = context.versions.Save (version);
+			return new JsonResult (id);
+		}// SaveVersion;
 
     }// Main;
 

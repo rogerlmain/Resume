@@ -49,10 +49,10 @@ export default class FadePanel extends Component<FadePanelProps, FadePanelState>
 	}// defaultProps;
 
 
-	public show = () => setTimeout (() => this.setState ({ opacity: 1 }));
+	public show = () => setTimeout (() => this.setState ({ opacity: 1 }), 10);
 
 
-	private hide_panel = () => setTimeout (() => this.setState ({ opacity: 0 }));
+	private hide_panel = () => setTimeout (() => this.setState ({ opacity: 0 }), 10);
 
 
 	public hide (onHide: Function = null) { 

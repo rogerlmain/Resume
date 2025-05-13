@@ -1,0 +1,28 @@
+:root {
+	--popup-border: solid 1px #889;
+}
+
+
+div.blackout {
+	@extend div, .full-screen !optional;
+	background-color: black;
+	opacity: 0.4;
+}// div.blackout;
+
+
+div.popup-window {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	padding: 2em;
+	border: var(--popup-border);
+	border-radius: 0.2rem;
+	filter: drop-shadow(0.15em 0.15em 0.1em #666);
+	background-color: #FFFFFD;
+	transition: opacity 0.25s ease-in-out;
+	z-index: 10;
+	max-width: 95%;
+	max-height: 95%;
+	overflow-y: auto;
+}/* div.popup-window */

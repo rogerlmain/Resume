@@ -125,7 +125,7 @@ Array.prototype.getIntegers = function (allow_non_numeric: boolean = false): Arr
 Array.prototype.insert = function (item: any, fieldname: string = "value") {
 
 	for (let index = 0; index < this.length; index++) {
-		if (this [index][fieldname] > item [fieldname]) return this.splice (index, 0, item);
+		if (item [fieldname].before (this [index][fieldname])) return this.splice (index, 0, item);
 	}// for;
 
 	this.push (item);
@@ -155,7 +155,7 @@ Array.prototype.remove = function<T> (value: T): Array<T> {
 
 Array.prototype.sortby = function<T> (fieldname: string, copy: boolean = true): Array<T> {
 
-	let sort_routine: (a: any, b: any) => number = (previous: Object, next: Object) => next.nested_field (fieldname) < previous.nested_field (fieldname) ? 1 : -1;
+	let sort_routine: (a: any, b: any) => number = (previous: Object, next: Object) => next.nested_field (fieldname).before (previous.nested_field (fieldname)) ? 1 : -1;
 
 	if (copy) return this.toSorted (sort_routine);
 	return this.sort (sort_routine);
