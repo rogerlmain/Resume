@@ -69,6 +69,7 @@ export default class DropdownEditbox extends Component<DropdownEditboxProps, Dro
 			this.state.value.value = this.text_input.value;
 
 			if (isset (this.props.onEditComplete)) this.props.onEditComplete (this.state.value);
+			this.text_input.value = null;
 			this.select_list.focus ();
 
 		});

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace Resume.Models {
+﻿namespace Resume.Models {
 
 	public class EmploymentAPIModel {
 		public required EmploymentModel employment { get; set; }
@@ -10,11 +8,10 @@ namespace Resume.Models {
 
 	public class EmploymentDetails {
 		public required EmploymentModel employment { get; set; }
-		public required IDValueList countries { get; set; }
 		public required IDValueList states { get; set; }
 		public required IDValueList cities { get; set; }
 		public required LocationDetails location { get; set; }
-		public required List<TechnologyDetails> technologies { get; set; }
+		public required List<TechnologySelection> technologies { get; set; }
 	}// EmploymentDetails;
 
 
@@ -31,20 +28,20 @@ namespace Resume.Models {
 	}// PercentageData;
 
 
-	public class TechnologyData: IDValue {
-		public IDValueList? versions { get; set; } = null;
+	public class TechnologySelection {
+		public required Guid technology_id { get; set; }
+		public GuidList? versions { get; set; } = null;
+	}// TechnologySelection;
+
+
+	public class TechnologyData: IDModel {
+		public required String name { get; set; }
+		public List<VersionData>? versions { get; set; } = null;
 	}// TechnologyData;
 
 
-	public class TechnologyDetails {
-		public required TechnologyModel technology { get; set; }
-		public required Boolean included { get; set; }
-	}// TechnologyDetails;
-
-
-	public class TechnologyAPIModel {
-		public required Guid category_id { get; set; }
-		public required Guid employment_id { get; set; }
-	}// TechnologyDetailsCatalog;
+	public class VersionData: IDModel {
+		public required String version { get; set; }
+	}// VersionData;
 
 }// Resume.Models;

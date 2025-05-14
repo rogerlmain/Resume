@@ -3,9 +3,8 @@ import Timeline from "Controls/Animation/Timeline";
 
 import Container from "Controls/Container";
 
-import { Coordinates } from "Controls/Animation/Coordinates";
-import { EmploymentModelList, EmploymentType } from "Models/DataModels";
-
+import { EmploymentModelList } from "Models/DataModels";
+import { EmploymentType } from "Models/APIModels";
 import { Component } from "react";
 
 

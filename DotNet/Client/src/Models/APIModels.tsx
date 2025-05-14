@@ -2,51 +2,46 @@ import TypedArray from "Classes/Collections/TypedArray";
 
 import { StringList } from "Classes/Globals";
 
-import { IDValueList, IndexArray } from "Models/BaseModels";
-import { Technology, TechnologyList } from "Models/ClientModels";
-import { EmploymentModel, TechnologyModel } from "Models/DataModels";
+import { IDModel, IDValueList, IndexedList } from "Models/BaseModels";
+import { EmploymentModel, EmploymentModelList, LocationDetails } from "Models/DataModels";
 
 
-export class IndexedList<IModel = IDValueList> extends IndexArray<IModel> {}
-export class TechnologyDetailsList extends TypedArray { public constructor () { super (TechnologyDetails) } }
+export type EmploymentType = EmploymentDetails | EmploymentModelList;
 
 
-export class TechnologyDetailsCatalog extends IndexArray<TechnologyList> {
-
-	public static Parse (list: TechnologyDetailsList) {
-
-		let result: TechnologyDetailsCatalog = null;
-
-		list.forEach ((details: TechnologyDetails) => {
-
-			if (is_null (result)) result = new TechnologyDetailsCatalog ();
-			if (not_set (result [details.technology.category_id])) result [details.technology.category_id] = new TechnologyList ();
-
-			result [details.technology.category_id].push (new Technology ().assign (details.technology).assign ({ included: details.included }));
-
-		});
-
-		return result;
-
-	}// Parse;
-
-}// TechnologyDetailsCatalog;
+export class TechnologyDataList extends TypedArray { public constructor () { super (TechnologyData) } }
+export class VersionDataList extends TypedArray { public constructor () { super (VersionData) } }
+export class TechnologySelectionList extends TypedArray { public constructor () { super (TechnologySelection) } }
+export class TechnologyIndex extends IndexedList<TechnologyDataList> {}
 
 
-export class EmploymentAPIModel {
+export class EmploymentData {
 	public employment: EmploymentModel = null;
 	public technologies: StringList = null;
-}// EmploymentAPIModel;
+}// EmploymentData;
 
 
-export class TechnologyDetails {
-	public technology: TechnologyModel = null;
-	public included: boolean = null;
-}// TechnologyDetails;
+export class EmploymentDetails {
+	public employment: EmploymentModel = null;
+	public states: IDValueList = null;
+	public cities: IDValueList = null;
+	public location: LocationDetails = null;
+	public technologies: TechnologyDataList = null;
+}// EmploymentDetails;
 
 
-export class TechnologyAPIModel {
-	public category_id: string = null;
-	public employment_id: string = null;
-}// TechnologyAPIModel;
+export class TechnologyData extends IDModel {
+	public name: string = null;
+	public versions: VersionDataList = null;
+}// TechnologyData;
 
+
+export class VersionData extends IDModel {
+	public version: string = null;
+}// VersionData;
+
+
+export class TechnologySelection {
+	public id: string = null;
+	public versions: StringList = null;
+}// TechnologySelection;

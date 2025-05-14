@@ -25,11 +25,6 @@ export abstract class IDModel implements IBaseModel {
 }// IDModel;
 
 
-export abstract class BaseModel implements IBaseModel {
-	public id?: string = null;
-}// BaseModel;
-
-
 export class ListModel implements IListModel {
 	public key: string = null;
 }// ListModel;
@@ -45,9 +40,7 @@ export class IDValue<IModel = string> {
 }// IDModel;
 
 
-export class IndexArray<IModel> {
-	[key: string]: IModel;
-}// IndexArray;
+export class IndexedList<IModel = IDValueList> { [key: string]: IModel }
 
 
 /**** Lists ****/

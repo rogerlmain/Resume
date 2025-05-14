@@ -1,27 +1,35 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Resume.Models;
+using Microsoft.EntityFrameworkCore;
 using Resume.Classes;
 using Resume.Classes.Extensions;
-using Microsoft.EntityFrameworkCore;
+using Resume.Models;
 
 
 namespace Server.Controllers {
 
+	public class TechListItem {
+		public required Guid category_id { get; set; }
+		public required Guid technology_id { get; set; }
+		public required String technology_name { get; set; }
+		public required Boolean technology_included { get; set; }
+		public Guid? version_id { get; set; } = null;
+		public String? version_name { get; set; } = null;
+		public required Boolean version_included { get; set; }
+	}// TechListItem;
+
+
+	public class TechVersionItem {
+		public required Guid technology_id { get; set; }
+		public Guid? version_id { get; set; }
+	}// TechVersionItem;
+
+
+	/********/
+
+
     public class Main (DataContext context): Controller {
 
-		private IDValueList? GetCountryList () {
-			return (from item in context.lookups
-				join lookup_type in context.lookup_types on item.lookup_type_id equals lookup_type.id
-				where (lookup_type.name == "Country")
-				select new IDValue () {
-					id = item.id,
-					value = item.name
-				}
-			).ToListOrNull ();
-		}// GetCountryList;
-
-
-		private IDValueList? GetStateList (Guid country_id) {
+		private IDValueList? get_state_list (Guid country_id) {
 			return (from item in context.lookups
 				join lookup_type in context.lookup_types on item.lookup_type_id equals lookup_type.id
 				where (lookup_type.name == "State") && (item.parent_id == country_id)
@@ -30,10 +38,10 @@ namespace Server.Controllers {
 					value = item.name
 				}
 			).ToListOrNull ();
-		}// GetStateList;
+		}// get_state_list;
 
 
-		private IDValueList? GetCityList (Guid state_id) {
+		private IDValueList? get_city_list (Guid state_id) {
 			return (from item in context.lookups
 				join lookup_type in context.lookup_types on item.lookup_type_id equals lookup_type.id
 				where (lookup_type.name == "City") && (item.parent_id == state_id)
@@ -45,7 +53,7 @@ namespace Server.Controllers {
 		}// GetCityList;
 
 
-		private EmploymentModel? GetEmploymentModel (Guid employment_id) {
+		private EmploymentModel? get_employment_model (Guid employment_id) {
 			return (from employment in context.employment
 				where employment.id == employment_id
 				select new EmploymentModel () {
@@ -58,10 +66,10 @@ namespace Server.Controllers {
 					description = employment.description
 				}
 			).FirstOrDefault ();
-		}// GetEmploymentModel;
+		}// get_employment_model;
 
 
-		private LocationDetails? GetLocationDetails (Guid location_id) {
+		private LocationDetails? get_location_details (Guid location_id) {
 			return (from country in context.lookups
 				join state in context.lookups on country.id equals state.parent_id
 				join city in context.lookups on state.id equals city.parent_id
@@ -72,24 +80,37 @@ namespace Server.Controllers {
 					city_id = (Guid) city.id!
 				}
 			).FirstOrDefault ();
-		}// GetLocationDetails;
+		}// get_location_details;
 
 
-		private List<TechnologyDetails>? GetTechnologyDetails (Guid employment_id) {
+		private List<TechnologySelection>? get_employment_technologies (Guid employment_id) {
 
-			List<TechnologyDetails>? result = (from item in context.technologies
-				join etech in context.employment_technologies on item.id equals etech.technology_id into joined_tech
-				from employment_tech in joined_tech.DefaultIfEmpty ()
-				where ((employment_tech.employment_id == employment_id) || (employment_tech == null))
-				select new TechnologyDetails () {
-					technology = item,
-					included = (employment_tech != null)
+			List<TechVersionItem>? tech_versions = (from etech in context.employment_technologies
+				where etech.employment_id == employment_id
+				from etv in context.employment_tech_versions.Where (item => item.employment_technology_id == etech.id).DefaultIfEmpty ()
+				select new TechVersionItem () {
+					technology_id = etech.technology_id,
+					version_id = etv.version_id
 				}
 			).ToListOrNull ();
 
+			if (tech_versions is null) return null;
+
+			GuidList technology_ids = (from tech in tech_versions select tech.technology_id).Distinct ().ToList ();
+
+			List<TechnologySelection>? result = (from id in technology_ids select new TechnologySelection () {
+				technology_id = id,
+				versions = (from tech in tech_versions
+					where 
+						(tech.technology_id == id) &&
+						(tech.version_id != null)
+					select (Guid) tech.version_id!
+				).ToListOrNull ()
+			}).ToList ();
+
 			return result;
 
-		}// GetTechnologyDetails;
+		}// get_employment_technologies;
 
 
 		/********/
@@ -99,8 +120,6 @@ namespace Server.Controllers {
 		[Route ("DeleteCategory")]
 		public IActionResult DeleteCategory ([FromBody] Guid category_id) {
 			
-return new JsonResult (null);
-
 			(from technology in context.technologies
 				where technology.category_id == category_id
 				select technology
@@ -119,8 +138,6 @@ return new JsonResult (null);
 		[HttpDelete]
 		[Route ("DeleteTechnology")]
 		public IActionResult DeleteTechnology ([FromBody] Guid technology_id) {
-
-return new JsonResult (null);
 
 			(from tech_version in context.employment_tech_versions
 				join version in context.versions on tech_version.version_id equals version.id
@@ -145,8 +162,6 @@ return new JsonResult (null);
 		[HttpDelete]
 		[Route ("DeleteVersion")]
 		public IActionResult DeleteVersion ([FromBody] Guid version_id) {
-
-return new JsonResult (null);
 
 			(from tech_version in context.employment_tech_versions
 				where tech_version.version_id == version_id
@@ -180,7 +195,7 @@ return new JsonResult (null);
 		[HttpPost]
 		[Route ("GetCities")]
 		public IActionResult GetCities ([FromBody] Guid state_id) {
-			IDValueList? result = GetCityList (state_id);
+			IDValueList? result = get_city_list (state_id);
 			return new JsonResult (result);
 		}// GetCities;
 
@@ -202,8 +217,18 @@ return new JsonResult (null);
 		[HttpGet]
 		[Route ("GetCountries")]
 		public IActionResult GetCountries () {
-			IDValueList? result = GetCountryList ();
+
+			IDValueList? result =  (from item in context.lookups
+				join lookup_type in context.lookup_types on item.lookup_type_id equals lookup_type.id
+				where (lookup_type.name == "Country")
+				select new IDValue () {
+					id = item.id,
+					value = item.name
+				}
+			).ToListOrNull ();
+
 			return new JsonResult (result);
+
 		}// GetCountries;
 
 
@@ -219,17 +244,15 @@ return new JsonResult (null);
 		[Route ("GetEmployment")]
 		public IActionResult GetEmployment ([FromBody] Guid employment_id) {
 
-			EmploymentModel employment_model = GetEmploymentModel (employment_id) ?? throw new Exception ("Cannot find employment details.");
-			LocationDetails location_details = GetLocationDetails ((Guid) employment_model.location_id!) ?? throw new Exception ("Cannot find location details.");
-			List<TechnologyDetails> technology_list = GetTechnologyDetails (employment_id) ?? throw new Exception ("Cannot find technology details.");
+			EmploymentModel employment_model = get_employment_model (employment_id) ?? throw new Exception ("Cannot find employment details.");
+			LocationDetails location_details = get_location_details ((Guid) employment_model.location_id!) ?? throw new Exception ("Cannot find location details.");
+			List<TechnologySelection>? technology_list = get_employment_technologies (employment_id) ?? throw new Exception ("Cannot find technology details.");
 
-			IDValueList country_list = GetCountryList () ?? throw new Exception ("No countries found.");
-			IDValueList state_list = GetStateList (location_details.country_id) ?? throw new Exception ("No states found.");
-			IDValueList city_list = GetCityList (location_details.state_id) ?? throw new Exception ("No cities found.");
+			IDValueList state_list = get_state_list (location_details.country_id) ?? throw new Exception ("No states found.");
+			IDValueList city_list = get_city_list (location_details.state_id) ?? throw new Exception ("No cities found.");
 
 			EmploymentDetails details = new () {
 				employment = employment_model,
-				countries = country_list,
 				technologies = technology_list,
 				states = state_list,
 				cities = city_list,
@@ -244,41 +267,25 @@ return new JsonResult (null);
 		[HttpPost]
 		[Route ("GetStates")]
 		public IActionResult GetStates ([FromBody] Guid country_id) {
-			IDValueList? result = GetStateList (country_id);
+			IDValueList? result = get_state_list (country_id);
 			return new JsonResult (result);
 		}// GetStates;
 
 
-        [HttpGet]
-        [Route ("GetTechnologies")]
-        public IActionResult GetTechnologies () {
-			List<TechnologyModel>? options = (from item in context.technologies select item).ToListOrNull ();
-            return new JsonResult (options);
-        }// GetTechnologies;
-
-
         [HttpPost]
         [Route ("GetTechnologies")]
-        public IActionResult GetTechnologies ([FromBody] Guid employment_id) {
-			List<TechnologyDetails>? details = GetTechnologyDetails (employment_id);
-            return new JsonResult (details);
-        }// GetTechnologies;
-
-
-		[HttpPost]
-		[Route ("GetTechnologiesByCategory")]
-		public IActionResult GetTechnologiesByCategory ([FromBody] Guid category_id) {
+		public IActionResult GetTechnologies ([FromBody] Guid category_id) {
 
 			List<TechnologyData>? result = (from technology in context.technologies
 				where technology.category_id == category_id
 				select new TechnologyData () {
 					id = technology.id,
-					value = technology.name,
+					name = technology.name,
 					versions = (from version in context.versions
 						where version.technology_id == technology.id
-						select new IDValue () {
+						select new VersionData () {
 							id = version.id,
-							value = version.version
+							version = version.version
 						}
 					).ToListOrNull ()
 				}
@@ -286,7 +293,7 @@ return new JsonResult (null);
 
 			return new JsonResult (result);
 
-		}// GetTechnologiesByCategory;
+		}// GetTechnologies;
 
 
 		[HttpPost]
@@ -308,20 +315,6 @@ return new JsonResult (null);
 			return new JsonResult (result);
 
 		}// GetTechnologyPercentages;
-
-
-		[HttpPost]
-		[Route ("GetVersions")]
-		public IActionResult GetVersions ([FromBody] Guid technology_id) {
-			
-			List<VersionModel>? result = (from version in context.versions
-				where version.technology_id == technology_id
-				select version
-			).OrderBy (item => item.version).ToListOrNull ();
-
-			return new JsonResult (result);
-
-		}// GetVersions;
 
 
 		[HttpPut]
@@ -378,6 +371,26 @@ return new JsonResult (null);
 			Guid? id = context.versions.Save (version);
 			return new JsonResult (id);
 		}// SaveVersion;
+
+
+		[HttpGet]
+		[Route ("RunTest")]
+		public IActionResult RunTest () {
+		
+			var result = (from tech in context.technologies
+
+				from ver in context.versions.Where (item => item.technology_id == tech.id).DefaultIfEmpty ()
+
+				select new {
+					tech.name,
+					ver.version
+				}
+
+			).OrderBy (item => item.name).ToListOrNull ();
+
+			return new JsonResult (result);
+
+		}// RunTest;
 
     }// Main;
 

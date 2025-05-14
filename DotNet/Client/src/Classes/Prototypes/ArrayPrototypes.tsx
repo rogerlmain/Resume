@@ -157,6 +157,7 @@ Array.prototype.sortby = function<T> (fieldname: string, copy: boolean = true): 
 
 	let sort_routine: (a: any, b: any) => number = (previous: Object, next: Object) => next.nested_field (fieldname).before (previous.nested_field (fieldname)) ? 1 : -1;
 
+	if (this.length < 2) return this;
 	if (copy) return this.toSorted (sort_routine);
 	return this.sort (sort_routine);
 

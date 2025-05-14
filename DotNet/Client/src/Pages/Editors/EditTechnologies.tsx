@@ -1,4 +1,3 @@
-import TypedArray from "Classes/Collections/TypedArray";
 import Database from "Classes/Data/Database";
 import Container from "Controls/Container";
 import ConfirmationWindow from "Controls/Windows/ConfirmationWindow";
@@ -8,19 +7,9 @@ import InformationWindow from "Controls/Windows/InformationWindow";
 import DropdownEditbox from "Controls/DropdownEditbox";
 import Eyecandy from "Controls/Windows/Eyecandy";
 
-import { TechnologyModel, VersionModel } from "Models/DataModels";
-
-import { IndexedList } from "Models/APIModels";
+import { TechnologyData, TechnologyDataList, TechnologyIndex, VersionData } from "Models/APIModels";
 import { IDValue, IDValueList } from "Models/BaseModels";
-import { Component, createRef, RefObject } from "react";
-
-
-class TechnologyIndex extends IndexedList<TechnologyDataList> {}
-
-
-class TechnologyData extends IDValue {
-	public versions: IDValueList = null;
-}// TechnologyData
+import { Component } from "react";
 
 
 class EditTechnologiesState {
@@ -42,12 +31,6 @@ class EditTechnologiesState {
 }// EditTechnologiesState;
 
 
-export class TechnologyDataList extends TypedArray { 
-	public get_by_id = (id: string): TechnologyData => this.find ((item: TechnologyData) => item.id == id);
-	public constructor () { super (TechnologyData) }
-}// TechnologyDataList;
-
-
 export default class EditTechnologies extends Component<Object, EditTechnologiesState> {
 
 	private get technology_list (): TechnologyDataList { return this.state?.technologies?.[this.state.category?.id] ?? null }
@@ -55,7 +38,7 @@ export default class EditTechnologies extends Component<Object, EditTechnologies
 
 
 	private set technology_list (values: TechnologyDataList) { 
-		if (is_null (this.state.technologies)) this.state.technologies = new IndexedList<TechnologyDataList> ();
+		if (is_null (this.state.technologies)) this.state.technologies = new TechnologyIndex ();
 		this.state.technologies [this.state.category.id] = values;
 		this.forceUpdate ();
 	}// set_technology_list;
@@ -85,7 +68,7 @@ export default class EditTechnologies extends Component<Object, EditTechnologies
 	private get_technologies (): Promise<void> {
 		return new Promise<void> (resolve => {
  			if (is_null (this.technology_list)) {
-				Database.get_technologies_by_category (this.state.category.id).then ((result: TechnologyDataList) => {
+				Database.get_technologies (this.state.category.id).then ((result: TechnologyDataList) => {
 					this.technology_list = new TechnologyDataList ();
 					if (isset (result)) this.technology_list.assign (result);
 					this.forceUpdate (() => resolve ());
@@ -95,15 +78,11 @@ export default class EditTechnologies extends Component<Object, EditTechnologies
 	}// get_technologies;
 
 
-	private get_versions ():Promise<void> {
-		return new Promise<void> (resolve => {
-			Database.get_versions (this.state.technology.id).then ((result: IDValueList) => {
-				this.state.technology.versions = new IDValueList ();
-				if (isset (result)) this.state.technology.versions.assign (result);
-				this.forceUpdate (() => resolve ());
-			});
-		});
-	}// get_versions;
+	private load_technology (value: IDValue) {
+		let technology: TechnologyData = this.technology_list.find ((item: TechnologyData) => item.id == value.id);
+		if (is_null (technology.versions)) technology.versions = new IDValueList ();
+		this.setState ({ technology, version: null });
+	}// load_technology;
 
 
 	public save_category (item: IDValue): Promise<void> {
@@ -124,7 +103,7 @@ export default class EditTechnologies extends Component<Object, EditTechnologies
 
 
 	public save_technology (item: IDValue) {
-		Database.save_technology (new TechnologyModel ().assign ({
+		Database.save_technology (new TechnologyData ().assign ({
 			id: item.id,
 			category_id: this.state.category.id,
 			name: item.value
@@ -140,7 +119,6 @@ export default class EditTechnologies extends Component<Object, EditTechnologies
 				this.setState ({ technology: data }, () => resolve ());
 			}).then (() => {
 				this.technology_list.sortby ("name");
-				this.get_versions ();
 			});
 
 		});
@@ -148,7 +126,7 @@ export default class EditTechnologies extends Component<Object, EditTechnologies
 
 
 	private save_version (item: IDValue) {
-		Database.save_version (new VersionModel ().assign ({
+		Database.save_version (new VersionData ().assign ({
 			id: item.id,
 			technology_id: this.state.technology.id,
 			version: item.value
@@ -201,7 +179,13 @@ export default class EditTechnologies extends Component<Object, EditTechnologies
 					{this.state.saving_category ? <Eyecandy text="Saving..." /> : <DropdownEditbox id="category_list" 
 						data={this.state.categories} selected_item={this.state.category?.id}
 						disabled={is_null (this.state.categories)}
-						onChange={(value: IDValue) => this.setState ({ category: value }, this.get_technologies.bind (this))}
+
+						onChange={(value: IDValue) => this.setState ({ 
+							category: value,
+							technology: null,
+							version: null
+						}, this.get_technologies.bind (this))}
+
 						onEditComplete={(item: IDValue) => this.save_category (item)}>
 					</DropdownEditbox>}
 
@@ -216,11 +200,14 @@ export default class EditTechnologies extends Component<Object, EditTechnologies
 					{this.state.saving_technology ? <Eyecandy text="Saving..." /> : <DropdownEditbox id="technology_list" 
 						data={this.technology_list} selected_item={this.state.technology?.id}
 						disabled={is_null (this.technology_list)}
-						onChange={(value: IDValue) => this.setState ({ technology: this.technology_list.find ((item: TechnologyData) => item.id == value.id) }, this.get_versions.bind (this))}
+						onChange={(value: IDValue) => this.load_technology (value)}
 						onEditComplete={(item: IDValue) => this.save_technology (item)}>
 					</DropdownEditbox>}
 
-					<button disabled={is_null (this.state.technology)} onClick={() => this.confirm_deletion ("technology", this.state.technology)}>Delete</button>
+					<button disabled={is_null (this.state.technology)} onClick={() => this.confirm_deletion ("technology", new IDValue ().assign ({
+						id: this.state.technology.id,
+						value: this.state.technology.name
+					}))}>Delete</button>
 
 				</Container>
 
