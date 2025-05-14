@@ -12,7 +12,10 @@ export type EmploymentType = EmploymentDetails | EmploymentModelList;
 export class TechnologyDataList extends TypedArray { public constructor () { super (TechnologyData) } }
 export class VersionDataList extends TypedArray { public constructor () { super (VersionData) } }
 export class TechnologySelectionList extends TypedArray { public constructor () { super (TechnologySelection) } }
+
+
 export class TechnologyIndex extends IndexedList<TechnologyDataList> {}
+export class TechnologySelectionIndex extends IndexedList<TechnologySelectionList> {}
 
 
 export class EmploymentData {
@@ -26,7 +29,7 @@ export class EmploymentDetails {
 	public states: IDValueList = null;
 	public cities: IDValueList = null;
 	public location: LocationDetails = null;
-	public technologies: TechnologyDataList = null;
+	public technologies: TechnologySelectionIndex = null;
 }// EmploymentDetails;
 
 
@@ -42,6 +45,6 @@ export class VersionData extends IDModel {
 
 
 export class TechnologySelection {
-	public id: string = null;
+	public technology_id: string = null;
 	public versions: StringList = null;
 }// TechnologySelection;

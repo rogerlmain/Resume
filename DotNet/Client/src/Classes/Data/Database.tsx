@@ -11,7 +11,7 @@ export default class Database {
 	public static get_countries = (): Promise<IDValueList> => api_handler.get_data ("GetCountries");
 	public static get_employment = (employment_id: string = null): Promise<EmploymentType> => api_handler.get_data ("GetEmployment", employment_id);
 	public static get_states = (country_id: string): Promise<IDValueList> => api_handler.get_data ("GetStates", country_id);
-	public static get_technologies = (category_id: string): Promise<TechnologyDataList> => api_handler.get_data ("GetTechnologies");
+	public static get_technologies = (category_id: string): Promise<TechnologyDataList> => api_handler.get_data ("GetTechnologies", category_id);
 	public static get_technology_percentages = (): Promise<PercentageDataList> => api_handler.get_data ("GetTechnologyPercentages");
 
 	public static save_category = (category: IDValue): Promise<string> => api_handler.set_data ("SaveCategory", category);

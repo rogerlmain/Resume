@@ -1,4 +1,10 @@
-﻿namespace Resume.Models {
+﻿using System.ComponentModel;
+using System.Security.Cryptography.X509Certificates;
+
+namespace Resume.Models {
+
+	public class TechnologySelectionIndex: Dictionary<Guid, List<TechnologySelection>> {}
+
 
 	public class EmploymentAPIModel {
 		public required EmploymentModel employment { get; set; }
@@ -11,7 +17,7 @@
 		public required IDValueList states { get; set; }
 		public required IDValueList cities { get; set; }
 		public required LocationDetails location { get; set; }
-		public required List<TechnologySelection> technologies { get; set; }
+		public required TechnologySelectionIndex technologies { get; set; }
 	}// EmploymentDetails;
 
 

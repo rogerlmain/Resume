@@ -19,6 +19,7 @@ namespace Server.Controllers {
 
 
 	public class TechVersionItem {
+		public required Guid category_id { get; set; }
 		public required Guid technology_id { get; set; }
 		public Guid? version_id { get; set; }
 	}// TechVersionItem;
@@ -83,30 +84,52 @@ namespace Server.Controllers {
 		}// get_location_details;
 
 
-		private List<TechnologySelection>? get_employment_technologies (Guid employment_id) {
-
-			List<TechVersionItem>? tech_versions = (from etech in context.employment_technologies
+		private List<TechVersionItem>? get_tech_versions (Guid employment_id) {
+			return (from etech in context.employment_technologies
 				where etech.employment_id == employment_id
+
+				from tech in context.technologies.Where (item => item.id == etech.technology_id)
 				from etv in context.employment_tech_versions.Where (item => item.employment_technology_id == etech.id).DefaultIfEmpty ()
+
 				select new TechVersionItem () {
+					category_id = (Guid) tech.category_id!,
 					technology_id = etech.technology_id,
 					version_id = etv.version_id
 				}
 			).ToListOrNull ();
+		}// get_tech_versions;
+
+
+		private TechnologySelectionIndex? get_employment_technologies (Guid employment_id) {
+
+			List<TechVersionItem>? tech_versions = get_tech_versions (employment_id); 
+			TechnologySelectionIndex? result = null;
 
 			if (tech_versions is null) return null;
 
-			GuidList technology_ids = (from tech in tech_versions select tech.technology_id).Distinct ().ToList ();
+			foreach (Guid category_id in (from tech_version in tech_versions select tech_version.category_id).Distinct ()) {
 
-			List<TechnologySelection>? result = (from id in technology_ids select new TechnologySelection () {
-				technology_id = id,
-				versions = (from tech in tech_versions
-					where 
-						(tech.technology_id == id) &&
-						(tech.version_id != null)
-					select (Guid) tech.version_id!
-				).ToListOrNull ()
-			}).ToList ();
+				GuidList technology_ids = (from tech in tech_versions 
+					where tech.category_id == category_id
+					select tech.technology_id
+				).Distinct ().ToList ();
+
+				List<TechnologySelection>? selections = (from id in technology_ids select new TechnologySelection () {
+					technology_id = id,
+					versions = (from tech in tech_versions
+						where 
+							(tech.technology_id == id) &&
+							(tech.version_id != null)
+						select (Guid) tech.version_id!
+					).ToListOrNull ()
+				}).ToListOrNull ();
+
+				if (selections is null) continue;
+
+				result ??= new ();
+				result.Add (category_id, selections);
+
+			}// foreach;
 
 			return result;
 
@@ -246,7 +269,7 @@ namespace Server.Controllers {
 
 			EmploymentModel employment_model = get_employment_model (employment_id) ?? throw new Exception ("Cannot find employment details.");
 			LocationDetails location_details = get_location_details ((Guid) employment_model.location_id!) ?? throw new Exception ("Cannot find location details.");
-			List<TechnologySelection>? technology_list = get_employment_technologies (employment_id) ?? throw new Exception ("Cannot find technology details.");
+			TechnologySelectionIndex? technology_list = get_employment_technologies (employment_id) ?? throw new Exception ("Cannot find technology details.");
 
 			IDValueList state_list = get_state_list (location_details.country_id) ?? throw new Exception ("No states found.");
 			IDValueList city_list = get_city_list (location_details.state_id) ?? throw new Exception ("No cities found.");

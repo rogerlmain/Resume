@@ -3,9 +3,11 @@ import Database from "Classes/Data/Database";
 import DateInput from "Controls/DateInput";
 import SelectList from "Controls/SelectList";
 
+import CheckboxList from "Controls/CheckboxList";
+
 import { DateFormat, StringList } from "Classes/Globals";
 
-import { EmploymentData, EmploymentDetails, EmploymentType, TechnologyIndex, TechnologyDataList, TechnologyParameters } from "Models/APIModels";
+import { EmploymentData, EmploymentDetails, EmploymentType, TechnologyIndex, TechnologyDataList, TechnologySelectionList, TechnologySelectionIndex, TechnologySelection } from "Models/APIModels";
 import { IDValueList, IndexedList } from "Models/BaseModels";
 import { EmploymentModel, LocationDetails } from "Models/DataModels";
 
@@ -33,6 +35,7 @@ class EditEmploymentState {
 	public selected_category: string = null;
 
 	public technologies: TechnologyIndex = null;
+	public selected_technologies: TechnologySelectionIndex = null;
 
 }// EditEmploymentState;
 
@@ -45,23 +48,10 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 
 	private get active_employment (): EmploymentModel { return this.state.employment?.[this.state.employment_id] ?? null }
 	private get technology_list (): TechnologyDataList { return this.state.technologies?.[this.state.selected_category] ?? null }
-	//private get versions (): SelectionList { return this.state.active_technology?.versions }
 
 
-	private get selected_technologies (): StringList {
-
-		let result: StringList = null;
-
-		//this.state.technologies.Keys.forEach ((key: string) => {
-		//	let technology_list: TechnologyList = this.state.technologies [key];
-		//	let selections: StringList = technology_list.filteredMap ((technology: Technology) => technology.included ? technology.id : null);
-		//	if (is_null (selections)) return;
-		//	if (is_null (result)) result = new StringList ();
-		//	result.append (selections);
-		//});
-
-		return result;
-
+	private get selected_technologies (): StringList { 
+		return this.state.selected_technologies?.[this.state.selected_category]?.map ((item: TechnologySelection) => item.technology_id) ?? null;
 	}// selected_technologies;
 
 
@@ -88,9 +78,10 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 				});
 
 				this.setState ({
+					employment: employment_data,
 					states: details.states,
 					cities: details.cities,
-					employment: employment_data,
+					selected_technologies: details.technologies,
 					editing: true
 				});
 
@@ -103,7 +94,7 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 
 	private load_technology_list (category_id: string) {
 
-		if (isset (this.selected_technologies)) return;
+		if (isset (this.technology_list)) return;
 
 		Database.get_technologies (category_id).then ((technology: TechnologyDataList) => {
 			if (is_null (this.state.technologies)) this.state.technologies = new TechnologyIndex ();
@@ -272,12 +263,13 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 						</div>
 
 						<div className="slightly-spaced-out row-block">
-{/*
-							{isset (this.state.technology_list) ? <CheckboxList items={this.state.technology_list}
-								selected_items={this.state.technology_list?.filteredMap ((item: Technology) => item.included ? item.id : null)}
-								onChange={(technology: Technology, checked: boolean) => technology.included = checked}>
-							</CheckboxList> : <div className="full-width column-centered bold-text row-block">No technologies found</div>}
 
+{/*								onChange={(technology: Technology, checked: boolean) => technology.included = checked}>*/}
+							{isset (this.technology_list) ? <CheckboxList items={this.technology_list}
+								selected_items={this.selected_technologies}
+>
+							</CheckboxList> : <div className="full-width column-centered bold-text row-block">No technologies found</div>}
+{/*
 							<Optional condition={isset (this.versions)}>
 								<CheckboxList items={this.versions}
 									selected_items={this.versions?.filteredMap ((item: Selection) => item.included ? item.id : null )}
