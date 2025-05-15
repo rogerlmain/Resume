@@ -46,6 +46,13 @@ namespace Resume.Models {
 	}// TechnologyData;
 
 
+	public class TechnologyParameters {
+		public required Guid employment_id { get; set; }
+		public required Guid technology_id { get; set; }
+		public required Boolean value { get; set; }
+	}// TechnologyParameters;
+
+
 	public class VersionData: IDModel {
 		public required String version { get; set; }
 	}// VersionData;

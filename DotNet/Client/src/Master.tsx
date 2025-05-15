@@ -1,8 +1,8 @@
+import "Classes/Prototypes";
 import "Classes/Types";
 import "Classes/Globals";
 import "Classes/Handlers";
 import "Classes/NumericCurrency";
-import "Classes/Prototypes/Prototypes";
 
 import { createRoot } from "react-dom/client";
 

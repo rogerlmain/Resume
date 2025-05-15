@@ -5,7 +5,7 @@ using Resume.Classes.Extensions;
 using Resume.Models;
 
 
-namespace Server.Controllers {
+namespace Resume.Controllers {
 
 	public class TechListItem {
 		public required Guid category_id { get; set; }
@@ -159,30 +159,6 @@ namespace Server.Controllers {
 
 
 		[HttpDelete]
-		[Route ("DeleteTechnology")]
-		public IActionResult DeleteTechnology ([FromBody] Guid technology_id) {
-
-			(from tech_version in context.employment_tech_versions
-				join version in context.versions on tech_version.version_id equals version.id
-				where version.technology_id == technology_id
-				select tech_version
-			).ExecuteDelete ();
-
-			(from version in context.versions
-				where version.technology_id == technology_id
-				select version
-			).ExecuteDelete ();
-
-			(from technology in context.technologies
-				where technology.id == technology_id
-				select technology
-			).ExecuteDelete ();
-
-			return new JsonResult (null);
-		}// DeleteTechnology;
-
-
-		[HttpDelete]
 		[Route ("DeleteVersion")]
 		public IActionResult DeleteVersion ([FromBody] Guid version_id) {
 
@@ -269,7 +245,7 @@ namespace Server.Controllers {
 
 			EmploymentModel employment_model = get_employment_model (employment_id) ?? throw new Exception ("Cannot find employment details.");
 			LocationDetails location_details = get_location_details ((Guid) employment_model.location_id!) ?? throw new Exception ("Cannot find location details.");
-			TechnologySelectionIndex? technology_list = get_employment_technologies (employment_id) ?? throw new Exception ("Cannot find technology details.");
+			TechnologySelectionIndex? technology_list = get_employment_technologies (employment_id);
 
 			IDValueList state_list = get_state_list (location_details.country_id) ?? throw new Exception ("No states found.");
 			IDValueList city_list = get_city_list (location_details.state_id) ?? throw new Exception ("No cities found.");
@@ -293,51 +269,6 @@ namespace Server.Controllers {
 			IDValueList? result = get_state_list (country_id);
 			return new JsonResult (result);
 		}// GetStates;
-
-
-        [HttpPost]
-        [Route ("GetTechnologies")]
-		public IActionResult GetTechnologies ([FromBody] Guid category_id) {
-
-			List<TechnologyData>? result = (from technology in context.technologies
-				where technology.category_id == category_id
-				select new TechnologyData () {
-					id = technology.id,
-					name = technology.name,
-					versions = (from version in context.versions
-						where version.technology_id == technology.id
-						select new VersionData () {
-							id = version.id,
-							version = version.version
-						}
-					).ToListOrNull ()
-				}
-			).ToListOrNull ()?.SortBy ("value");
-
-			return new JsonResult (result);
-
-		}// GetTechnologies;
-
-
-		[HttpPost]
-		[Route ("GetTechnologyPercentages")]
-		public IActionResult GetTechnologyPercentages () {
-
-			List<PercentageData>? result = null;
-
-			//(from employment in context.employment
-				//join tech_employment in context.employment_technologies on employment.id equals tech_employment.employment_id
-				//join technology in context.technologies on tech_employment.technology_id equals technology.id
-				//group 
-				//select new PercentageData () {
-				//	name = technology.name,
-				//	percentage = 
-				//}
-			//)
-
-			return new JsonResult (result);
-
-		}// GetTechnologyPercentages;
 
 
 		[HttpPut]
@@ -380,22 +311,6 @@ namespace Server.Controllers {
 		}// SaveEmployment;
 
 
-		[HttpPut]
-		[Route ("SaveTechnology")]
-		public IActionResult SaveTechnology ([FromBody] TechnologyModel technology) {
-			Guid? id = context.technologies.Save (technology);
-			return new JsonResult (id);
-		}// SaveTechnology;
-
-
-		[HttpPut]
-		[Route ("SaveVersion")]
-		public IActionResult SaveVersion ([FromBody] VersionModel version) {
-			Guid? id = context.versions.Save (version);
-			return new JsonResult (id);
-		}// SaveVersion;
-
-
 		[HttpGet]
 		[Route ("RunTest")]
 		public IActionResult RunTest () {
@@ -417,4 +332,4 @@ namespace Server.Controllers {
 
     }// Main;
 
-}// Server.Controllers;
+}// Resume.Controllers;

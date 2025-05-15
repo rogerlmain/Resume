@@ -48,3 +48,10 @@ export class TechnologySelection {
 	public technology_id: string = null;
 	public versions: StringList = null;
 }// TechnologySelection;
+
+
+export class TechnologyParameters {
+	public employment_id: string = null;
+	public technology_id: string = null;
+	public value: boolean = false;
+}// TechnologyParameters;

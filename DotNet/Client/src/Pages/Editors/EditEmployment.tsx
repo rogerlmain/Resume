@@ -2,13 +2,13 @@ import Database from "Classes/Data/Database";
 
 import DateInput from "Controls/DateInput";
 import SelectList from "Controls/SelectList";
-
+import Optional from "Controls/Optional";
 import CheckboxList from "Controls/CheckboxList";
 
 import { DateFormat, StringList } from "Classes/Globals";
 
-import { EmploymentData, EmploymentDetails, EmploymentType, TechnologyIndex, TechnologyDataList, TechnologySelectionList, TechnologySelectionIndex, TechnologySelection } from "Models/APIModels";
-import { IDValueList, IndexedList } from "Models/BaseModels";
+import { EmploymentData, EmploymentDetails, EmploymentType, TechnologyIndex, TechnologyDataList, TechnologySelectionIndex, TechnologySelection, TechnologyParameters, TechnologyData, VersionDataList, VersionData, TechnologySelectionList } from "Models/APIModels";
+import { IDValue, IDValueList, IndexedList } from "Models/BaseModels";
 import { EmploymentModel, LocationDetails } from "Models/DataModels";
 
 import { ChangeEvent, Component, createRef, RefObject } from "react";
@@ -36,23 +36,40 @@ class EditEmploymentState {
 
 	public technologies: TechnologyIndex = null;
 	public selected_technologies: TechnologySelectionIndex = null;
+	public active_technology: string = null;
+
+	public technology_versions: VersionDataList = null;
 
 }// EditEmploymentState;
 
 
 export default class EditEmployment extends Component<Object, EditEmploymentState> {
 
-	private start_date: RefObject<DateInput> = createRef ();
-	private end_date: RefObject<DateInput> = createRef ();
+	private technology_checkbox_list_reference: RefObject<CheckboxList> = createRef ();
 
 
+	private get technology_checkbox_list (): CheckboxList { return this.technology_checkbox_list_reference.current }
 	private get active_employment (): EmploymentModel { return this.state.employment?.[this.state.employment_id] ?? null }
 	private get technology_list (): TechnologyDataList { return this.state.technologies?.[this.state.selected_category] ?? null }
 
 
-	private get selected_technologies (): StringList { 
+	private get active_technology (): TechnologyData { 
+		return this.technology_list.find ((technology: TechnologyData) => technology.id == this.state.active_technology) ?? null;
+	}// active_technology;
+
+
+	private get selected_technology_ids (): StringList { 
 		return this.state.selected_technologies?.[this.state.selected_category]?.map ((item: TechnologySelection) => item.technology_id) ?? null;
-	}// selected_technologies;
+	}// selected_technology_ids;
+
+
+	private get selected_versions (): StringList {
+		return this.selected_technologies?.[this.state.active_technology]?.versions?.map ((version: VersionData) => version.id) ?? null;
+	}// selected_versions;
+
+
+	private get selected_technologies (): TechnologySelectionList { return this.state.selected_technologies?.[this.state.selected_category] ?? null }
+	private set selected_technologies (value: TechnologySelectionList) { this.state.selected_technologies [this.state.selected_category] = value }
 
 
 	private get_date = (date_field: string) => this.active_employment?.[date_field]?.format (DateFormat.database) ?? String.Empty;
@@ -110,7 +127,7 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 
 			let employment_data = new EmploymentData ().assign ({
 				employment: this.active_employment,
-				technologies: this.selected_technologies
+				technologies: this.selected_technology_ids
 			});
 
 			Database.save_employment (employment_data).then ((result: string) => {
@@ -160,6 +177,56 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 		let target: HTMLInputElement = event.currentTarget as HTMLInputElement;
 		this.active_employment [target.id] = new Date (target.value);
 	}// set_date;
+
+
+	private show_versions (technology_id: string, highlighted: boolean) {
+		this.setState ({ active_technology: (highlighted ? technology_id : null) }, () => {
+			this.setState ({ technology_versions: this.active_technology?.versions ?? null });
+		});
+	}// show_versions;
+
+
+	private update_technology (item: IDValue, checked: boolean) {
+
+		let parameters: TechnologyParameters = {
+			employment_id: this.state.employment_id,
+			technology_id: item.id,
+			value: checked
+		}// parameters;
+
+		Database.set_technology (parameters).then (() => {
+
+			this.technology_checkbox_list.highlight_item (item.id, checked);
+
+			if (checked) {
+
+				if (is_null (this.state.selected_technologies)) this.state.selected_technologies = new TechnologySelectionIndex ();
+				if (is_null (this.selected_technologies)) this.selected_technologies = new TechnologyDataList ();
+
+				this.selected_technologies.push (new TechnologySelection ().assign ({
+					technology_id: item.id,
+					versions:  null
+				}));
+
+				return this.forceUpdate ();
+
+			}// if;
+
+			this.selected_technologies.remove (this.selected_technologies.find ((technology: TechnologySelection) => technology.technology_id == item.id));
+			if (is_empty (this.selected_technologies)) delete this.state.selected_technologies [this.state.selected_category];
+			if (is_empty (this.state.selected_technologies)) this.state.selected_technologies = null;
+			this.forceUpdate ();
+
+		});
+
+	}// update_technology;
+
+
+	public update_version (item: IDValue, checked: boolean) {
+
+
+
+	}// update_version;
 
 
 	/********/
@@ -233,10 +300,10 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 						</div>
 
 						<label htmlFor="start_date">Start date</label>
-						<DateInput id="start_date" ref={this.start_date} onChange={this.set_date.bind (this)} value={this.get_date ("start_date")} />
+						<DateInput id="start_date" onChange={this.set_date.bind (this)} value={this.get_date ("start_date")} />
 
 						<label htmlFor="end_date">End date</label>
-						<DateInput id="end_date" ref={this.end_date} onChange={this.set_date.bind (this)} value={this.get_date ("end_date")} />
+						<DateInput id="end_date" onChange={this.set_date.bind (this)} value={this.get_date ("end_date")} />
 
 						<label htmlFor="description" className="full-width left-aligned four-column-span row-block with-headspace">Description</label>
 
@@ -264,19 +331,20 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 
 						<div className="slightly-spaced-out row-block">
 
-{/*								onChange={(technology: Technology, checked: boolean) => technology.included = checked}>*/}
-							{isset (this.technology_list) ? <CheckboxList items={this.technology_list}
-								selected_items={this.selected_technologies}
->
+							{isset (this.technology_list) ? <CheckboxList items={this.technology_list} 
+								ref={this.technology_checkbox_list_reference}
+								selected_items={this.selected_technology_ids} highlightable={true}
+								onChange={this.update_technology.bind (this)}
+								onHighlight={this.show_versions.bind (this)}>
 							</CheckboxList> : <div className="full-width column-centered bold-text row-block">No technologies found</div>}
-{/*
-							<Optional condition={isset (this.versions)}>
-								<CheckboxList items={this.versions}
-									selected_items={this.versions?.filteredMap ((item: Selection) => item.included ? item.id : null )}
-									onChange={(version: Selection, checked: boolean) => version.included = checked}>
+
+							<Optional condition={isset (this.state.technology_versions)}>
+								<CheckboxList items={this.state.technology_versions}
+									selected_items={this.selected_versions}
+									onChange={this.update_version.bind (this)}>
 								</CheckboxList>
 							</Optional>
-*/}
+
 						</div>
 
 					</div>

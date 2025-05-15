@@ -126,7 +126,7 @@ export default class EditTechnologies extends Component<Object, EditTechnologies
 
 
 	private save_version (item: IDValue) {
-		Database.save_version (new VersionData ().assign ({
+		Database.save_technology_version (new VersionData ().assign ({
 			id: item.id,
 			technology_id: this.state.technology.id,
 			version: item.value

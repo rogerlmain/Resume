@@ -12,6 +12,7 @@ declare global {
 	interface HTMLElement {
 
 		setClass (value: String, condition: Boolean): void;
+		sibling (selector: string): HTMLElement;
 		styleSelector (style: string, value: string): HTMLElement;
 
 		transitionEvents: StringArray;
@@ -27,22 +28,6 @@ declare global {
 }// global;
 
 
-function get_transitions_list (element: HTMLElement): StringList {
-	
-	let result: StringList = null;
-	let transitions: StringList = element.style.transition.split (String.Comma);
-
-	transitions.forEach ((transition: string) => {
-		let parts: StringList = transition.trim ().split (String.Space).filter ((item: string) => not_empty (item.trim ()));
-		if (is_null (result)) result = new StringList ();
-		result.push (parts [0]);
-	});
-
-	return result;
-
-}// get_transitions_list;
-
-
 /**** HTMLElement Prototype Functions ****/
 
 
@@ -50,6 +35,9 @@ HTMLElement.prototype.setClass = function (value: string, condition: Boolean) {
 	if (condition) return this.classList.add (value);
 	this.classList.remove (value);
 }// setClass;
+
+
+HTMLElement.prototype.sibling = function (selector: string) { return this.parentElement.querySelector (selector) }
 
 
 HTMLElement.prototype.styleSelector = function (style: string, value: string): HTMLElement {

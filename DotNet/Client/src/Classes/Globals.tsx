@@ -23,7 +23,8 @@ declare global {
 
 
 declare global {
-	type ClickEvent = MouseEvent<HTMLInputElement>
+	type InputClickEvent = MouseEvent<HTMLInputElement>
+	type LabelClickEvent = MouseEvent<HTMLLabelElement>
 	type SelectEvent = ChangeEvent<HTMLSelectElement>
 }// global;
 
@@ -68,6 +69,7 @@ declare global {
 
 	var is_assigned: Function;
 	var not_assigned: Function;
+	var is_unassigned: Function;
 
 	var is_undefined: Function;
 	var not_undefined: Function;
@@ -139,7 +141,12 @@ global.no_data = "No data available";
 /**** Validation Functions ****/
 
 
-global.is_empty = (value: any): boolean => (String.isString (value) && (value == String.Empty)) || (Array.isArray (value) && (value.length == 0)) || (Object.isObject (value) && not_set (value?.Keys));
+global.is_empty = (value: any): boolean => {
+	return (String.isString (value) && (value == String.Empty)) || 
+		(Array.isArray (value) && (value.length == 0)) || 
+		(Object.isObject (value) && /*not_set (value?.Keys));//*/((value?.Keys?.length ?? 0) == 0));
+}// is_empty;
+
 global.not_empty = (value: any): boolean => !is_empty (value);
 
 global.isset = (value: any): boolean => not_null (value) && (value != undefined);
@@ -149,7 +156,7 @@ global.is_null = (value: any): boolean => (value === null);
 global.not_null = (value: any): boolean => !is_null (value);
 
 global.is_assigned = (value: any): boolean => isset (value) && not_empty (value);
-global.not_assigned = (value: any): boolean => !is_assigned (value);
+global.not_assigned = global.is_unassigned = (value: any): boolean => !is_assigned (value);
 
 global.is_undefined = (value: any): boolean => value == undefined;
 global.not_undefined = (value: any): boolean => !is_undefined (value);

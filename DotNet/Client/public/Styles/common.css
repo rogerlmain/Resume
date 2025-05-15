@@ -59,6 +59,7 @@ div.popup-window {
   --sort-arrow-color: #888;
   --required-field-color: #FFF8F8;
   --disabled-text-color: #888;
+  --checkbox-highlight: #29D0D0;
 }
 
 .testgrid {

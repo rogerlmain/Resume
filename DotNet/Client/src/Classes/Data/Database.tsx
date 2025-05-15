@@ -1,4 +1,4 @@
-import { EmploymentData, EmploymentType, TechnologyData, TechnologyDataList, VersionData } from "Models/APIModels";
+import { EmploymentData, EmploymentType, TechnologyData, TechnologyDataList, TechnologyParameters, VersionData } from "Models/APIModels";
 import { IDValue, IDValueList } from "Models/BaseModels";
 import { PercentageDataList } from "Pages/Technologies";
 
@@ -17,7 +17,9 @@ export default class Database {
 	public static save_category = (category: IDValue): Promise<string> => api_handler.set_data ("SaveCategory", category);
 	public static save_employment = (employment: EmploymentData): Promise<string> => api_handler.set_data ("SaveEmployment", employment);
 	public static save_technology = (technology: TechnologyData): Promise<string> => api_handler.set_data ("SaveTechnology", technology);
-	public static save_version = (version: VersionData): Promise<string> => api_handler.set_data ("SaveVersion", version);
+	public static save_technology_version = (version: VersionData): Promise<string> => api_handler.set_data ("SaveTechnologyVersion", version);
+
+	public static set_technology = (parameters: TechnologyParameters) => api_handler.set_data ("SetTechnology", parameters);
 
 	public static delete_category = (category_id: string): Promise<boolean> => api_handler.delete_data ("DeleteCategory", category_id);
 	public static delete_technology = (technology_id: string): Promise<boolean> => api_handler.delete_data ("DeleteTechnology", technology_id);
