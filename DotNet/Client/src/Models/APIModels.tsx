@@ -55,3 +55,11 @@ export class TechnologyParameters {
 	public technology_id: string = null;
 	public value: boolean = false;
 }// TechnologyParameters;
+
+
+export class VersionParameters {
+	public employment_id: string = null;
+	public technology_id: string = null;
+	public version_id: string = null;
+	public value: boolean = false;
+}// VersionParameters;

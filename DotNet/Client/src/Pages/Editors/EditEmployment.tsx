@@ -7,7 +7,7 @@ import CheckboxList from "Controls/CheckboxList";
 
 import { DateFormat, StringList } from "Classes/Globals";
 
-import { EmploymentData, EmploymentDetails, EmploymentType, TechnologyIndex, TechnologyDataList, TechnologySelectionIndex, TechnologySelection, TechnologyParameters, TechnologyData, VersionDataList, VersionData, TechnologySelectionList } from "Models/APIModels";
+import { EmploymentData, EmploymentDetails, EmploymentType, TechnologyIndex, TechnologyDataList, TechnologySelectionIndex, TechnologySelection, TechnologyParameters, TechnologyData, VersionDataList, VersionData, TechnologySelectionList, VersionParameters } from "Models/APIModels";
 import { IDValue, IDValueList, IndexedList } from "Models/BaseModels";
 import { EmploymentModel, LocationDetails } from "Models/DataModels";
 
@@ -21,8 +21,8 @@ class EditEmploymentState {
 
 	public company_list: IDValueList = null;
 
-	public employment_id: string = null;
 	public employment: EmploymentIndex = null;
+	public employment_id: string = null;
 
 	public editing: boolean = false;
 	public saving: boolean = false;
@@ -32,11 +32,12 @@ class EditEmploymentState {
 	public cities: IDValueList = null;
 
 	public categories: IDValueList = null;
-	public selected_category: string = null;
+	public category_id: string = null;
 
 	public technologies: TechnologyIndex = null;
+	public technology_id: string = null;
+
 	public selected_technologies: TechnologySelectionIndex = null;
-	public active_technology: string = null;
 
 	public technology_versions: VersionDataList = null;
 
@@ -50,26 +51,31 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 
 	private get technology_checkbox_list (): CheckboxList { return this.technology_checkbox_list_reference.current }
 	private get active_employment (): EmploymentModel { return this.state.employment?.[this.state.employment_id] ?? null }
-	private get technology_list (): TechnologyDataList { return this.state.technologies?.[this.state.selected_category] ?? null }
+	private get technology_list (): TechnologyDataList { return this.state.technologies?.[this.state.category_id] ?? null }
 
 
 	private get active_technology (): TechnologyData { 
-		return this.technology_list.find ((technology: TechnologyData) => technology.id == this.state.active_technology) ?? null;
+		return this.technology_list.find ((technology: TechnologyData) => technology.id == this.state.technology_id) ?? null;
 	}// active_technology;
 
 
 	private get selected_technology_ids (): StringList { 
-		return this.state.selected_technologies?.[this.state.selected_category]?.map ((item: TechnologySelection) => item.technology_id) ?? null;
+		return this.state.selected_technologies?.[this.state.category_id]?.map ((item: TechnologySelection) => item.technology_id) ?? null;
 	}// selected_technology_ids;
 
 
 	private get selected_versions (): StringList {
-		return this.selected_technologies?.[this.state.active_technology]?.versions?.map ((version: VersionData) => version.id) ?? null;
+		return this.selected_technologies?.find ((item: TechnologySelection) => item.technology_id == this.state.technology_id)?.versions ?? null;
 	}// selected_versions;
 
 
-	private get selected_technologies (): TechnologySelectionList { return this.state.selected_technologies?.[this.state.selected_category] ?? null }
-	private set selected_technologies (value: TechnologySelectionList) { this.state.selected_technologies [this.state.selected_category] = value }
+	private get selected_technologies (): TechnologySelectionList { return this.state.selected_technologies?.[this.state.category_id] ?? null }
+	private set selected_technologies (value: TechnologySelectionList) { this.state.selected_technologies [this.state.category_id] = value }
+
+
+	private get selected_technology (): TechnologySelection { 
+		return this.selected_technologies?.find ((technology: TechnologySelection) => technology.technology_id == this.state.technology_id) ?? null;
+	}// selected_technology;
 
 
 	private get_date = (date_field: string) => this.active_employment?.[date_field]?.format (DateFormat.database) ?? String.Empty;
@@ -180,7 +186,7 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 
 
 	private show_versions (technology_id: string, highlighted: boolean) {
-		this.setState ({ active_technology: (highlighted ? technology_id : null) }, () => {
+		this.setState ({ technology_id: (highlighted ? technology_id : null) }, () => {
 			this.setState ({ technology_versions: this.active_technology?.versions ?? null });
 		});
 	}// show_versions;
@@ -213,7 +219,7 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 			}// if;
 
 			this.selected_technologies.remove (this.selected_technologies.find ((technology: TechnologySelection) => technology.technology_id == item.id));
-			if (is_empty (this.selected_technologies)) delete this.state.selected_technologies [this.state.selected_category];
+			if (is_empty (this.selected_technologies)) delete this.state.selected_technologies [this.state.category_id];
 			if (is_empty (this.state.selected_technologies)) this.state.selected_technologies = null;
 			this.forceUpdate ();
 
@@ -224,7 +230,27 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 
 	public update_version (item: IDValue, checked: boolean) {
 
+		let parameters = new VersionParameters ().assign ({
+			employment_id: this.state.employment_id,
+			technology_id: this.state.technology_id,
+			version_id: item.id,
+			value: checked,
+		});
 
+		Database.set_version (parameters).then (() => {
+
+			if (checked) {
+				if (is_null (this.selected_technology.versions)) this.selected_technology.versions = new StringList ();
+				if (this.selected_technology.versions.contains (item.id)) return;
+				this.selected_technology.versions.push (item.id);
+			} else {
+				this.selected_technology?.versions?.remove (item.id);
+				if (is_empty (this.selected_technology.versions)) this.selected_technology.versions = null;
+			}// if;
+
+			this.forceUpdate ();
+
+		});
 
 	}// update_version;
 
@@ -320,10 +346,10 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 						<label>Add technologies</label>
 						<div className="flex-block">
 							<SelectList items={this.state.categories} disabled={is_null (this.state.categories)} 
-								text_field="value" selected_item={this.state.selected_category}
+								text_field="value" selected_item={this.state.category_id}
 								onChange={(event: SelectEvent) => {
-									this.setState ({ selected_category: (event.currentTarget as HTMLSelectElement).value }, () => {
-										this.load_technology_list (this.state.selected_category);
+									this.setState ({ category_id: (event.currentTarget as HTMLSelectElement).value }, () => {
+										this.load_technology_list (this.state.category_id);
 									});
 								}}>
 							</SelectList>
@@ -339,7 +365,7 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 							</CheckboxList> : <div className="full-width column-centered bold-text row-block">No technologies found</div>}
 
 							<Optional condition={isset (this.state.technology_versions)}>
-								<CheckboxList items={this.state.technology_versions}
+								<CheckboxList items={this.state.technology_versions} text_field="version"
 									selected_items={this.selected_versions}
 									onChange={this.update_version.bind (this)}>
 								</CheckboxList>

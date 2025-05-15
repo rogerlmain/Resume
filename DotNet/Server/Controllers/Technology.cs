@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Resume.Classes;
 using Resume.Classes.Extensions;
 using Resume.Models;
@@ -9,6 +8,15 @@ using Resume.Models;
 namespace Resume.Controllers.Technology {
 
 	public class TechnologyControllers (DataContext context): Controller {
+
+		private IQueryable<EmploymentTechnologiesModel> get_etech (Guid employment_id, Guid technology_id) {
+			return (from etech in context.employment_technologies
+				where (etech.employment_id == employment_id) &&
+					(etech.technology_id == technology_id)
+				select etech
+			);
+		}// get_etech;
+
 
 		private void add_employment_technology (Guid employment_id, Guid technology_id) {
 			context.employment_technologies.Save (new EmploymentTechnologiesModel () {
@@ -20,11 +28,7 @@ namespace Resume.Controllers.Technology {
 
 		private void remove_employment_technology (Guid employment_id, Guid technology_id) {
 
-			IQueryable<EmploymentTechnologiesModel> employment_technology = (from etech in context.employment_technologies
-				where (etech.employment_id == employment_id) &&
-					(etech.technology_id == technology_id)
-				select etech
-			);
+			IQueryable<EmploymentTechnologiesModel> employment_technology = get_etech (employment_id, technology_id);
 
 			(from version in context.employment_tech_versions
 				where (version.employment_technology_id == (from etech in employment_technology select etech.id).First ())
@@ -34,6 +38,33 @@ namespace Resume.Controllers.Technology {
 			employment_technology.ExecuteDelete ();
 
 		}// remove_employment_technology;
+
+
+		private void add_employment_tech_version (Guid employment_id, Guid technology_id, Guid version_id) {
+			context.employment_tech_versions.Save (new EmploymentTechVersionsModel () {
+				employment_technology_id = (Guid) (from etech in context.employment_technologies
+					where 
+						(etech.employment_id == employment_id) && 
+						(etech.technology_id == technology_id)
+					select etech.id
+				).First ()!,
+				version_id = version_id
+			});
+		}// add_employment_tech_version;
+
+
+		private void remove_employment_tech_version (Guid employment_id, Guid technology_id, Guid version_id) {
+
+			Guid? etech_id = get_etech (employment_id, technology_id).First ().id;
+
+			(from version in context.employment_tech_versions
+				where 
+					(version.employment_technology_id == etech_id) &&
+					(version.version_id == version_id)
+				select version
+			).ExecuteDelete ();
+
+		}// remove_employment_tech_version;
 
 
 		/********/
@@ -130,12 +161,26 @@ namespace Resume.Controllers.Technology {
 
 			switch (parameters.value) {
 				case true: add_employment_technology (parameters.employment_id, parameters.technology_id); break;
-				case false: remove_employment_technology (parameters.employment_id, parameters.technology_id); break;
+				default: remove_employment_technology (parameters.employment_id, parameters.technology_id); break;
 			}// switch;
 
 			return Responses.Success ();
 
 		}// SetTechnology;
+
+
+		[HttpPut]
+		[Route ("SetVersion")]
+		public IActionResult SetVersion ([FromBody] VersionParameters parameters) {
+
+			switch (parameters.value) {
+				case true: add_employment_tech_version (parameters.employment_id, parameters.technology_id, parameters.version_id); break;
+				default: remove_employment_tech_version (parameters.employment_id, parameters.technology_id, parameters.version_id); break;
+			}
+
+			return Responses.Success ();
+
+		}// SetVersion;
 
 
 	}// TechnologyControllers;
