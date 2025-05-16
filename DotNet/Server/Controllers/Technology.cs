@@ -109,7 +109,7 @@ namespace Resume.Controllers.Technology {
 						select version
 					).OrderBy ((VersionModel version) => version.version).ToListOrNull ()
 				}
-			).ToListOrNull ()?.SortBy ("value");
+			).OrderBy ((TechnologyData item) => item.name).ToListOrNull ();
 
 			return new JsonResult (result);
 

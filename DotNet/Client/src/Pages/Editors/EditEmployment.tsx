@@ -186,13 +186,6 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 	}// set_date;
 
 
-	//private show_versions (technology_id: string, highlighted: boolean) {
-	//	this.setState ({ technology_id: (highlighted ? technology_id : null) }, () => {
-	//		this.setState ({ technology_versions: this.active_technology?.versions ?? null });
-	//	});
-	//}// show_versions;
-
-
 	private update_technology (item: IDValue, checked: boolean) {
 
 		let parameters: TechnologyParameters = {
@@ -372,7 +365,7 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 
 							<Optional condition={isset (this.technology_versions)}>
 								<CheckboxList items={this.technology_versions} 
-									text_field={(item: VersionData) => `${item.version}${isset (item.release_date) ? `(${item.release_date})` : String.Empty}`}
+									text_field={(item: VersionData) => `${item.version}${isset (item.release_date) ? ` (${item.release_date})` : String.Empty}`}
 									selected_items={this.selected_versions} onChange={this.update_version.bind (this)}>
 								</CheckboxList>
 							</Optional>

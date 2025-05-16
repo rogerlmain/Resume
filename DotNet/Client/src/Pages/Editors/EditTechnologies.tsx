@@ -128,6 +128,7 @@ export default class EditTechnologies extends Component<Object, EditTechnologies
 
 		Database.set_release_date (parameters).then (() => {
 			this.state.version.release_date = value;
+			this.forceUpdate ();
 		});
 
 	}// save_release_date;
@@ -140,16 +141,16 @@ export default class EditTechnologies extends Component<Object, EditTechnologies
 			name: item.value
 		})).then ((id: string) => {
 
-			let data: TechnologyData = this.technology_list.find ((item: TechnologyData) => item.id == id) ?? null;
+			let data: TechnologyData = this.technology_list?.find ((item: TechnologyData) => item.id == id) ?? null;
 
 			new Promise<void> (resolve => {
 				if (isset (data)) return resolve ();
-				data = new TechnologyData ().assign (item);
-				data.id = id;
+				data = new TechnologyData ().assign ({ id, name: item.value });
 				this.technology_list.push (data);
 				this.setState ({ technology: data }, () => resolve ());
 			}).then (() => {
 				this.technology_list.sortby ("name");
+				this.forceUpdate ();
 			});
 
 		});

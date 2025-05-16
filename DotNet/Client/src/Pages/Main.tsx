@@ -118,7 +118,7 @@ export default class MainPage extends Component<Object, MainPageState> {
 
 	public constructor (props: Object) {
 		super (props);
-		this.state.active_page = Pages.EditEmployment;
+		this.state.active_page = Pages.EditTechnologies;
 	}// constructor;
 
 }// MainPage;
