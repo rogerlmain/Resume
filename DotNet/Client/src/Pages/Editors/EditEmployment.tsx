@@ -328,7 +328,10 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 						<label htmlFor="description" className="full-width left-aligned four-column-span row-block with-headspace">Description</label>
 
 						<textarea id="description" className="four-column-span" value={this.active_employment?.description ?? String.Empty}
-							onChange={(event: ChangeEvent) => this.active_employment.description = (event.currentTarget as HTMLInputElement).value}>
+							onChange={(event: ChangeEvent) => {
+								this.active_employment.description = (event.currentTarget as HTMLInputElement).value;
+								this.forceUpdate ();
+							}}>
 						</textarea>
 
 					</div>

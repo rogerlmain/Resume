@@ -80,7 +80,7 @@ export default class MainPage extends Component<Object, MainPageState> {
 	public render () {
 		return <ImageContainer onLoad={() => this.fade_panel.show ()}>
 			<FadePanel className="full-size" ref={this.fade_panel_ref} speed={default_speed} onShow={() => this.main_panel.show ()}>
-				<div className="full-page column-block bordered">
+				<div className="full-page column-block">
 
 					<PopupWindow id="popup_window" ref={this.popup_window_reference} />
 

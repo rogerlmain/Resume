@@ -117,13 +117,13 @@ export default class DropdownEditbox extends Component<DropdownEditboxProps, Dro
 	public render () {
 		return <div id={this.props.id} className="stacked fill-width">
 
-			<select style={{ visibility: (this.state.editing ? "hidden" : null), backgroundColor: "#FEE" }} 
+			<select style={{ visibility: (this.state.editing ? "hidden" : null) }} 
 				ref={this.select_list_reference} disabled={this.props.disabled} onChange={this.change_selection.bind (this)}
 				onDoubleClick={this.edit_value.bind (this)} value={this.state.value?.id ?? null}>
 				{this.select_options}
 			</select>
 
-			<input type="text" style={{ visibility: (this.state.editing ? null : "hidden"), backgroundColor: "#EFE" }} 
+			<input type="text" style={{ visibility: (this.state.editing ? null : "hidden") }} 
 				ref={this.text_input_reference} onKeyDown={this.select_value.bind (this)}
 				onDoubleClick={() => this.setState ({ editing: false })}
 				onBlur={this.save_value.bind (this)}>
