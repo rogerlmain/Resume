@@ -54,8 +54,9 @@ namespace Resume.Models {
 
 
 	public class VersionModel: IDModel {
-		public required Guid technology_id { get; set; }
-		public required String version { get; set; }
+		public /*required*/ Guid? technology_id { get; set; } = null;
+		public /*required*/ String? version { get; set; } = null;
+		public int? release_date { get; set; } = null;
 	}// VersionModel;
 
 }// Resume.Models;

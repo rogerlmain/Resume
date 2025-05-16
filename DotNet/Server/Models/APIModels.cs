@@ -42,13 +42,15 @@ namespace Resume.Models {
 
 	public class TechnologyData: IDModel {
 		public required String name { get; set; }
-		public List<VersionData>? versions { get; set; } = null;
+		public List<VersionModel>? versions { get; set; } = null;
 	}// TechnologyData;
 
 
-	public class VersionData: IDModel {
-		public required String version { get; set; }
-	}// VersionData;
+	public class ReleaseDateParameters {
+		public required Guid version_id { get; set; }
+		public required int release_date { get; set; }
+	}// ReleaseDateParameters;
+
 
 	public class TechnologyParameters {
 		public required Guid employment_id { get; set; }

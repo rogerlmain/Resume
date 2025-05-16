@@ -7,7 +7,7 @@ import InformationWindow from "Controls/Windows/InformationWindow";
 import DropdownEditbox from "Controls/DropdownEditbox";
 import Eyecandy from "Controls/Windows/Eyecandy";
 
-import { TechnologyData, TechnologyDataList, TechnologyIndex, VersionData } from "Models/APIModels";
+import { ReleaseDateParameters, TechnologyData, TechnologyDataList, TechnologyIndex, VersionData, VersionDataList } from "Models/APIModels";
 import { IDValue, IDValueList } from "Models/BaseModels";
 import { Component } from "react";
 
@@ -26,7 +26,7 @@ class EditTechnologiesState {
 
 	public category: IDValue = null;
 	public technology: TechnologyData = null;
-	public version: IDValue = null;
+	public version: VersionData = null;
 
 }// EditTechnologiesState;
 
@@ -34,7 +34,22 @@ class EditTechnologiesState {
 export default class EditTechnologies extends Component<Object, EditTechnologiesState> {
 
 	private get technology_list (): TechnologyDataList { return this.state?.technologies?.[this.state.category?.id] ?? null }
-	private get version_list (): IDValueList { return this.state.technology?.versions ?? null }
+	private get version_list (): VersionDataList { return this.state.technology?.versions ?? null }
+
+
+	private get release_dates (): ReactElementList {
+
+		let index: number = 0;
+		let result: ReactElementList = null;
+
+		for (index = 1998; index <= new Date ().getFullYear (); index++) {
+			if (is_null (result)) result = new ReactElementList ();
+			result.push (<option>{index}</option>);
+		}// for;
+
+		return result;
+
+	}// release_dates;
 
 
 	private set technology_list (values: TechnologyDataList) { 
@@ -69,8 +84,8 @@ export default class EditTechnologies extends Component<Object, EditTechnologies
 		return new Promise<void> (resolve => {
  			if (is_null (this.technology_list)) {
 				Database.get_technologies (this.state.category.id).then ((result: TechnologyDataList) => {
-					this.technology_list = new TechnologyDataList ();
-					if (isset (result)) this.technology_list.assign (result);
+					if (not_set (result)) return resolve ();
+					this.technology_list = new TechnologyDataList ().assign (result);
 					this.forceUpdate (() => resolve ());
 				});
 			}// if;
@@ -80,7 +95,7 @@ export default class EditTechnologies extends Component<Object, EditTechnologies
 
 	private load_technology (value: IDValue) {
 		let technology: TechnologyData = this.technology_list.find ((item: TechnologyData) => item.id == value.id);
-		if (is_null (technology.versions)) technology.versions = new IDValueList ();
+		if (is_null (technology.versions)) technology.versions = new VersionDataList ();
 		this.setState ({ technology, version: null });
 	}// load_technology;
 
@@ -100,6 +115,22 @@ export default class EditTechnologies extends Component<Object, EditTechnologies
 			});
 		});
 	}// save_category;
+
+
+	public save_release_date (event: SelectEvent) {
+
+		let value = parseInt (event.currentTarget.value);
+
+		let parameters: ReleaseDateParameters = {
+			version_id: this.state.version.id,
+			release_date: value
+		}// parameters;
+
+		Database.set_release_date (parameters).then (() => {
+			this.state.version.release_date = value;
+		});
+
+	}// save_release_date;
 
 
 	public save_technology (item: IDValue) {
@@ -132,13 +163,13 @@ export default class EditTechnologies extends Component<Object, EditTechnologies
 			version: item.value
 		})).then ((result: string) => {
 
-			if (is_null (item.id)) {
-				item.id = result;
-				this.version_list.push (item);
-			}// if;
+			if (is_null (item.id)) this.version_list.push ({ id: result });
 
-			this.version_list.sortby ("value");
-			this.forceUpdate ();
+			let active_version = this.version_list.find ((version: VersionData) => version.id == result);
+			active_version.version = item.value;
+
+			this.version_list.sortby ("version");
+			this.setState ({ version: active_version });
 
 		});
 	}// save_version;
@@ -176,7 +207,8 @@ export default class EditTechnologies extends Component<Object, EditTechnologies
 
 					<label htmlFor="technology_list">Category</label>
 
-					{this.state.saving_category ? <Eyecandy text="Saving..." /> : <DropdownEditbox id="category_list" 
+					{this.state.saving_category ? <Eyecandy text="Saving..." /> : <DropdownEditbox id="category_list"
+					
 						data={this.state.categories} selected_item={this.state.category?.id}
 						disabled={is_null (this.state.categories)}
 
@@ -187,6 +219,7 @@ export default class EditTechnologies extends Component<Object, EditTechnologies
 						}, this.get_technologies.bind (this))}
 
 						onEditComplete={(item: IDValue) => this.save_category (item)}>
+
 					</DropdownEditbox>}
 
 					<button disabled={is_null (this.state.category)} onClick={() => this.confirm_deletion ("category", this.state.category)}>Delete</button>
@@ -198,8 +231,8 @@ export default class EditTechnologies extends Component<Object, EditTechnologies
 					<label htmlFor="technology_list">Technology</label>
 
 					{this.state.saving_technology ? <Eyecandy text="Saving..." /> : <DropdownEditbox id="technology_list" 
-						data={this.technology_list} selected_item={this.state.technology?.id}
-						disabled={is_null (this.technology_list)}
+						data={IDValueList.assign (this.technology_list, { text_field: "name"})} selected_item={this.state.technology?.id}
+						disabled={is_null (this.state.category) && is_null (this.state.technologies)}
 						onChange={(value: IDValue) => this.load_technology (value)}
 						onEditComplete={(item: IDValue) => this.save_technology (item)}>
 					</DropdownEditbox>}
@@ -215,14 +248,37 @@ export default class EditTechnologies extends Component<Object, EditTechnologies
 
 					<label htmlFor="technology_list">Version</label>
 
-					{this.state.saving_version ? <Eyecandy text="Saving..." /> : <DropdownEditbox id="versions_list"
-						data={this.version_list} selected_item={this.state.version?.id}
-						disabled={is_null (this.version_list)}
-						onChange={(value: IDValue) => this.setState ({ version: value })}
-						onEditComplete={(item: IDValue) => this.save_version (item)}>
-					</DropdownEditbox>}
+					<div className="three-column-grid">
 
-					<button disabled={is_null (this.state.version)} onClick={() => this.confirm_deletion ("version", this.state.version)}>Delete</button>
+						{this.state.saving_version ? <Eyecandy text="Saving..." /> : <DropdownEditbox id="versions_list"
+
+							data={IDValueList.assign (this.state.technology?.versions, { text_field: "version" })} 
+							selected_item={this.state.version?.id} disabled={is_null (this.state.technology)}
+
+							onChange={(value: IDValue) => {
+								this.setState ({ version: this.state.technology.versions.find ((version: VersionData) => version.id == value.id) });
+							}}
+
+							onEditComplete={(item: IDValue) => this.save_version (item)}>
+							
+						</DropdownEditbox>}
+
+						<label htmlFor="release_date">Release date</label>
+						<select id="release_date" style={{ width: "min-content" }} value={this.state.version?.release_date ?? String.Empty}
+
+							disabled={is_null (this.state.version)} onChange={this.save_release_date.bind (this)}>
+
+							<option value={String.Empty} />
+							{this.release_dates}
+
+						</select>
+
+					</div>
+
+					<button disabled={is_null (this.state.version)} onClick={() => this.confirm_deletion ("version", new IDValue ().assign ({
+						id: this.state.version.id,
+						value: this.state.version.version
+					}) )}>Delete</button>
 
 				</Container>
 

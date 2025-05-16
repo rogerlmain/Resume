@@ -54,8 +54,8 @@ String.Underscore = "_";
 String.isString = function (candidate: any) { return typeof candidate == "string" }
 
 
-String.prototype.after = function (value: string) { return this.cleaned > value.cleaned }
-String.prototype.before = function (value: string) { return this.cleaned < value.cleaned }
+String.prototype.after = function (value: string) { return this.cleaned > value?.cleaned }
+String.prototype.before = function (value: string) { return this.cleaned < value?.cleaned }
 
 
 String.prototype.isInteger = function () {

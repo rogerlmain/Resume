@@ -1,9 +1,9 @@
 type FilterCallback = (value: any, index: number, array: AnyArray) => {};
 
 
-export default class TypedArray extends Array {
+export default abstract class TypedArray extends Array {
 
-	public Datatype: any;
+	protected DataType: any;
 
 
 	/********/
@@ -23,7 +23,7 @@ export default class TypedArray extends Array {
 	}// freeze_sorted;
 
 
-	public append (value: (typeof this.Datatype)) { 
+	public append (value: (typeof this.DataType)) { 
 		let clone = this.clone ();
 		clone.push (value);
 		return clone;
@@ -33,7 +33,7 @@ export default class TypedArray extends Array {
 	public assign (values: AnyArray | Object): typeof this {
 		this.clear ();
 		if (!Array.isArray (values)) values = [values];
-		(values as AnyArray).forEach ((value: any) => this.push (new this.Datatype ().assign (value)));
+		(values as AnyArray).forEach ((value: any) => this.push (new this.DataType ().assign (value)));
 		return this;
 	};// assign;
 
@@ -48,7 +48,7 @@ export default class TypedArray extends Array {
 
 	public merge (values: (typeof this), copy: boolean = false): (typeof this) { 
 
-		values.forEach ((item: typeof this.Datatype) => {
+		values.forEach ((item: typeof this.DataType) => {
 			this.push (copy ? item.clone () : item);
 		});
 
@@ -57,9 +57,9 @@ export default class TypedArray extends Array {
 	}// merge;
 
 
-	public constructor (element_type: any, values: AnyArray | Object = null) {
+	public constructor (data_type: any = null, values: any = null) {
 		super ();
-		this.Datatype = element_type;
+		if (isset (data_type)) this.DataType = data_type;
 		if (isset (values)) this.assign (values);
 	}// constructor;
 

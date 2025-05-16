@@ -1,4 +1,5 @@
 import TypedArray from "Classes/Collections/TypedArray";
+import TypedList from "Classes/Collections/TypedList";
 
 import { StringList } from "Classes/Globals";
 
@@ -9,8 +10,16 @@ import { EmploymentModel, EmploymentModelList, LocationDetails } from "Models/Da
 export type EmploymentType = EmploymentDetails | EmploymentModelList;
 
 
-export class TechnologyDataList extends TypedArray { public constructor () { super (TechnologyData) } }
-export class VersionDataList extends TypedArray { public constructor () { super (VersionData) } }
+//export class TechnologyDataList extends TypedArray { public constructor (values: any = null) { super (TechnologyData) } } 
+export class TechnologyDataList extends TypedArray { DataType = TechnologyData }
+
+
+export class VersionDataList extends TypedList { 
+	DataType = VersionData;
+	TextField = "version";
+}// VersionDataList;
+
+
 export class TechnologySelectionList extends TypedArray { public constructor () { super (TechnologySelection) } }
 
 
@@ -41,6 +50,7 @@ export class TechnologyData extends IDModel {
 
 export class VersionData extends IDModel {
 	public version: string = null;
+	public release_date: number = null;
 }// VersionData;
 
 
@@ -63,3 +73,9 @@ export class VersionParameters {
 	public version_id: string = null;
 	public value: boolean = false;
 }// VersionParameters;
+
+
+export class ReleaseDateParameters {
+	public version_id: string = null;
+	public release_date: number = null;
+}// ReleaseDateParameters;

@@ -69,8 +69,9 @@ export default class DropdownEditbox extends Component<DropdownEditboxProps, Dro
 			this.state.value.value = this.text_input.value;
 
 			if (isset (this.props.onEditComplete)) this.props.onEditComplete (this.state.value);
+
 			this.text_input.value = null;
-			this.select_list.focus ();
+			this.forceUpdate (() => this.select_list.focus ());
 
 		});
 	}// save_value;
@@ -100,8 +101,13 @@ export default class DropdownEditbox extends Component<DropdownEditboxProps, Dro
 
 
 	public componentDidUpdate (props: DropdownEditboxProps) {
+
+		let editing = (!this.props.disabled && (this.state.editing || is_null (this.props.data)));
+
+		if (editing != this.state.editing) this.setState ({ editing });
 		if ((props?.data != this.props.data) && (this.props.autoEdit)) this.setState ({ editing: not_null (this.props.data) && is_empty (this.props.data) }, () => this.text_input.focus ());
 		if ((props?.selected_item ?? null) != this.props.selected_item) this.state.value = this.props.data?.find ((item: IDValue) => item.id == this.props.selected_item) ?? null;
+
 	}// constructor;
 
 
@@ -111,13 +117,13 @@ export default class DropdownEditbox extends Component<DropdownEditboxProps, Dro
 	public render () {
 		return <div id={this.props.id} className="stacked fill-width">
 
-			<select style={{ visibility: (this.state.editing && !this.props.disabled ? "hidden" : null), backgroundColor: "#FEE" }} 
+			<select style={{ visibility: (this.state.editing ? "hidden" : null), backgroundColor: "#FEE" }} 
 				ref={this.select_list_reference} disabled={this.props.disabled} onChange={this.change_selection.bind (this)}
 				onDoubleClick={this.edit_value.bind (this)} value={this.state.value?.id ?? null}>
 				{this.select_options}
 			</select>
 
-			<input type="text" style={{ visibility: (this.state.editing && !this.props.disabled ? null : "hidden"), backgroundColor: "#EFE" }} 
+			<input type="text" style={{ visibility: (this.state.editing ? null : "hidden"), backgroundColor: "#EFE" }} 
 				ref={this.text_input_reference} onKeyDown={this.select_value.bind (this)}
 				onDoubleClick={() => this.setState ({ editing: false })}
 				onBlur={this.save_value.bind (this)}>

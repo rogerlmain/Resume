@@ -8,7 +8,7 @@ import { Component, createRef, RefObject } from "react";
 class CheckboxListProps {
 	public items: AnyArray;
 	public id_field?: string;
-	public text_field?: string;
+	public text_field?: string | Function;
 	public highlightable?: boolean;
 	public onChange: (item: any, checked: boolean) => void;
 	public onHighlight?: (id: string, highlighted: boolean) => void;
@@ -77,7 +77,7 @@ export default class CheckboxList extends Component<CheckboxListProps, CheckboxL
 
 							}}>
 
-							{item [this.props.text_field]}
+							{(String.isString (this.props.text_field) ? item [this.props.text_field as string] : (this.props.text_field as Function) (item))}
 
 						</label>
 

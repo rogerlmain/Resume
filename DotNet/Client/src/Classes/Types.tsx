@@ -4,10 +4,25 @@ import { ChangeEvent, ReactElement } from "react";
 export {};
 
 
+namespace arrays {
+
+	export class AnyArray extends Array<any> {}
+	export class ReactElementList extends Array<ReactElement> {}
+
+}// arrays;
+
+Object.assign (globalThis, arrays);
+
+
 declare global {
 
-	class AnyArray extends Array<any> {}
-	class ReactElementList extends Array<ReactElement> {}
+	namespace globalThis {
+
+		export import AnyArray = arrays.AnyArray;
+		export import ReactElementList = arrays.ReactElementList;
+
+	}// globalThis;
+
 
 	type ReactElementContainer = ReactElement | ReactElementList;
 
@@ -29,4 +44,5 @@ declare global {
 	type MutationRecordList = Array<MutationRecord>
 
 }// global;
+
 

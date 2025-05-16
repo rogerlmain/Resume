@@ -46,7 +46,34 @@ export class IndexedList<IModel = IDValueList> { [key: string]: IModel }
 /**** Lists ****/
 
 
+export class IDValueFieldList {
+	public id_field?: string = null;
+	public text_field?: string = null;
+}// IDValueFieldList;
+
+
 export class IDValueList extends TypedArray {
+
+	public static assign (model: AnyArray, fields: IDValueFieldList) {
+
+		let result: IDValueList = null;
+
+		if (not_set (model)) return result;
+
+		model.forEach ((item: any) => {
+
+			if (is_null (result)) result = new IDValueList ();
+
+			result.push (new IDValue ().assign ({
+				id: item?.[fields?.id_field ?? "id"],
+				value: item?.[fields?.text_field ?? "value"]
+			}));
+
+		});
+
+		return result;
+
+	}// assign;
 	
 	public static create = (values: AnyArray | Object = null): IDValueList => is_assigned (values) ? new IDValueList ().assign (values) : null;
 

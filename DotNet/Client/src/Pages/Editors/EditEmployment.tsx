@@ -39,7 +39,7 @@ class EditEmploymentState {
 
 	public selected_technologies: TechnologySelectionIndex = null;
 
-	public technology_versions: VersionDataList = null;
+//	public technology_versions: VersionDataList = null;
 
 }// EditEmploymentState;
 
@@ -52,10 +52,11 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 	private get technology_checkbox_list (): CheckboxList { return this.technology_checkbox_list_reference.current }
 	private get active_employment (): EmploymentModel { return this.state.employment?.[this.state.employment_id] ?? null }
 	private get technology_list (): TechnologyDataList { return this.state.technologies?.[this.state.category_id] ?? null }
+	private get technology_versions (): VersionDataList { return this.active_technology?.versions ?? null }
 
 
 	private get active_technology (): TechnologyData { 
-		return this.technology_list.find ((technology: TechnologyData) => technology.id == this.state.technology_id) ?? null;
+		return this.technology_list?.find ((technology: TechnologyData) => technology.id == this.state.technology_id) ?? null;
 	}// active_technology;
 
 
@@ -185,11 +186,11 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 	}// set_date;
 
 
-	private show_versions (technology_id: string, highlighted: boolean) {
-		this.setState ({ technology_id: (highlighted ? technology_id : null) }, () => {
-			this.setState ({ technology_versions: this.active_technology?.versions ?? null });
-		});
-	}// show_versions;
+	//private show_versions (technology_id: string, highlighted: boolean) {
+	//	this.setState ({ technology_id: (highlighted ? technology_id : null) }, () => {
+	//		this.setState ({ technology_versions: this.active_technology?.versions ?? null });
+	//	});
+	//}// show_versions;
 
 
 	private update_technology (item: IDValue, checked: boolean) {
@@ -207,7 +208,7 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 			if (checked) {
 
 				if (is_null (this.state.selected_technologies)) this.state.selected_technologies = new TechnologySelectionIndex ();
-				if (is_null (this.selected_technologies)) this.selected_technologies = new TechnologyDataList ();
+				if (is_null (this.selected_technologies)) this.selected_technologies = new TechnologySelectionList ();
 
 				this.selected_technologies.push (new TechnologySelection ().assign ({
 					technology_id: item.id,
@@ -358,16 +359,21 @@ export default class EditEmployment extends Component<Object, EditEmploymentStat
 						<div className="slightly-spaced-out row-block">
 
 							{isset (this.technology_list) ? <CheckboxList items={this.technology_list} 
+
 								ref={this.technology_checkbox_list_reference}
 								selected_items={this.selected_technology_ids} highlightable={true}
 								onChange={this.update_technology.bind (this)}
-								onHighlight={this.show_versions.bind (this)}>
+
+								onHighlight={(technology_id: string, highlighted: boolean) => {
+									this.setState ({ technology_id: (highlighted ? technology_id : null) })
+								}}>{/*this.show_versions.bind (this)}>*/}
+
 							</CheckboxList> : <div className="full-width column-centered bold-text row-block">No technologies found</div>}
 
-							<Optional condition={isset (this.state.technology_versions)}>
-								<CheckboxList items={this.state.technology_versions} text_field="version"
-									selected_items={this.selected_versions}
-									onChange={this.update_version.bind (this)}>
+							<Optional condition={isset (this.technology_versions)}>
+								<CheckboxList items={this.technology_versions} 
+									text_field={(item: VersionData) => `${item.version}${isset (item.release_date) ? `(${item.release_date})` : String.Empty}`}
+									selected_items={this.selected_versions} onChange={this.update_version.bind (this)}>
 								</CheckboxList>
 							</Optional>
 

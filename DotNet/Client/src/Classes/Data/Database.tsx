@@ -1,4 +1,4 @@
-import { EmploymentData, EmploymentType, TechnologyData, TechnologyDataList, TechnologyParameters, VersionData, VersionParameters } from "Models/APIModels";
+import { EmploymentData, EmploymentType, ReleaseDateParameters, TechnologyData, TechnologyDataList, TechnologyParameters, VersionData, VersionParameters } from "Models/APIModels";
 import { IDValue, IDValueList } from "Models/BaseModels";
 import { PercentageDataList } from "Pages/Technologies";
 
@@ -19,6 +19,7 @@ export default class Database {
 	public static save_technology = (technology: TechnologyData): Promise<string> => api_handler.set_data ("SaveTechnology", technology);
 	public static save_technology_version = (version: VersionData): Promise<string> => api_handler.set_data ("SaveTechnologyVersion", version);
 
+	public static set_release_date = (parameters: ReleaseDateParameters) => api_handler.set_data ("SetReleaseDate", parameters);
 	public static set_technology = (parameters: TechnologyParameters) => api_handler.set_data ("SetTechnology", parameters);
 	public static set_version = (parameters: VersionParameters) => api_handler.set_data ("SetVersion", parameters);
 

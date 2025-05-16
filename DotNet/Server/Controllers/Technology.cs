@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Resume.Classes;
 using Resume.Classes.Extensions;
 using Resume.Models;
@@ -105,11 +106,8 @@ namespace Resume.Controllers.Technology {
 					name = technology.name,
 					versions = (from version in context.versions
 						where version.technology_id == technology.id
-						select new VersionData () {
-							id = version.id,
-							version = version.version
-						}
-					).ToListOrNull ()
+						select version
+					).OrderBy ((VersionModel version) => version.version).ToListOrNull ()
 				}
 			).ToListOrNull ()?.SortBy ("value");
 
@@ -153,6 +151,20 @@ namespace Resume.Controllers.Technology {
 			Guid? id = context.versions.Save (version);
 			return new JsonResult (id);
 		}// SaveTechnologyVersion;
+
+
+		[HttpPut]
+		[Route ("SetReleaseDate")]
+		public IActionResult SetReleaseDate ([FromBody] ReleaseDateParameters parameters) {
+
+			context.versions.Save (new VersionModel () {
+				id = parameters.version_id,
+				release_date = parameters.release_date
+			});
+
+			return Responses.Success ();
+
+		}// SetReleaseDate;
 
 
 		[HttpPut]
