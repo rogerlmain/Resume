@@ -107,7 +107,7 @@ namespace Resume.Controllers.Technology {
 					versions = (from version in context.versions
 						where version.technology_id == technology.id
 						select version
-					).OrderBy ((VersionModel version) => version.version).ToListOrNull ()
+					).OrderByDescending ((VersionModel version) => version.release_date).ToListOrNull ()
 				}
 			).OrderBy ((TechnologyData item) => item.name).ToListOrNull ();
 

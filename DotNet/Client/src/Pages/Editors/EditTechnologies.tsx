@@ -59,6 +59,19 @@ export default class EditTechnologies extends Component<Object, EditTechnologies
 	}// set_technology_list;
 
 
+	private set version_list (value: VersionDataList) { 
+
+		if (is_null (this.state.technology)) {
+			alert ("Error: Trying to add a version to a non-existant technology. There's a bug somewhere.");
+			return;
+		}// if;
+
+		this.state.technology.versions = value;
+		this.forceUpdate ();
+
+	}// version_list;
+
+
 	private confirm_deletion (type: string, item: IDValue) {
 		popup_window.show (<ConfirmationWindow onYes={() => this.delete_item (type, item)}>
 			This will delete {item.value} and all dependencies.<br />
@@ -164,7 +177,10 @@ export default class EditTechnologies extends Component<Object, EditTechnologies
 			version: item.value
 		})).then ((result: string) => {
 
-			if (is_null (item.id)) this.version_list.push ({ id: result });
+			if (is_null (item.id)) {
+				if (is_null (this.version_list)) this.version_list = new VersionDataList ();
+				this.version_list.push ({ id: result });
+			}// if;
 
 			let active_version = this.version_list.find ((version: VersionData) => version.id == result);
 			active_version.version = item.value;
